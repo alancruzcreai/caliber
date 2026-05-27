@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="conversations|Conversations" />
+<title>Caliber · Conversations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .conv-shell {
+    display: grid;
+    grid-template-columns: 320px 1fr 360px;
+    height: calc(100vh - 61px);
+    overflow: hidden;
+  }
+
+  .conv-list {
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .conv-list__head {
+    padding: var(--s-5) var(--s-5) var(--s-3);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+
+  .conv-list__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--s-3);
+  }
+
+  .conv-list__title em { font-style: normal; color: var(--gold); }
+
+  .conv-list__filters {
+    display: flex;
+    gap: 4px;
+    margin-top: var(--s-3);
+    overflow-x: auto;
+  }
+
+  .conv-list__body { flex: 1; overflow-y: auto; }
+
+  .conv-item {
+    padding: var(--s-4) var(--s-5);
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--s-1) var(--s-3);
+    align-items: center;
+    transition: background var(--dur-fast);
+  }
+
+  .conv-item:hover { background: var(--surface-2); }
+  .conv-item--active { background: var(--surface-2); border-left: 2px solid var(--ink); padding-left: calc(var(--s-5) - 2px); }
+
+  .conv-item__handle { font-family: var(--font-body); font-weight: 500; font-size: var(--text-sm); color: var(--ink); display: flex; align-items: center; gap: 6px; }
+  .conv-item__time { font-family: var(--font-mono); font-size: 10px; color: var(--ink-quiet); letter-spacing: 0; }
+  .conv-item__preview { grid-column: 1 / -1; font-size: var(--text-xs); color: var(--ink-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .conv-item__meta-row { grid-column: 1 / -1; display: flex; gap: var(--s-2); align-items: center; margin-top: 4px; }
+  .conv-item__unread { background: var(--gold); color: var(--surface); font-family: var(--font-mono); font-size: 10px; padding: 1px 6px; border-radius: var(--r-full); font-weight: 500; }
+
+  /* Center pane ─ chat ─ */
+  .conv-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--bg);
+  }
+
+  .conv-main__head {
+    padding: var(--s-4) var(--s-6);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+  }
+
+  .conv-main__lead-name {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+
+  .conv-main__lead-meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-quiet);
+    margin-top: 2px;
+  }
+
+  .conv-main__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--s-8) var(--s-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .conv-msg-group { display: flex; flex-direction: column; gap: 2px; max-width: 70%; }
+  .conv-msg-group--lead { align-self: flex-end; align-items: flex-end; }
+  .conv-msg-group--ai { align-self: flex-start; align-items: flex-start; }
+
+  .conv-day-divider {
+    text-align: center;
+    margin: var(--s-4) 0;
+    position: relative;
+  }
+
+  .conv-day-divider span {
+    background: var(--bg);
+    padding: 0 var(--s-4);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    position: relative;
+    z-index: 1;
+  }
+
+  .conv-day-divider::before {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .conv-main__footer {
+    padding: var(--s-4) var(--s-6);
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .conv-ai-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border-radius: var(--r-full);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .conv-ai-banner__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  /* Right pane ─ context ─ */
+  .conv-aside {
+    background: var(--surface);
+    border-left: 1px solid var(--line);
+    overflow-y: auto;
+    padding: var(--s-6);
+  }
+
+  .ctx-section { margin-bottom: var(--s-8); }
+
+  .ctx-section__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    font-weight: 500;
+    margin-bottom: var(--s-3);
+  }
+
+  .ctx-score {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-4);
+    background: var(--surface-2);
+    border-radius: var(--r-md);
+    margin-bottom: var(--s-6);
+  }
+
+  .ctx-score__hint { font-size: var(--text-sm); color: var(--ink-soft); line-height: 1.4; }
+
+  .ctx-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: var(--s-3);
+    margin-bottom: var(--s-3);
+    font-size: var(--text-sm);
+  }
+
+  .ctx-row dt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    align-self: center;
+  }
+
+  .ctx-row dd { margin: 0; color: var(--ink); }
+
+  .signals { display: flex; flex-direction: column; gap: var(--s-2); }
+  .signal {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-2);
+    padding: var(--s-3);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    font-size: var(--text-sm);
+  }
+  .signal__check { color: var(--success); flex-shrink: 0; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div id="page-content">
+<div class="content content--flush">
+<div class="conv-shell">
+
+  <!-- LEFT: list ─────────────────────────── -->
+  <aside class="conv-list reveal">
+    <div class="conv-list__head">
+      <h2 class="conv-list__title">In<em>box</em></h2>
+      <div class="filter-bar" style="border:none;padding:0;background:transparent">
+        <span class="mono text-xs text-quiet">12 active</span>
+        <button class="filter-chip filter-chip--active">All</button>
+        <button class="filter-chip">Hot</button>
+        <button class="filter-chip">Awaiting</button>
+        <button class="filter-chip">Mine</button>
+      </div>
+    </div>
+    <div class="conv-list__body" id="convList"></div>
+  </aside>
+
+  <!-- CENTER: chat ───────────────────────── -->
+  <section class="conv-main reveal reveal-1">
+    <header class="conv-main__head">
+      <div>
+        <h2 class="conv-main__lead-name">Marco Petrov <span style="opacity:0.6">🇬🇷</span></h2>
+        <div class="conv-main__lead-meta">@marco_jet · Yacht captain · Greece · since 2 days ago</div>
+      </div>
+      <div class="flex gap-2">
+        <div class="conv-ai-banner">
+          <span class="conv-ai-banner__dot"></span>
+          AI handling — turn 6/8
+        </div>
+        <button class="btn btn--ghost btn--sm" id="pauseAi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> <span id="pauseAiLabel">Pause AI</span></button>
+        <button class="btn btn--ghost btn--sm" id="takeOver">Take over</button>
+      </div>
+    </header>
+
+    <div class="conv-main__body" id="convBody"></div>
+
+    <footer class="conv-main__footer">
+      <input class="input" placeholder="Take over to send a message manually…" disabled style="opacity:0.6">
+      <button class="btn btn--primary" disabled style="opacity:0.6">Send</button>
+    </footer>
+  </section>
+
+  <!-- RIGHT: context ─────────────────────── -->
+  <aside class="conv-aside reveal reveal-2">
+    <div class="ctx-section">
+      <div class="ctx-section__label">Live score</div>
+      <div class="ctx-score">
+        <div id="ctxScore"></div>
+        <div class="ctx-score__hint">
+          <strong>Trending up.</strong> Already at threshold to qualify (>70).
+          Two more signals expected this turn.
+        </div>
+      </div>
+
+      <div class="ctx-section__label">Lead profile</div>
+      <dl style="margin:0">
+        <div class="ctx-row"><dt>Handle</dt><dd>@marco_jet</dd></div>
+        <div class="ctx-row"><dt>Country</dt><dd>Greece · yacht-based</dd></div>
+        <div class="ctx-row"><dt>Vertical</dt><dd>Yacht captain (60m vessel)</dd></div>
+        <div class="ctx-row"><dt>Language</dt><dd>English</dd></div>
+        <div class="ctx-row"><dt>Time zone</dt><dd>EET (UTC+3)</dd></div>
+        <div class="ctx-row"><dt>Followers</dt><dd>4.2K · 312 mutuals with brand</dd></div>
+      </dl>
+    </div>
+
+    <div class="ctx-section">
+      <div class="ctx-section__label">Signals captured</div>
+      <div class="signals">
+        <div class="signal">
+          <span class="signal__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span><strong>Specific pain</strong> — "lose all routine when guests are on board"</span>
+        </div>
+        <div class="signal">
+          <span class="signal__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span><strong>Verified profession</strong> — captain on 60m yacht</span>
+        </div>
+        <div class="signal">
+          <span class="signal__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span><strong>Prior investment</strong> — Wim Hof, abandoned week 4</span>
+        </div>
+        <div class="signal">
+          <span class="signal__check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span><strong>Budget confirmed</strong> — $5-10K range (turn 5)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctx-section">
+      <div class="ctx-section__label">Came in via</div>
+      <div style="padding:var(--s-3);border:1px solid var(--line);border-radius:var(--r-md);">
+        <div class="flex items-center justify-between">
+          <strong class="text-sm">@luxuryyachtworld</strong>
+          <span class="tag tag--gold">Angle C</span>
+        </div>
+        <div class="mono text-xs text-quiet mt-2">Reel · "Mykonos morning reset" · 28K views in 14h</div>
+      </div>
+    </div>
+
+    <div class="ctx-section">
+      <div class="ctx-section__label">Next AI action</div>
+      <div style="padding:var(--s-3);background:var(--gold-tint);border-radius:var(--r-md);font-size:var(--text-sm);line-height:1.5;color:var(--ink);">
+        Will offer 2 specific call slots (Thu 4PM EET or Fri 11AM EET) once turn 7 confirms time-of-week preference.
+      </div>
+    </div>
+  </aside>
+
+</div>
+</div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const D = window.CALIBER_DATA;
+
+  // Conversation list
+  document.getElementById('convList').innerHTML = D.conversations.map((c, i) => {
+    const active = i === 0 ? 'conv-item--active' : '';
+    const dot = c.status === 'hot' ? 'dot--hot' : c.status === 'warm' ? 'dot--warm' : 'dot--cool';
+    return `
+      <div class="conv-item ${active}">
+        <div class="conv-item__handle">
+          <span class="dot ${dot}"></span>
+          ${c.handle}
+        </div>
+        <div class="conv-item__time">${c.timeAgo}</div>
+        <div class="conv-item__preview">${c.lastMsg}</div>
+        <div class="conv-item__meta-row">
+          <span class="tag" style="font-size:9px;padding:1px 5px">${c.lang}</span>
+          <span class="mono text-xs text-quiet">Score ${c.score}</span>
+          ${c.unread ? `<span class="conv-item__unread" style="margin-left:auto">${c.unread}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Transcript
+  document.getElementById('convBody').innerHTML = `
+    <div class="conv-day-divider"><span>Today · 10:42 AM</span></div>
+    ${D.transcriptMarco.map(m => `
+      <div class="conv-msg-group conv-msg-group--${m.who}">
+        <div class="bubble bubble--${m.who}">${m.text}</div>
+        <div class="bubble__meta">${m.who === 'ai' ? 'AI · ' : ''}${m.t}</div>
+      </div>
+    `).join('')}
+    <div class="conv-msg-group conv-msg-group--ai">
+      <div class="bubble bubble--ai" style="display:flex;gap:6px;align-items:center;font-style: normal;color:var(--ink-mute)">
+        <span style="display:inline-flex;gap:3px">
+          <span style="width:5px;height:5px;background:var(--ink-mute);border-radius:50%;animation:bounce 1.2s ease-in-out infinite"></span>
+          <span style="width:5px;height:5px;background:var(--ink-mute);border-radius:50%;animation:bounce 1.2s ease-in-out 0.15s infinite"></span>
+          <span style="width:5px;height:5px;background:var(--ink-mute);border-radius:50%;animation:bounce 1.2s ease-in-out 0.3s infinite"></span>
+        </span>
+        AI is composing the next message…
+      </div>
+    </div>
+    <style>
+      @keyframes bounce {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+        30% { transform: translateY(-4px); opacity: 1; }
+      }
+    </style>
+  `;
+
+  // Score dial
+  document.getElementById('ctxScore').innerHTML = calScoreDial(78, 72);
+
+  // Pause/take over
+  let aiPaused = false;
+  document.getElementById('pauseAi').addEventListener('click', () => {
+    aiPaused = !aiPaused;
+    document.getElementById('pauseAiLabel').textContent = aiPaused ? 'Resume AI' : 'Pause AI';
+    calToast(aiPaused ? 'AI paused for @marco_jet' : 'AI resumed');
+  });
+
+  document.getElementById('takeOver').addEventListener('click', () => {
+    calToast('You took over. The AI is on stand-by.');
+    document.querySelectorAll('.conv-main__footer input, .conv-main__footer button').forEach(el => {
+      el.disabled = false; el.style.opacity = 1;
+    });
+    document.querySelector('.conv-ai-banner').style.display = 'none';
+  });
+</script>
+</body>
+</html>

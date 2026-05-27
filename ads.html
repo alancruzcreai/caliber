@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="ads|Ads & Theme pages" />
+<title>Caliber · Ads & Theme Pages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: var(--s-5);
+    gap: var(--s-4);
+  }
+  .section-head__title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .section-head__sub { font-size: var(--text-sm); color: var(--ink-mute); margin-top: 4px; }
+
+  .schedule-card {
+    background: var(--surface);
+    border: 1px solid var(--ink);
+    border-radius: var(--r-lg);
+    padding: var(--s-8);
+    margin-top: var(--s-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .schedule-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gold);
+  }
+
+  .schedule-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-5);
+  }
+
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-field__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    font-weight: 500;
+  }
+
+  .pill-pick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pill-pick__opt {
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all var(--dur-fast);
+  }
+
+  .pill-pick__opt:hover { border-color: var(--ink); }
+  .pill-pick__opt--active { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+  .recommend-banner {
+    background: var(--gold-tint);
+    border: 1px solid var(--gold-soft);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    margin-bottom: var(--s-6);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+  }
+
+  .recommend-banner__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-full);
+    background: var(--gold);
+    color: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .recommend-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+
+  .recommend-banner__body { font-size: var(--text-sm); color: var(--ink-soft); line-height: 1.5; }
+  .recommend-banner__body strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— ADS · DISTRIBUTION</div>
+      <h1 class="page-header__title">Creative library &amp; <em>theme pages.</em></h1>
+      <p class="page-header__sub">
+        Upload an asset, pick channels, hit schedule. Caliber publishes to your owned pages
+        directly and dispatches a brief to external page admins automatically.
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn btn--ghost">Import from Drive</button>
+      <button class="btn btn--primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New creative</button>
+    </div>
+  </div>
+
+  <!-- Weekly brief from lead-scraping ─────── -->
+  <section class="recommend-banner reveal reveal-1">
+    <div class="recommend-banner__icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z"/></svg>
+    </div>
+    <div>
+      <h3 class="recommend-banner__title">This week's creative brief — auto-generated Monday 06:00</h3>
+      <p class="recommend-banner__body">
+        Scraped 100 recent interactors with Tony Robbins, Strategic Coach, Wim Hof.
+        <strong>38% are LATAM founders 30-45.</strong> Recommendation: prioritize
+        <strong>Angle C (peer endorsement)</strong> and <strong>Angle B (transformation)</strong>,
+        <strong>60% EN / 40% ES</strong>. Dominant pain: jet lag + discipline collapse abroad.
+        <a href="#" style="color:var(--gold-deep);font-weight:500;text-decoration:none">See 3 suggested hooks →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 01 · Creative library ───────────────── -->
+  <div class="section-head reveal reveal-2">
+    <div>
+      <div class="eyebrow-num">— 01 / CREATIVE LIBRARY</div>
+      <h2 class="section-head__title mt-2">8 assets in rotation</h2>
+      <div class="section-head__sub">Tag by angle (A–E) so the scheduler can enforce variety per wave.</div>
+    </div>
+    <div class="flex gap-2">
+      <button class="filter-chip filter-chip--active">All</button>
+      <button class="filter-chip">Reels</button>
+      <button class="filter-chip">Carousels</button>
+      <button class="filter-chip">Static</button>
+    </div>
+  </div>
+
+  <section class="creative-grid reveal reveal-3" id="creativeGrid"></section>
+
+  <!-- 02 · Theme pages ────────────────────── -->
+  <div class="section-head reveal reveal-3" style="margin-top:var(--s-12)">
+    <div>
+      <div class="eyebrow-num">— 02 / THEME PAGES INVENTORY</div>
+      <h2 class="section-head__title mt-2">8 connected · 3 favorites ★</h2>
+      <div class="section-head__sub">Tap a star to bring a page to the top of the schedule picker.</div>
+    </div>
+    <div class="flex gap-2">
+      <button class="filter-chip filter-chip--active">All</button>
+      <button class="filter-chip">★ Favorites</button>
+      <button class="filter-chip">Luxury travel</button>
+      <button class="filter-chip">Biohacking</button>
+      <button class="filter-chip">Yacht</button>
+      <button class="filter-chip">Exec fitness</button>
+      <button class="btn btn--ghost btn--sm" style="margin-left:8px">+ Add page</button>
+    </div>
+  </div>
+
+  <section style="display:flex;flex-direction:column;gap:8px" id="pageList"></section>
+
+  <!-- 03 · Schedule a publication ────────── -->
+  <div class="section-head reveal reveal-4" style="margin-top:var(--s-12)">
+    <div>
+      <div class="eyebrow-num">— 03 / SCHEDULE A PUBLICATION</div>
+      <h2 class="section-head__title mt-2">Send to <em>multiple pages</em> at once</h2>
+      <div class="section-head__sub">Caliber enforces ≥3 angles per wave to prevent creative fatigue.</div>
+    </div>
+  </div>
+
+  <section class="schedule-card reveal reveal-5">
+    <div class="schedule-form">
+      <div class="form-field">
+        <div class="form-field__label">Creative</div>
+        <div class="pill-pick">
+          <button class="pill-pick__opt pill-pick__opt--active">C-01 · Reel · Mykonos</button>
+          <button class="pill-pick__opt">C-03 · Reel · VO2max</button>
+          <button class="pill-pick__opt">C-04 · Static · 90s reset</button>
+          <button class="pill-pick__opt">C-06 · Carousel · Monaco (ES)</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <div class="form-field__label">Theme pages selected</div>
+        <div class="pill-pick">
+          <button class="pill-pick__opt pill-pick__opt--active">★ @luxuryyachtworld</button>
+          <button class="pill-pick__opt pill-pick__opt--active">★ @founders.daily</button>
+          <button class="pill-pick__opt pill-pick__opt--active">★ @executivewellness</button>
+          <button class="pill-pick__opt">+ Add another</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <div class="form-field__label">Date &amp; time</div>
+        <input class="input" type="text" value="Mon, Jun 1 · 09:00 UTC" />
+        <div class="mono text-xs text-quiet" style="margin-top:4px">Best window for your audience (LATAM/EU/US overlap)</div>
+      </div>
+
+      <div class="form-field">
+        <div class="form-field__label">Language mix</div>
+        <div class="pill-pick">
+          <button class="pill-pick__opt">All EN</button>
+          <button class="pill-pick__opt pill-pick__opt--active">60% EN / 40% ES</button>
+          <button class="pill-pick__opt">All ES</button>
+        </div>
+      </div>
+
+      <div class="form-field" style="grid-column:1 / -1">
+        <div class="form-field__label">Caption</div>
+        <textarea class="input" rows="4" placeholder="Caliber will adapt the caption per page admin's tone. Add your seed copy here…">When you travel 7 months a year, your standards can't depend on the room. The morning protocol I use in Mykonos works on a yacht, in a hotel, in your living room. Link in bio.</textarea>
+        <div class="flex gap-2 mt-2">
+          <button class="filter-chip">✶ AI rewrite — ES</button>
+          <button class="filter-chip">Shorter</button>
+          <button class="filter-chip">Add hashtags</button>
+        </div>
+      </div>
+
+      <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;padding-top:var(--s-4);border-top:1px solid var(--line);">
+        <div class="mono text-xs text-quiet">
+          Will dispatch to <strong style="color:var(--ink)">3 admins</strong> · est. cost <strong style="color:var(--ink)">$2,670</strong> · publishes simultaneously
+        </div>
+        <div class="flex gap-3">
+          <button class="btn btn--ghost">Save draft</button>
+          <button class="btn btn--primary" onclick="calToast('Wave scheduled · 3 admins notified')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Schedule wave</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const D = window.CALIBER_DATA;
+
+  // Creatives grid
+  document.getElementById('creativeGrid').innerHTML = D.creatives.map(c => `
+    <div class="creative-tile">
+      <div class="creative-tile__thumb creative-tile__thumb--${c.cls}">
+        <span class="creative-tile__play">${c.format}</span>
+        <span class="creative-tile__angle">${c.angle}</span>
+      </div>
+      <div style="padding:var(--s-3) var(--s-4)">
+        <div class="creative-tile__hook">${c.hook}</div>
+        <div class="creative-tile__stats">${c.lang} · posted ${c.posted}× · ID ${c.id}</div>
+      </div>
+    </div>
+  `).join('') + `
+    <div class="creative-tile creative-tile--add">+ Upload creative</div>
+  `;
+
+  // Theme pages
+  document.getElementById('pageList').innerHTML = D.themePages.map(p => {
+    const auditClass = p.audit >= 80 ? 'high' : p.audit >= 70 ? 'mid' : 'low';
+    return `
+      <div class="tpage-card ${p.fav ? 'tpage-card--selected' : ''}">
+        <button class="tpage-card__star ${p.fav ? 'tpage-card__star--on' : ''}" onclick="this.classList.toggle('tpage-card__star--on');event.stopPropagation()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <div>
+          <div class="tpage-card__handle">${p.handle}</div>
+          <div class="mono text-xs text-quiet" style="margin-top:2px">${p.audience}</div>
+        </div>
+        <div class="tpage-card__followers">${p.followers}</div>
+        <div class="tpage-card__price">${p.reel}<span class="text-quiet">/reel</span></div>
+        <div class="tpage-card__audit tpage-card__audit--${auditClass}">Audit ${p.audit}</div>
+        <div class="flex gap-2">
+          ${p.risk ? '<span class="tag tag--danger">Risk</span>' : ''}
+          <button class="btn btn--ghost btn--sm">Engage</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Pill pick handlers
+  document.querySelectorAll('.pill-pick').forEach(group => {
+    const isMulti = group.children.length > 3 && group.previousElementSibling?.textContent.includes('Theme pages');
+    group.addEventListener('click', e => {
+      if (!e.target.classList.contains('pill-pick__opt')) return;
+      if (isMulti) {
+        e.target.classList.toggle('pill-pick__opt--active');
+      } else {
+        group.querySelectorAll('.pill-pick__opt').forEach(o => o.classList.remove('pill-pick__opt--active'));
+        e.target.classList.add('pill-pick__opt--active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

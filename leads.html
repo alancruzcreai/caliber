@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="leads|Leads to qualify" />
+<title>Caliber · Leads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .leads-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    margin-bottom: var(--s-6);
+    flex-wrap: wrap;
+  }
+
+  .leads-tools__group { display: flex; gap: 4px; align-items: center; }
+  .leads-tools__divider { width: 1px; height: 20px; background: var(--line); }
+
+  .leads-list { display: flex; flex-direction: column; gap: var(--s-4); }
+
+  .lead-card__transcript-preview {
+    margin-top: var(--s-4);
+    padding: var(--s-4);
+    background: var(--surface-2);
+    border-radius: var(--r-md);
+    border: 1px solid var(--line-soft);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--dur-slow) var(--ease-out), padding var(--dur-base);
+  }
+
+  .lead-card--expanded .lead-card__transcript-preview {
+    max-height: 480px;
+    padding: var(--s-4);
+  }
+
+  .transcript-msg {
+    font-size: var(--text-sm);
+    margin-bottom: var(--s-3);
+    line-height: 1.5;
+  }
+
+  .transcript-msg__role {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-quiet);
+    margin-right: var(--s-2);
+  }
+
+  .transcript-msg__role--ai { color: var(--gold); }
+  .transcript-msg__role--lead { color: var(--ink); }
+
+  .summary-banner {
+    background: var(--ink);
+    color: var(--surface);
+    padding: var(--s-6);
+    border-radius: var(--r-lg);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-4);
+    margin-bottom: var(--s-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .summary-banner::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(184, 145, 90, 0.25), transparent 70%);
+    pointer-events: none;
+  }
+
+  .summary-stat__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: var(--s-2);
+  }
+  .summary-stat__value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .summary-stat__value em { font-style: normal; color: var(--gold-soft); font-weight: 300; }
+  .summary-stat__sub {
+    margin-top: var(--s-3);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.6);
+  }
+</style>
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— LEADS · QUALIFICATION QUEUE</div>
+      <h1 class="page-header__title">17 leads, <em>your eyes only.</em></h1>
+      <p class="page-header__sub">
+        These conversations crossed the AI threshold. Two minutes per lead, three buttons.
+        Sebastian sees the rest only after you say <em>pass</em>.
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn btn--ghost"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
+      <button class="btn btn--primary">Bulk review mode</button>
+    </div>
+  </div>
+
+  <!-- Summary banner ──────────────────────── -->
+  <section class="summary-banner reveal reveal-1">
+    <div class="summary-stat">
+      <div class="summary-stat__label">Hot (>75)</div>
+      <div class="summary-stat__value">8</div>
+      <div class="summary-stat__sub">Avg score 81</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat__label">Warm (50-75)</div>
+      <div class="summary-stat__value">6</div>
+      <div class="summary-stat__sub">Likely nurture</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat__label">Cool (&lt;50)</div>
+      <div class="summary-stat__value">3</div>
+      <div class="summary-stat__sub">Newsletter pool</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat__label">Est. time</div>
+      <div class="summary-stat__value">~<em>45m</em></div>
+      <div class="summary-stat__sub">Clear queue today</div>
+    </div>
+  </section>
+
+  <!-- Tools ───────────────────────────────── -->
+  <div class="leads-tools reveal reveal-2">
+    <div class="leads-tools__group">
+      <button class="filter-chip filter-chip--active">All 17</button>
+      <button class="filter-chip">Hot only</button>
+      <button class="filter-chip">EN</button>
+      <button class="filter-chip">ES</button>
+    </div>
+    <div class="leads-tools__divider"></div>
+    <div class="leads-tools__group">
+      <span class="mono text-xs text-quiet">Sort:</span>
+      <button class="filter-chip filter-chip--active">Score ↓</button>
+      <button class="filter-chip">Recent</button>
+      <button class="filter-chip">Source</button>
+    </div>
+    <div style="margin-left:auto" class="leads-tools__group">
+      <input class="input" placeholder="Search handle, country, theme…" style="min-width:240px;padding-top:6px;padding-bottom:6px">
+    </div>
+  </div>
+
+  <!-- Lead cards ──────────────────────────── -->
+  <div class="leads-list" id="leadsList"></div>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const D = window.CALIBER_DATA;
+
+  function leadCardHtml(l, i) {
+    return `
+      <article class="lead-card reveal reveal-${Math.min(i+3, 6)}" data-handle="${l.handle}">
+        <div>
+          <div class="lead-card__head">
+            ${calScoreDial(l.score, 64)}
+            <div>
+              <h3 class="lead-card__name">${l.name} <span style="font-size:0.7em;opacity:0.6">${l.flag}</span></h3>
+              <div class="lead-card__handle">${l.handle} · ${l.country}</div>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+              <span class="tag tag--gold">Angle ${l.angleHit}</span>
+              <span class="tag">${l.lang}</span>
+              <span class="tag tag--ghost">Turn ${l.lastTurn}</span>
+            </div>
+          </div>
+
+          <dl class="lead-card__meta">
+            <dt>Vertical</dt><dd>${l.vertical}</dd>
+            <dt>Pain (verbatim)</dt><dd style="font-style: normal;color:var(--ink)">"${l.pain}"</dd>
+            <dt>Prior investment</dt><dd>${l.priorInvestment}</dd>
+            <dt>Budget signal</dt><dd>${l.budgetSignal}</dd>
+            <dt>Source</dt><dd>${l.sourceTheme}</dd>
+          </dl>
+
+          <div class="lead-card__why">
+            <div class="lead-card__why-label">Why AI marked this hot</div>
+            <ul>${l.why.map(w => `<li>${w}</li>`).join('')}</ul>
+          </div>
+
+          <button class="btn btn--ghost btn--sm mt-4" onclick="toggleTranscript('${l.handle}')" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">
+            <span id="ttog-${l.handle}">View transcript →</span>
+          </button>
+
+          <div class="lead-card__transcript-preview" id="trans-${l.handle}">
+            ${i === 0 ? D.transcriptMarco.map(m => `
+              <div class="transcript-msg">
+                <span class="transcript-msg__role transcript-msg__role--${m.who}">${m.who === 'ai' ? 'AI' : 'Lead'}</span>
+                ${m.text}
+              </div>
+            `).join('') : `<div class="text-mute text-sm" style="text-align:center;padding:var(--s-4)">Transcript loads on demand · ${l.lastTurn} turns recorded</div>`}
+          </div>
+        </div>
+
+        <div class="lead-card__actions">
+          <div class="ctx-section__label" style="margin-bottom:var(--s-3);font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-quiet)">Your decision</div>
+
+          <button class="btn btn--success btn--lg" onclick="decide('${l.handle}', 'pass', this)" style="justify-content:flex-start">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Pass → Book call
+          </button>
+
+          <button class="btn btn--ghost" onclick="decide('${l.handle}', 'nurture', this)" style="justify-content:flex-start">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Nurture → Newsletter
+          </button>
+
+          <button class="btn btn--danger" onclick="decide('${l.handle}', 'fail', this)" style="justify-content:flex-start">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Fail → Archive
+          </button>
+
+          <div style="margin-top:var(--s-3)">
+            <label class="label">Note for Sebastian (optional)</label>
+            <textarea class="input" rows="2" placeholder="e.g. mention his prior Wim Hof story…" style="resize:none;margin-top:6px;font-size:var(--text-xs)"></textarea>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  document.getElementById('leadsList').innerHTML = D.leadsHot.map(leadCardHtml).join('');
+
+  function toggleTranscript(h) {
+    const card = document.querySelector(`[data-handle="${h}"]`);
+    card.classList.toggle('lead-card--expanded');
+    const isOpen = card.classList.contains('lead-card--expanded');
+    document.getElementById('ttog-' + h).textContent = isOpen ? 'Hide transcript ↑' : 'View transcript →';
+  }
+  window.toggleTranscript = toggleTranscript;
+
+  function decide(handle, action, btn) {
+    const card = document.querySelector(`[data-handle="${handle}"]`);
+    if (!card) return;
+    const labels = {
+      pass:    { msg: `${handle} sent to Sebastian's calendar`,   tone: 'success' },
+      nurture: { msg: `${handle} added to nurture sequence`,       tone: 'info' },
+      fail:    { msg: `${handle} archived`,                         tone: 'mute' }
+    };
+    calToast(labels[action].msg);
+    card.style.transition = 'opacity 320ms cubic-bezier(0.7, 0, 0.84, 0), transform 320ms cubic-bezier(0.7, 0, 0.84, 0), margin 320ms ease, max-height 320ms ease';
+    card.style.maxHeight = card.offsetHeight + 'px';
+    requestAnimationFrame(() => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateX(' + (action === 'pass' ? '40px' : action === 'fail' ? '-40px' : '0') + ')';
+      setTimeout(() => {
+        card.style.maxHeight = '0';
+        card.style.margin = '0';
+        card.style.padding = '0';
+        card.style.borderWidth = '0';
+      }, 220);
+    });
+  }
+  window.decide = decide;
+</script>
+</body>
+</html>

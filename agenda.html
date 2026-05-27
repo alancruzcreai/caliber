@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="agenda|Today's calls" />
+<title>Caliber · Agenda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .agenda-hero {
+    padding: var(--s-12) var(--s-8) var(--s-8);
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agenda-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, var(--gold-tint), transparent 70%);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .agenda-hero__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    margin-bottom: var(--s-4);
+  }
+
+  .agenda-hero__title {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .agenda-hero__title em { font-style: normal; color: var(--gold); font-weight: 300; }
+
+  .agenda-hero__count {
+    font-family: var(--font-display);
+    font-size: var(--text-6xl);
+    font-weight: 300;
+    color: var(--gold);
+    font-style: normal;
+    line-height: 1;
+    position: relative;
+  }
+
+  .agenda-hero__stats {
+    display: flex;
+    gap: var(--s-8);
+    margin-top: var(--s-8);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+
+  .agenda-hero__stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    margin-bottom: 4px;
+  }
+  .agenda-hero__stat-value {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .call-brief {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: var(--s-6);
+    transition: border-color var(--dur-base);
+  }
+
+  .call-brief:hover { border-color: var(--line-strong); }
+  .call-brief--current { border-color: var(--ink); }
+
+  .call-brief__head {
+    padding: var(--s-6) var(--s-8);
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .call-brief--current .call-brief__head {
+    background: var(--ink);
+    color: var(--surface);
+  }
+
+  .call-brief--current .call-brief__head .display { color: var(--surface); }
+  .call-brief--current .call-brief__head .text-quiet { color: rgba(255,255,255,0.5) !important; }
+  .call-brief--current .call-brief__head .text-mute { color: rgba(255,255,255,0.7) !important; }
+
+  .call-brief__time {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .call-brief__time-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    margin-top: 4px;
+  }
+
+  .call-brief__name {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .call-brief__name em { font-style: normal; font-weight: 300; }
+
+  .call-brief__handle {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-quiet);
+    margin-top: 6px;
+    letter-spacing: 0;
+  }
+
+  .call-brief__body {
+    padding: var(--s-8);
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--s-10);
+  }
+
+  .brief-section { margin-bottom: var(--s-6); }
+  .brief-section:last-child { margin-bottom: 0; }
+
+  .brief-section__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    font-weight: 500;
+    margin-bottom: var(--s-2);
+  }
+
+  .brief-section__body {
+    font-size: var(--text-md);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .brief-pull {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-style: normal;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.35;
+    padding-left: var(--s-4);
+    border-left: 2px solid var(--gold);
+  }
+
+  .brief-angle {
+    background: var(--ink);
+    color: var(--surface);
+    padding: var(--s-5) var(--s-6);
+    border-radius: var(--r-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brief-angle::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(184,145,90,0.3), transparent 70%);
+  }
+
+  .brief-angle__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: var(--s-3);
+    position: relative;
+  }
+
+  .brief-angle__body {
+    font-size: var(--text-md);
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .hot-buttons { display: flex; flex-direction: column; gap: var(--s-2); }
+
+  .hot-button {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    padding: var(--s-3) var(--s-4);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    font-size: var(--text-sm);
+    color: var(--ink);
+    font-style: normal;
+  }
+
+  .hot-button__num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gold-deep);
+    font-style: normal;
+    letter-spacing: 0.06em;
+  }
+
+  .brief-side {
+    padding-left: var(--s-6);
+    border-left: 1px solid var(--line);
+  }
+
+  .brief-meta { display: flex; flex-direction: column; gap: var(--s-3); }
+  .brief-meta__row { display: grid; grid-template-columns: 90px 1fr; gap: var(--s-3); font-size: var(--text-sm); }
+  .brief-meta__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    align-self: center;
+  }
+
+  .call-brief__actions {
+    padding: var(--s-5) var(--s-8);
+    border-top: 1px solid var(--line);
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+</style>
+</head>
+<body>
+<div id="page-content">
+<div class="content content--flush">
+
+  <!-- Hero ───────────────────────────────── -->
+  <section class="agenda-hero reveal">
+    <div class="agenda-hero__date">— Wednesday, 27 May 2026 · Mexico City</div>
+    <div style="display:flex;align-items:end;gap:var(--s-6);justify-content:space-between">
+      <h1 class="agenda-hero__title">Today, <em>two calls</em>.<br>Both qualified.</h1>
+      <div class="agenda-hero__count">02</div>
+    </div>
+    <div class="agenda-hero__stats">
+      <div>
+        <div class="agenda-hero__stat-label">Average score</div>
+        <div class="agenda-hero__stat-value">83</div>
+      </div>
+      <div>
+        <div class="agenda-hero__stat-label">Combined pipeline</div>
+        <div class="agenda-hero__stat-value">~$16K</div>
+      </div>
+      <div>
+        <div class="agenda-hero__stat-label">Hours of prep</div>
+        <div class="agenda-hero__stat-value">0</div>
+      </div>
+      <div>
+        <div class="agenda-hero__stat-label">This week</div>
+        <div class="agenda-hero__stat-value">9 / 10</div>
+      </div>
+    </div>
+  </section>
+
+  <div style="padding:var(--s-8)">
+
+    <div class="divider-label" style="margin-top:0">
+      <span class="divider-label__text">— Call brief · prepared by Caliber</span>
+      <span class="divider-label__line"></span>
+    </div>
+
+    <div id="callsList"></div>
+
+    <div class="divider-label">
+      <span class="divider-label__text">— After hours</span>
+      <span class="divider-label__line"></span>
+    </div>
+
+    <div class="card reveal reveal-5">
+      <div class="card__body" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-8);padding:var(--s-8)">
+        <div>
+          <div class="eyebrow mb-4">Tomorrow's confirmed</div>
+          <div class="display text-2xl">2 calls · 10:00, 15:30</div>
+          <div class="mt-3 text-mute text-sm">Briefs will be ready by 8:00 AM.</div>
+        </div>
+        <div>
+          <div class="eyebrow mb-4">Currently nurturing</div>
+          <div class="display text-2xl">14 warm leads</div>
+          <div class="mt-3 text-mute text-sm">Newsletter sequence active. 3 are likely to re-engage this week.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:var(--s-16)"></div>
+  </div>
+</div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const D = window.CALIBER_DATA;
+
+  document.getElementById('callsList').innerHTML = D.todaysCalls.map((c, i) => `
+    <article class="call-brief ${i === 0 ? 'call-brief--current' : ''} reveal reveal-${i + 2}">
+      <header class="call-brief__head">
+        <div>
+          <div class="call-brief__time">${c.time.split('—')[0].trim()}</div>
+          <div class="call-brief__time-sub">— ${c.time.split('—')[1].trim()}</div>
+          <div class="mono text-xs text-mute mt-2">${c.tz}</div>
+        </div>
+
+        <div>
+          <h2 class="call-brief__name display">${c.name} <span style="font-size:0.6em">${c.flag}</span></h2>
+          <div class="call-brief__handle">${c.handle} · ${c.vertical} · ${c.country} · ${c.lang}</div>
+        </div>
+
+        <div class="flex gap-3 items-center">
+          ${i === 0 ? '<span class="tag" style="background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:500">NEXT UP</span>' : ''}
+          ${calScoreDial(c.score, 64)}
+        </div>
+      </header>
+
+      <div class="call-brief__body">
+
+        <div>
+          <div class="brief-section">
+            <div class="brief-section__label">Pain · in their own words</div>
+            <div class="brief-pull">"${c.pain}"</div>
+          </div>
+
+          <div class="brief-section">
+            <div class="brief-section__label">Angle to open with</div>
+            <div class="brief-angle">
+              <div class="brief-angle__label">— Caliber recommends</div>
+              <div class="brief-angle__body">${c.angleToOpen}</div>
+            </div>
+          </div>
+
+          <div class="brief-section">
+            <div class="brief-section__label">Hot buttons · their words, mirror them back</div>
+            <div class="hot-buttons">
+              ${c.hotButtons.map((h, j) => `
+                <div class="hot-button">
+                  <span class="hot-button__num">0${j + 1}</span>
+                  <span>"${h}"</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <aside class="brief-side">
+
+          <div class="brief-section">
+            <div class="brief-section__label">Prior programs</div>
+            <div class="text-sm" style="line-height:1.5">${c.priorPrograms}</div>
+          </div>
+
+          <div class="brief-section">
+            <div class="brief-section__label">Budget — confirmed</div>
+            <div class="display text-xl" style="color:var(--ink);font-weight:500">${c.budgetConfirmed}</div>
+          </div>
+
+          <div class="brief-section">
+            <div class="brief-section__label">Came in via</div>
+            <div class="text-sm">${c.sourceTheme}</div>
+            <div class="mono text-xs text-quiet mt-2">${c.whyClicked}</div>
+          </div>
+
+          <div class="brief-section">
+            <div class="brief-section__label">Conversation</div>
+            <a href="conversations.html" class="btn btn--ghost btn--sm" style="width:100%;justify-content:space-between">
+              View full transcript
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="call-brief__actions">
+        <div class="mono text-xs text-quiet">Brief generated by Caliber · ${i === 0 ? '6:02 AM today' : '6:15 AM today'}</div>
+        <div class="flex gap-3">
+          <button class="btn btn--ghost">Download as PDF</button>
+          <a href="${c.zoomLink}" class="btn btn--primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            Open Zoom
+          </a>
+        </div>
+      </footer>
+    </article>
+  `).join('');
+</script>
+</body>
+</html>
