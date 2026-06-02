@@ -1,0 +1,52 @@
+name: Sync Meta Ads
+
+# Seguridad: solo corre en horario programado o manualmente.
+# NUNCA en pull_request, para que el token (Secret) jamás se exponga
+# a un PR de un fork.
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # cada 6 horas
+  workflow_dispatch:          # botón manual en la pestaña Actions
+
+permissions:
+  contents: write             # para commitear meta-live.json
+
+concurrency:
+  group: sync-meta
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Stamp sync time (America/Mexico_City)
+        id: ts
+        run: echo "ts=$(TZ=America/Mexico_City date '+%Y-%m-%d %H:%M')" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch Meta Ads data
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_AD_ACCOUNT: ${{ vars.META_AD_ACCOUNT }}
+          SYNC_TS: ${{ steps.ts.outputs.ts }}
+        run: node scripts/fetch-meta.js
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "caliber-bot"
+          git config user.email "caliber-bot@users.noreply.github.com"
+          if [ -n "$(git status --porcelain assets/meta-live.json)" ]; then
+            git add assets/meta-live.json
+            git commit -m "chore: sync Meta Ads data [skip ci]"
+            git push
+            echo "✓ Datos actualizados y publicados."
+          else
+            echo "· Sin cambios en los datos."
+          fi
