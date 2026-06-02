@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="targeting|Targeting & audiences" />
+<title>Caliber · Targeting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— TARGETING · AUDIENCES</div>
+      <h1 class="page-header__title">Who's actually <em>buying.</em></h1>
+      <p class="page-header__sub">
+        Not who clicks — who books, qualifies and closes. Use this to tighten targeting,
+        build retargeting audiences, and feed lookalikes from your real clients.
+      </p>
+    </div>
+    <button class="btn btn--gold" onclick="window.openMetaConnect && window.openMetaConnect()">Connect Meta Ads</button>
+  </div>
+
+  <!-- Breakdowns -->
+  <div style="display:grid;grid-template-columns: 1fr 1fr;gap:var(--s-6)">
+    <section class="card reveal reveal-1">
+      <header class="card__header">
+        <div><div class="eyebrow-num">— 01 / AGE</div><h2 class="card__title mt-2">Qualified leads by age</h2></div>
+      </header>
+      <div class="card__body" id="ageBreakdown"></div>
+    </section>
+
+    <section class="card reveal reveal-2">
+      <header class="card__header">
+        <div><div class="eyebrow-num">— 02 / PLACEMENT</div><h2 class="card__title mt-2">Where they convert</h2></div>
+      </header>
+      <div class="card__body" id="placementBreakdown"></div>
+    </section>
+  </div>
+
+  <div style="display:grid;grid-template-columns: 1fr 1fr;gap:var(--s-6);margin-top:var(--s-6)">
+    <section class="card reveal reveal-2">
+      <header class="card__header">
+        <div><div class="eyebrow-num">— 03 / COUNTRY</div><h2 class="card__title mt-2">Cost per client by market</h2></div>
+      </header>
+      <div class="card__body" id="countryBreakdown"></div>
+    </section>
+
+    <section class="card reveal reveal-3">
+      <header class="card__header">
+        <div><div class="eyebrow-num">— 04 / GENDER</div><h2 class="card__title mt-2">Split</h2></div>
+      </header>
+      <div class="card__body" id="genderBreakdown"></div>
+    </section>
+  </div>
+
+  <!-- Audiences -->
+  <div class="divider-label">
+    <span class="divider-label__text">— 05 / Retargeting & lookalike audiences</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section style="display:grid;grid-template-columns: 1fr 1fr;gap:var(--s-4)" class="reveal reveal-4" id="audiences"></section>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const M = window.CALIBER_DATA.meta;
+  const usd = (n) => '$' + n.toLocaleString('en-US', {maximumFractionDigits: 0});
+  const fmt = (n) => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(n>=10000?0:1)+'K' : n;
+
+  // Age breakdown (by qualified)
+  const age = M.breakdowns.age;
+  const maxAgeQ = Math.max(...age.map(a => a.qualified));
+  document.getElementById('ageBreakdown').innerHTML = age.map(a => `
+    <div class="bd-row">
+      <div class="bd-row__label">${a.bucket}</div>
+      <div class="bd-row__track"><div class="bd-row__fill${a.qualified===maxAgeQ?' bd-row__fill--gold':''}" style="width:${(a.qualified/maxAgeQ)*100}%"></div></div>
+      <div class="bd-row__val">${a.qualified} · ${a.ctr}%</div>
+    </div>
+  `).join('') + `<div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">Gold = best bracket · value shows qualified leads · CTR</div>`;
+
+  // Placement
+  const pl = M.breakdowns.placement;
+  const maxPlQ = Math.max(...pl.map(p => p.qualified));
+  document.getElementById('placementBreakdown').innerHTML = pl.map(p => `
+    <div class="bd-row">
+      <div class="bd-row__label">${p.name}</div>
+      <div class="bd-row__track"><div class="bd-row__fill${p.qualified===maxPlQ?' bd-row__fill--gold':''}" style="width:${(p.qualified/maxPlQ)*100}%"></div></div>
+      <div class="bd-row__val">${p.qualified} · ${p.ctr}%</div>
+    </div>
+  `).join('') + `<div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">IG Reels is your strongest placement</div>`;
+
+  // Country (by CAC - lower better)
+  const co = M.breakdowns.country;
+  const maxCac = Math.max(...co.map(c => c.cac));
+  document.getElementById('countryBreakdown').innerHTML = co.map(c => `
+    <div class="bd-row">
+      <div class="bd-row__label">${c.name}</div>
+      <div class="bd-row__track"><div class="bd-row__fill${c.cac===Math.min(...co.map(x=>x.cac))?' bd-row__fill--gold':''}" style="width:${(c.cac/maxCac)*100}%"></div></div>
+      <div class="bd-row__val">${usd(c.cac)}</div>
+    </div>
+  `).join('') + `<div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">Gold = lowest CAC (México) · shorter bar is better</div>`;
+
+  // Gender (donut-ish via bars)
+  const gn = M.breakdowns.gender;
+  const totalQ = gn.reduce((s,g) => s+g.qualified, 0);
+  document.getElementById('genderBreakdown').innerHTML = `
+    <div style="display:flex;gap:var(--s-2);height:48px;border-radius:var(--r-md);overflow:hidden;margin-bottom:var(--s-5)">
+      ${gn.map((g,i) => `<div style="flex:${g.qualified};background:${['var(--ink)','var(--gold)','var(--surface-3)'][i]};display:flex;align-items:center;justify-content:center;color:${i===2?'var(--ink-mute)':'var(--surface)'};font-family:var(--font-mono);font-size:11px" title="${g.bucket}">${Math.round(g.qualified/totalQ*100)}%</div>`).join('')}
+    </div>
+    ${gn.map((g,i) => `
+      <div class="flex items-center gap-3" style="padding:var(--s-2) 0">
+        <span class="dot" style="background:${['var(--ink)','var(--gold)','var(--surface-3)'][i]}"></span>
+        <span class="text-sm" style="flex:1;text-transform:capitalize">${g.bucket}</span>
+        <span class="mono text-xs text-quiet">${g.qualified} qualified · ${g.ctr}% CTR</span>
+      </div>
+    `).join('')}
+  `;
+
+  // Audiences
+  document.getElementById('audiences').innerHTML = M.audiences.map(a => `
+    <div class="aud-card">
+      <div>
+        <div class="aud-card__name">${a.name}</div>
+        <div class="aud-card__size">${fmt(a.size)} people</div>
+      </div>
+      <div class="flex gap-2 items-center">
+        <span class="tag ${a.type === 'lookalike' ? 'tag--gold' : 'tag--info'}">${a.type}</span>
+        <span class="tag ${a.potential === 'high' ? 'tag--success' : 'tag--ghost'}">${a.potential}</span>
+      </div>
+      <div class="aud-card__suggested">Suggested: <strong>${a.suggested}</strong></div>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>

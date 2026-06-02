@@ -216,6 +216,164 @@ window.CALIBER_DATA = {
     { day: "FRI", date: "29", calls: 2 },
     { day: "SAT", date: "30", calls: 0 },
     { day: "SUN", date: "31", calls: 0 }
-  ]
+  ],
+
+  // ============================================
+  // META ADS — schema aligned with Marketing API
+  // (Insights endpoint field names preserved so the
+  //  real-data swap is a source change, not a redesign)
+  // ============================================
+
+  meta: {
+    account: {
+      id: "act_1029384756",
+      name: "Dragon Consultations — HSTP",
+      currency: "USD",
+      timezone: "America/Mexico_City",
+      connected: false,            // flips true once Meta token is wired
+      lastSync: "demo data"
+    },
+
+    // window-level rollup (account/insights?date_preset=last_30d)
+    accountInsights: {
+      date_preset: "last_30d",
+      spend: 11480.00,
+      impressions: 1894200,
+      clicks: 28410,
+      cpm: 6.06,                   // spend / impressions * 1000
+      cpc: 0.40,                   // spend / clicks
+      ctr: 1.50,                   // clicks / impressions * 100
+      reach: 612400,
+      frequency: 3.09,
+      // custom-computed downstream (Meta + lead tracker)
+      conversations: 1240,
+      appointments: 168,
+      qualified: 41,
+      customers: 11,
+      revenue: 82500.00            // 11 × $7,500 ticket
+    },
+
+    // funnel — each stage carries its own cost-per
+    funnel: [
+      { key: "impressions",   label: "Impressions",        value: 1894200, cost: 0.006,  costLabel: "CPM $6.06", meta: true  },
+      { key: "clicks",        label: "Link clicks",        value: 28410,   cost: 0.40,   costLabel: "per click", meta: true  },
+      { key: "conversations", label: "DM conversations",   value: 1240,    cost: 9.26,   costLabel: "per convo", meta: false },
+      { key: "appointments",  label: "Calls booked",       value: 168,     cost: 68.33,  costLabel: "per booking", meta: false },
+      { key: "qualified",     label: "Qualified leads",    value: 41,      cost: 280.00, costLabel: "per qualified", meta: false },
+      { key: "customers",     label: "Clients closed",     value: 11,      cost: 1043.64,costLabel: "CAC", meta: false }
+    ],
+
+    // campaigns (account/campaigns + insights per campaign)
+    campaigns: [
+      {
+        id: "23859x001", name: "HSTP · Founders · Transformation",
+        status: "ACTIVE", objective: "OUTCOME_LEADS", platform: "facebook",
+        spend: 4120, impressions: 642000, clicks: 11200, cpm: 6.42, cpc: 0.37, ctr: 1.74,
+        conversations: 512, appointments: 71, qualified: 19, customers: 6,
+        cpl: 216.84, cac: 686.67, roas: 10.9, trend: "up"
+      },
+      {
+        id: "23859x002", name: "HSTP · Yacht crew · Peer",
+        status: "ACTIVE", objective: "OUTCOME_LEADS", platform: "instagram",
+        spend: 2890, impressions: 388000, clicks: 6800, cpm: 7.45, cpc: 0.43, ctr: 1.75,
+        conversations: 318, appointments: 44, qualified: 11, customers: 3,
+        cpl: 262.73, cac: 963.33, roas: 7.8, trend: "up"
+      },
+      {
+        id: "23859x003", name: "HSTP · Exec wellness · Nervous system",
+        status: "ACTIVE", objective: "OUTCOME_LEADS", platform: "facebook",
+        spend: 2210, impressions: 401000, clicks: 5900, cpm: 5.51, cpc: 0.37, ctr: 1.47,
+        conversations: 248, appointments: 34, qualified: 8, customers: 2,
+        cpl: 276.25, cac: 1105.00, roas: 6.8, trend: "flat"
+      },
+      {
+        id: "23859x004", name: "HSTP · Cold · Contrarian (5AM)",
+        status: "ACTIVE", objective: "OUTCOME_LEADS", platform: "facebook",
+        spend: 1640, impressions: 312000, clicks: 3210, cpm: 5.26, cpc: 0.51, ctr: 1.03,
+        conversations: 124, appointments: 14, qualified: 2, customers: 0,
+        cpl: 820.00, cac: null, roas: 0, trend: "down"
+      },
+      {
+        id: "23859x005", name: "HSTP · Retargeting · 7d clickers",
+        status: "ACTIVE", objective: "OUTCOME_LEADS", platform: "facebook",
+        spend: 620, impressions: 151200, clicks: 1300, cpm: 4.10, cpc: 0.48, ctr: 0.86,
+        conversations: 38, appointments: 5, qualified: 1, customers: 0,
+        cpl: 620.00, cac: null, roas: 0, trend: "flat"
+      }
+    ],
+
+    // benchmarks for "good/warn/bad" coloring (industry-ish)
+    benchmarks: { cpm: 8.0, cpc: 0.60, ctr: 1.0, cpl: 350, cac: 1200, roas: 5 },
+
+    // breakdowns (insights?breakdowns=age,gender / country / publisher_platform)
+    breakdowns: {
+      age: [
+        { bucket: "25-34", spend: 2180, clicks: 5400, qualified: 6,  ctr: 1.32 },
+        { bucket: "35-44", spend: 4560, clicks: 11800, qualified: 18, ctr: 1.81 },
+        { bucket: "45-54", spend: 3420, clicks: 8200, qualified: 13, ctr: 1.69 },
+        { bucket: "55-64", spend: 1320, clicks: 3010, qualified: 4,  ctr: 1.22 }
+      ],
+      gender: [
+        { bucket: "male",   spend: 7240, qualified: 27, ctr: 1.66 },
+        { bucket: "female", spend: 4010, qualified: 13, ctr: 1.41 },
+        { bucket: "unknown",spend: 230,  qualified: 1,  ctr: 0.98 }
+      ],
+      country: [
+        { code: "US", name: "United States", spend: 4820, qualified: 16, cac: 980 },
+        { code: "MX", name: "México",        spend: 2410, qualified: 9,  cac: 720 },
+        { code: "GB", name: "United Kingdom",spend: 1680, qualified: 6,  cac: 1100 },
+        { code: "AE", name: "UAE",           spend: 1290, qualified: 5,  cac: 1340 },
+        { code: "ES", name: "España",        spend: 880,  qualified: 3,  cac: 950 },
+        { code: "CH", name: "Switzerland",   spend: 400,  qualified: 2,  cac: 1500 }
+      ],
+      placement: [
+        { name: "IG Reels",       spend: 4180, qualified: 17, ctr: 1.92 },
+        { name: "IG Stories",     spend: 2240, qualified: 7,  ctr: 1.43 },
+        { name: "FB Feed",        spend: 3110, qualified: 11, ctr: 1.51 },
+        { name: "FB Reels",       spend: 1150, qualified: 4,  ctr: 1.28 },
+        { name: "Audience Net.",  spend: 800,  qualified: 2,  ctr: 0.74 }
+      ]
+    },
+
+    // custom audiences for retargeting (customaudiences endpoint)
+    audiences: [
+      { name: "Clicked · no DM (7d)",        size: 18400, type: "retargeting", suggested: "Warm reminder reel", potential: "high" },
+      { name: "DM'd · no booking (14d)",     size: 612,   type: "retargeting", suggested: "Social proof carousel", potential: "high" },
+      { name: "Booked · no-show (30d)",      size: 47,    type: "retargeting", suggested: "1:1 re-book DM",       potential: "medium" },
+      { name: "Video 75% viewers (30d)",     size: 24300, type: "retargeting", suggested: "Direct CTA reel",      potential: "medium" },
+      { name: "Lookalike · closed clients",  size: 1900000, type: "lookalike", suggested: "Scale top creative",  potential: "high" },
+      { name: "Lookalike · qualified leads", size: 2100000, type: "lookalike", suggested: "Test new angle",      potential: "medium" }
+    ],
+
+    // 30-day daily series for the trend chart (spend, qualified)
+    daily: [
+      {d:"01",spend:352,qualified:1},{d:"02",spend:368,qualified:1},{d:"03",spend:381,qualified:2},
+      {d:"04",spend:359,qualified:1},{d:"05",spend:402,qualified:2},{d:"06",spend:418,qualified:1},
+      {d:"07",spend:390,qualified:2},{d:"08",spend:374,qualified:1},{d:"09",spend:421,qualified:2},
+      {d:"10",spend:438,qualified:2},{d:"11",spend:402,qualified:1},{d:"12",spend:455,qualified:3},
+      {d:"13",spend:468,qualified:2},{d:"14",spend:412,qualified:1},{d:"15",spend:389,qualified:2},
+      {d:"16",spend:432,qualified:2},{d:"17",spend:448,qualified:1},{d:"18",spend:461,qualified:3},
+      {d:"19",spend:455,qualified:2},{d:"20",spend:478,qualified:2},{d:"21",spend:492,qualified:1},
+      {d:"22",spend:468,qualified:2},{d:"23",spend:412,qualified:1},{d:"24",spend:389,qualified:2},
+      {d:"25",spend:402,qualified:1},{d:"26",spend:438,qualified:1},{d:"27",spend:455,qualified:2},
+      {d:"28",spend:461,qualified:0},{d:"29",spend:448,qualified:1},{d:"30",spend:421,qualified:1}
+    ],
+
+    // actionable insight cards (generated rules → text)
+    insights: [
+      { tone: "good",  title: "Founders campaign is your engine",
+        body: "ROAS 10.9× and lowest CAC ($687). Shift +30% budget here from the Cold/Contrarian set.",
+        action: "Reallocate $500/day" },
+      { tone: "bad",   title: "Cold · Contrarian is leaking budget",
+        body: "$1,640 spent, 0 clients, CPL 2.3× your average. CTR 1.03% — creative fatigue likely.",
+        action: "Pause or refresh creative" },
+      { tone: "good",  title: "35-44 is your sweet spot",
+        body: "44% of qualified leads, CTR 1.81%. Tighten age targeting and lift bids for this bracket.",
+        action: "Narrow age range" },
+      { tone: "warn",  title: "612 people DM'd but never booked",
+        body: "A booking-reminder retargeting audience could recover ~8-12 calls at low cost.",
+        action: "Launch re-book audience" }
+    ]
+  }
 
 };

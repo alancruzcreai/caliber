@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="math|Math console" />
+<title>Caliber · Math Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— MATH · DECISION ENGINE</div>
+      <h1 class="page-header__title">The math that <em>guides the call.</em></h1>
+      <p class="page-header__sub">
+        Move the levers. See exactly how many clients a budget produces, what they cost,
+        and where the break-even line sits. Decisions from data, not gut.
+      </p>
+    </div>
+  </div>
+
+  <!-- What-if simulator -->
+  <div class="math-grid reveal reveal-1">
+    <div class="math-panel">
+      <div class="eyebrow mb-6">— Scenario inputs</div>
+
+      <div class="math-slider-row">
+        <div class="math-slider-row__head">
+          <span class="math-slider-row__label">Monthly ad budget</span>
+          <span class="math-slider-row__value" id="vBudget">$11,480</span>
+        </div>
+        <input type="range" class="math-slider" id="sBudget" min="2000" max="40000" step="500" value="11480">
+      </div>
+
+      <div class="math-slider-row">
+        <div class="math-slider-row__head">
+          <span class="math-slider-row__label">Cost per qualified lead</span>
+          <span class="math-slider-row__value" id="vCpl">$280</span>
+        </div>
+        <input type="range" class="math-slider" id="sCpl" min="120" max="600" step="10" value="280">
+        <div class="mono text-xs text-quiet mt-2">Current blended: $280 · best campaign: $217</div>
+      </div>
+
+      <div class="math-slider-row">
+        <div class="math-slider-row__head">
+          <span class="math-slider-row__label">Call → close rate</span>
+          <span class="math-slider-row__value" id="vClose">27%</span>
+        </div>
+        <input type="range" class="math-slider" id="sClose" min="10" max="50" step="1" value="27">
+        <div class="mono text-xs text-quiet mt-2">Sebastian closes on the call — only human step</div>
+      </div>
+
+      <div class="math-slider-row">
+        <div class="math-slider-row__head">
+          <span class="math-slider-row__label">Program ticket</span>
+          <span class="math-slider-row__value" id="vTicket">$7,500</span>
+        </div>
+        <input type="range" class="math-slider" id="sTicket" min="3000" max="20000" step="500" value="7500">
+      </div>
+
+      <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reset to current</button>
+    </div>
+
+    <!-- Live result -->
+    <div class="math-result">
+      <div class="eyebrow mb-6" style="color:var(--gold-soft)">— Projected monthly outcome</div>
+      <div class="math-out-grid">
+        <div>
+          <div class="math-out__label">Qualified leads</div>
+          <div class="math-out__value" id="oQualified">41</div>
+          <div class="math-out__sub" id="oQualifiedSub">at $280 each</div>
+        </div>
+        <div>
+          <div class="math-out__label">Clients closed</div>
+          <div class="math-out__value" id="oClients"><em>11</em></div>
+          <div class="math-out__sub" id="oClientsSub">27% of calls</div>
+        </div>
+        <div>
+          <div class="math-out__label">Revenue</div>
+          <div class="math-out__value" id="oRevenue">$82.5K</div>
+          <div class="math-out__sub">at $7,500 ticket</div>
+        </div>
+        <div>
+          <div class="math-out__label">ROAS</div>
+          <div class="math-out__value" id="oRoas"><em>7.2×</em></div>
+          <div class="math-out__sub" id="oRoasSub">return on ad spend</div>
+        </div>
+      </div>
+      <div style="position:relative;margin-top:var(--s-8);padding-top:var(--s-6);border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="math-out__label">Cost per client (CAC)</div>
+          <div class="display text-2xl" style="color:#fff;margin-top:4px" id="oCac">$1,044</div>
+        </div>
+        <div style="text-align:right">
+          <div class="math-out__label">Net profit after ad spend</div>
+          <div class="display text-2xl" id="oProfit" style="color:var(--gold-soft);margin-top:4px">$71.0K</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Break-even -->
+  <div class="divider-label">
+    <span class="divider-label__text">— Break-even & unit economics</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <div style="display:grid;grid-template-columns: 1fr 1fr 1fr;gap:var(--s-6)" class="reveal reveal-2">
+    <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
+      <div class="eyebrow mb-4">Break-even CAC</div>
+      <div class="display text-4xl" id="beCac">$7,500</div>
+      <div class="text-sm text-mute mt-3">Max you can pay per client before losing money</div>
+    </div></div>
+    <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
+      <div class="eyebrow mb-4">Current margin / client</div>
+      <div class="display text-4xl text-success" id="beMargin">$6,456</div>
+      <div class="text-sm text-mute mt-3">Ticket minus current CAC</div>
+    </div></div>
+    <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
+      <div class="eyebrow mb-4">Headroom to scale</div>
+      <div class="display text-4xl text-gold" id="beHeadroom">7.2×</div>
+      <div class="text-sm text-mute mt-3">You could pay 7× more per client and still profit</div>
+    </div></div>
+  </div>
+
+  <!-- Projection -->
+  <div class="divider-label">
+    <span class="divider-label__text">— Projection at this scenario</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section class="card reveal reveal-3">
+    <div class="card__body" style="padding:0">
+      <table class="table">
+        <thead><tr><th>Horizon</th><th>Ad spend</th><th>Qualified leads</th><th>Calls for Sebastian</th><th>Clients</th><th>Revenue</th><th>Net profit</th></tr></thead>
+        <tbody id="projRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="conn-banner reveal reveal-4" style="margin-top:var(--s-8);margin-bottom:0">
+    <span class="conn-banner__dot"></span>
+    <span class="conn-banner__text">These projections use your <strong>current blended numbers</strong> as the baseline. Once Meta is connected, the sliders snap to your live CPL, close rate and spend automatically.</span>
+  </div>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const M = window.CALIBER_DATA.meta;
+  const usd  = (n) => '$' + Math.round(n).toLocaleString('en-US');
+  const usdK = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
+
+  // baseline: appointments per qualified, calls→close
+  // qualified = budget / cpl ; calls ≈ qualified (qualified leads all get a call) ; clients = calls * close
+  const els = {
+    budget: document.getElementById('sBudget'), cpl: document.getElementById('sCpl'),
+    close: document.getElementById('sClose'), ticket: document.getElementById('sTicket')
+  };
+
+  function recompute() {
+    const budget = +els.budget.value;
+    const cpl    = +els.cpl.value;
+    const close  = +els.close.value / 100;
+    const ticket = +els.ticket.value;
+
+    const qualified = budget / cpl;
+    const calls     = qualified;            // every qualified lead → a call with Sebastian
+    const clients   = calls * close;
+    const revenue   = clients * ticket;
+    const cac       = clients > 0 ? budget / clients : 0;
+    const roas      = revenue / budget;
+    const profit    = revenue - budget;
+    const margin    = ticket - cac;
+    const headroom  = cac > 0 ? ticket / cac : 0;
+
+    // labels
+    document.getElementById('vBudget').textContent = usd(budget);
+    document.getElementById('vCpl').textContent    = usd(cpl);
+    document.getElementById('vClose').textContent  = (close*100).toFixed(0) + '%';
+    document.getElementById('vTicket').textContent = usd(ticket);
+
+    // outputs
+    document.getElementById('oQualified').textContent = Math.round(qualified);
+    document.getElementById('oQualifiedSub').textContent = 'at ' + usd(cpl) + ' each';
+    document.getElementById('oClients').innerHTML = '<em>' + Math.round(clients) + '</em>';
+    document.getElementById('oClientsSub').textContent = (close*100).toFixed(0) + '% of calls';
+    document.getElementById('oRevenue').textContent = usdK(revenue);
+    document.getElementById('oRoas').innerHTML = '<em>' + roas.toFixed(1) + '×</em>';
+    document.getElementById('oCac').textContent = usd(cac);
+    document.getElementById('oProfit').textContent = usdK(profit);
+
+    // break-even
+    document.getElementById('beCac').textContent = usd(ticket);
+    document.getElementById('beMargin').textContent = usd(margin);
+    document.getElementById('beHeadroom').textContent = headroom.toFixed(1) + '×';
+
+    // projection table
+    const horizons = [{label:'30 days', mult:1},{label:'60 days', mult:2},{label:'90 days', mult:3}];
+    document.getElementById('projRows').innerHTML = horizons.map(h => `
+      <tr>
+        <td><strong style="font-weight:500">${h.label}</strong></td>
+        <td class="metric">${usd(budget*h.mult)}</td>
+        <td class="metric">${Math.round(qualified*h.mult)}</td>
+        <td class="metric">${Math.round(calls*h.mult)}</td>
+        <td class="metric">${Math.round(clients*h.mult)}</td>
+        <td class="metric">${usdK(revenue*h.mult)}</td>
+        <td class="metric ${profit>0?'metric--good':'metric--bad'}">${usdK(profit*h.mult)}</td>
+      </tr>
+    `).join('');
+  }
+
+  Object.values(els).forEach(el => el.addEventListener('input', recompute));
+  window.resetMath = function () {
+    els.budget.value = 11480; els.cpl.value = 280; els.close.value = 27; els.ticket.value = 7500;
+    recompute();
+  };
+  recompute();
+</script>
+</body>
+</html>

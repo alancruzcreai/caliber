@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="ads-performance|Ads performance" />
+<title>Caliber · Ads Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— ADS · META MARKETING</div>
+      <h1 class="page-header__title">Where every <em>dollar</em> goes.</h1>
+      <p class="page-header__sub">
+        The full path from impression to closed client — with the real cost at each step.
+        This is the math that tells you which campaign to scale and which to kill.
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <button class="filter-chip filter-chip--active">Last 30d</button>
+      <button class="filter-chip">Last 7d</button>
+      <button class="filter-chip">Today</button>
+    </div>
+  </div>
+
+  <!-- Connection state banner -->
+  <div class="conn-banner reveal reveal-1">
+    <span class="conn-banner__dot"></span>
+    <span class="conn-banner__text"><strong>Demo data.</strong> Connect your Meta Ads account to replace every number below with live data — synced every 15 minutes.</span>
+    <button class="btn btn--gold btn--sm conn-banner__cta" onclick="window.openMetaConnect && window.openMetaConnect()">Connect Meta Ads</button>
+  </div>
+
+  <!-- KPIs -->
+  <section class="kpi-grid reveal reveal-1" id="adsKpis"></section>
+
+  <!-- Cost funnel -->
+  <div style="display:grid;grid-template-columns: 1.5fr 1fr;gap:var(--s-6);margin-top:var(--s-8)">
+    <section class="card reveal reveal-2">
+      <header class="card__header">
+        <div>
+          <div class="eyebrow-num">— 01 / COST FUNNEL</div>
+          <h2 class="card__title mt-2">Impression → client</h2>
+        </div>
+        <span class="tag tag--ghost">30-day window</span>
+      </header>
+      <div class="card__body">
+        <div class="funnel" id="funnel"></div>
+      </div>
+    </section>
+
+    <!-- Spend trend -->
+    <section class="card reveal reveal-3">
+      <header class="card__header">
+        <div>
+          <div class="eyebrow-num">— 02 / DAILY SPEND</div>
+          <h2 class="card__title mt-2">Spend vs qualified</h2>
+        </div>
+      </header>
+      <div class="card__body">
+        <div id="spendChart"></div>
+        <div class="flex justify-between mt-4" style="padding-top:var(--s-4);border-top:1px solid var(--line)">
+          <div>
+            <div class="eyebrow">Avg daily spend</div>
+            <div class="display text-2xl mt-2">$418</div>
+          </div>
+          <div style="text-align:right">
+            <div class="eyebrow">Qualified / week</div>
+            <div class="display text-2xl mt-2">~10</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Campaign comparison -->
+  <div class="divider-label">
+    <span class="divider-label__text">— 03 / Campaign breakdown</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section class="card reveal reveal-4">
+    <div class="card__body" style="padding:0;overflow-x:auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Platform</th>
+            <th>Spend</th>
+            <th>CPM</th>
+            <th>CPC</th>
+            <th>CTR</th>
+            <th>Cost / qualified</th>
+            <th>CAC</th>
+            <th>ROAS</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="campaignRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Insights -->
+  <div class="divider-label">
+    <span class="divider-label__text">— 04 / What the math says</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section class="insight-grid reveal reveal-5" id="insights"></section>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const M = window.CALIBER_DATA.meta;
+  const fmt = (n) => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(n>=10000?0:1)+'K' : n;
+  const usd = (n) => '$' + n.toLocaleString('en-US', {maximumFractionDigits: n < 100 ? 2 : 0});
+
+  // KPIs
+  const ai = M.accountInsights;
+  const kpis = [
+    { label: "Spend · 30d",      value: usd(ai.spend),        delta: "5 campaigns active", trend: "flat" },
+    { label: "Cost / qualified", value: usd(ai.spend/ai.qualified), delta: "41 qualified leads", trend: "up" },
+    { label: "CAC",              value: usd(ai.spend/ai.customers), delta: ai.customers + " clients closed", trend: "up" },
+    { label: "Blended ROAS",     value: (ai.revenue/ai.spend).toFixed(1)+"×", delta: usd(ai.revenue)+" revenue", trend: "up" }
+  ];
+  document.getElementById('adsKpis').innerHTML = kpis.map(k => `
+    <div class="kpi">
+      <div class="kpi__label">${k.label}</div>
+      <div class="kpi__value">${k.value}</div>
+      <div class="kpi__delta kpi__delta--${k.trend === 'up' ? 'up' : 'flat'}">${k.trend==='up'?'↑':'—'} ${k.delta}</div>
+    </div>
+  `).join('');
+
+  // Funnel
+  const maxVal = M.funnel[0].value;
+  const palette = ['#0866FF','#3D7DD8','#8F8A7A','#B8915A','#9A7B45','#1A1814'];
+  document.getElementById('funnel').innerHTML = M.funnel.map((f, i) => {
+    const widthPct = Math.max(8, (f.value / maxVal) * 100);
+    const conv = i > 0 ? ((f.value / M.funnel[i-1].value) * 100).toFixed(1) : null;
+    const costStr = f.key === 'impressions' ? 'CPM ' + usd(f.cost*1000) : usd(f.cost);
+    return `
+      ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continue</div>` : ''}
+      <div class="funnel-row">
+        <div class="funnel-row__label">
+          <div class="funnel-row__stage">${f.label}
+            <span class="funnel-meta-tag funnel-meta-tag--${f.meta ? 'api' : 'calc'}">${f.meta ? 'Meta' : 'calc'}</span>
+          </div>
+          <div class="funnel-row__count">${fmt(f.value)}</div>
+        </div>
+        <div class="funnel-row__bar-wrap">
+          <div class="funnel-row__bar" style="width:${widthPct}%;background:${palette[i]}">${fmt(f.value)}</div>
+        </div>
+        <div class="funnel-row__cost">
+          <div class="funnel-row__cost-val">${costStr}</div>
+          <div class="funnel-row__cost-lbl">${f.costLabel}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Spend chart (bars)
+  const daily = M.daily;
+  const maxSpend = Math.max(...daily.map(d => d.spend));
+  document.getElementById('spendChart').innerHTML = `
+    <div style="display:flex;align-items:flex-end;gap:2px;height:120px">
+      ${daily.map(d => {
+        const h = (d.spend / maxSpend) * 100;
+        const hot = d.qualified >= 2;
+        return `<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%" title="Day ${d.d}: ${usd(d.spend)}, ${d.qualified} qualified">
+          <div style="height:${h}%;background:${hot ? 'var(--gold)' : 'var(--surface-3)'};border-radius:2px 2px 0 0;min-height:3px"></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="flex justify-between mt-2">
+      <span class="mono text-xs text-quiet">Day 1</span>
+      <span class="mono text-xs text-quiet">Day 30</span>
+    </div>
+  `;
+
+  // Campaign table
+  const b = M.benchmarks;
+  const cls = (val, bench, lowerBetter=true) => {
+    if (val == null) return 'metric--bad';
+    if (lowerBetter) return val <= bench*0.85 ? 'metric--good' : val <= bench*1.15 ? '' : 'metric--bad';
+    return val >= bench*1.15 ? 'metric--good' : val >= bench*0.85 ? '' : 'metric--bad';
+  };
+  document.getElementById('campaignRows').innerHTML = M.campaigns.map(c => `
+    <tr>
+      <td>
+        <div class="flex items-center gap-2">
+          <strong style="font-weight:500">${c.name}</strong>
+          ${c.trend === 'down' ? '<span class="tag tag--danger">Leaking</span>' : c.roas >= 10 ? '<span class="tag tag--gold">Top</span>' : ''}
+        </div>
+        <div class="mono text-xs text-quiet" style="margin-top:2px">${c.id} · ${c.objective}</div>
+      </td>
+      <td><span class="tag tag--ghost">${c.platform}</span></td>
+      <td class="metric">${usd(c.spend)}</td>
+      <td class="metric ${cls(c.cpm, b.cpm)}">${usd(c.cpm)}</td>
+      <td class="metric ${cls(c.cpc, b.cpc)}">${usd(c.cpc)}</td>
+      <td class="metric ${cls(c.ctr, b.ctr, false)}">${c.ctr}%</td>
+      <td class="metric ${cls(c.cpl, b.cpl)}">${usd(c.cpl)}</td>
+      <td class="metric ${c.cac ? cls(c.cac, b.cac) : 'metric--bad'}">${c.cac ? usd(c.cac) : '—'}</td>
+      <td class="metric ${c.roas >= b.roas ? 'metric--good' : c.roas > 0 ? 'metric--warn' : 'metric--bad'}">${c.roas > 0 ? c.roas.toFixed(1)+'×' : '—'}</td>
+      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Campaign detail — connect Meta for live drill-down')">View</button></td>
+    </tr>
+  `).join('');
+
+  // Insights
+  const iconFor = { good: 'arrowUp', bad: 'arrowDown', warn: 'sparkles' };
+  document.getElementById('insights').innerHTML = M.insights.map(ins => `
+    <div class="insight insight--${ins.tone}">
+      <div class="insight__head">
+        <span class="insight__icon">${calIcon(iconFor[ins.tone] || 'sparkles', 18)}</span>
+        <span class="insight__title">${ins.title}</span>
+      </div>
+      <div class="insight__body">${ins.body}</div>
+      <button class="insight__action" onclick="calToast('${ins.action} — available once Meta is connected')">${ins.action} →</button>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>

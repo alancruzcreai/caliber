@@ -26,12 +26,25 @@
       </p>
     </div>
     <div class="flex gap-2">
-      <a href="leads.html" class="btn btn--ghost">Review queue</a>
+      <a href="ads-performance.html" class="btn btn--ghost">Ads performance</a>
       <a href="agenda.html" class="btn btn--primary">Open today's calls →</a>
     </div>
   </div>
 
+  <!-- Ads ROI snapshot (leads the dashboard) ── -->
+  <section class="card reveal reveal-1" style="margin-bottom:var(--s-8);background:var(--ink);border-color:var(--ink);overflow:hidden;position:relative">
+    <div style="position:absolute;top:-80px;right:-40px;width:300px;height:300px;background:radial-gradient(circle, rgba(184,145,90,0.25), transparent 70%);pointer-events:none"></div>
+    <div class="card__body" style="position:relative">
+      <div class="flex justify-between items-center mb-6">
+        <div class="eyebrow" style="color:var(--gold-soft)">— META ADS · LAST 30 DAYS</div>
+        <a href="ads-performance.html" class="btn btn--gold btn--sm">Full breakdown →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s-6)" id="adsSnapshot"></div>
+    </div>
+  </section>
+
   <!-- KPIs ─────────────────────────────────── -->
+  <div class="eyebrow-num reveal reveal-1" style="margin-bottom:var(--s-3)">— LEAD ENGINE · STEP 2</div>
   <section class="kpi-grid reveal reveal-1" id="kpiGrid"></section>
 
   <!-- Two-column section ──────────────────── -->
@@ -108,6 +121,24 @@
 <script src="assets/app.js"></script>
 <script>
   const D = window.CALIBER_DATA;
+
+  // Ads snapshot (dark band)
+  const M = D.meta, ai = M.accountInsights;
+  const usd = (n) => '$' + n.toLocaleString('en-US', {maximumFractionDigits: n < 100 ? 2 : 0});
+  const usdK = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + n;
+  const snap = [
+    { label: "Ad spend",         value: usdK(ai.spend) },
+    { label: "Qualified leads",  value: ai.qualified },
+    { label: "Clients closed",   value: ai.customers },
+    { label: "Cost / client",    value: usd(ai.spend/ai.customers) },
+    { label: "Blended ROAS",     value: (ai.revenue/ai.spend).toFixed(1)+'×', gold: true }
+  ];
+  document.getElementById('adsSnapshot').innerHTML = snap.map(s => `
+    <div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:var(--s-3)">${s.label}</div>
+      <div class="display" style="font-size:var(--text-3xl);font-weight:400;letter-spacing:-0.02em;color:${s.gold ? 'var(--gold-soft)' : '#fff'};line-height:1">${s.value}</div>
+    </div>
+  `).join('');
 
   // KPIs
   document.getElementById('kpiGrid').innerHTML = D.kpis.map(k => {

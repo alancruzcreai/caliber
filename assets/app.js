@@ -21,22 +21,29 @@
         </div>
 
         <nav class="sidebar__section">
-          <div class="sidebar__section-label">Workspace</div>
-          <a href="index.html"          class="nav-item ${active('dashboard')}">${icon('grid')}<span class="nav-item__label">Dashboard</span></a>
-          <a href="conversations.html"  class="nav-item ${active('conversations')}">${icon('chat')}<span class="nav-item__label">Conversations</span>${c(counts.conversations)}</a>
-          <a href="leads.html"          class="nav-item ${active('leads')}">${icon('check')}<span class="nav-item__label">Leads to qualify</span>${c(counts.leads)}</a>
-          <a href="ads.html"            class="nav-item ${active('ads')}">${icon('layers')}<span class="nav-item__label">Ads &amp; Theme pages</span></a>
+          <div class="sidebar__section-label">Analytics</div>
+          <a href="index.html"            class="nav-item ${active('dashboard')}">${icon('grid')}<span class="nav-item__label">Dashboard</span></a>
+          <a href="ads-performance.html"  class="nav-item ${active('ads-performance')}">${icon('chart')}<span class="nav-item__label">Ads performance</span></a>
+          <a href="targeting.html"        class="nav-item ${active('targeting')}">${icon('target')}<span class="nav-item__label">Targeting &amp; audiences</span></a>
+          <a href="math-console.html"     class="nav-item ${active('math')}">${icon('calc')}<span class="nav-item__label">Math console</span></a>
         </nav>
 
         <nav class="sidebar__section">
-          <div class="sidebar__section-label">For Sebastian</div>
+          <div class="sidebar__section-label">Distribution</div>
+          <a href="ads.html"            class="nav-item ${active('ads')}">${icon('layers')}<span class="nav-item__label">Creatives &amp; pages</span></a>
+        </nav>
+
+        <nav class="sidebar__section">
+          <div class="sidebar__section-label">For your team · step 2</div>
+          <a href="conversations.html"  class="nav-item ${active('conversations')}">${icon('chat')}<span class="nav-item__label">Conversations</span>${c(counts.conversations)}</a>
+          <a href="leads.html"          class="nav-item ${active('leads')}">${icon('check')}<span class="nav-item__label">Leads to qualify</span>${c(counts.leads)}</a>
           <a href="agenda.html"         class="nav-item ${active('agenda')}">${icon('calendar')}<span class="nav-item__label">Today's calls</span>${c(counts.agenda)}</a>
         </nav>
 
         <nav class="sidebar__section">
           <div class="sidebar__section-label">Settings</div>
+          <a href="#" class="nav-item" id="metaConnBtn">${icon('plug')}<span class="nav-item__label">Connect Meta Ads</span></a>
           <a href="#" class="nav-item">${icon('cog')}<span class="nav-item__label">Settings</span></a>
-          <a href="#" class="nav-item">${icon('help')}<span class="nav-item__label">Help</span></a>
         </nav>
 
         <div class="sidebar__footer">
@@ -113,7 +120,12 @@
       doc:      `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
       ai:       `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>`,
       arrowUp:  `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`,
-      arrowDown:`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`
+      arrowDown:`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`,
+      chart:    `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+      target:   `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+      calc:     `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/></svg>`,
+      plug:     `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></svg>`,
+      meta:     `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 4C3.9 4 2 6.4 2 9.5c0 2.9 1.6 5.5 3.8 5.5 1.4 0 2.4-1 3.4-2.6.5-.8 1.2-2.1 1.7-3 .4.7 1 1.9 1.5 2.7C15.6 14.5 16.8 15 18 15c2.2 0 4-2.4 4-5.5C22 6.4 20.1 4 17.5 4c-1.6 0-2.8 1-3.9 2.7-.4.6-.8 1.4-1.2 2.1-.4-.7-.8-1.4-1.1-2C10.1 5 8.9 4 7.3 4h-.8zm.3 2.2c.8 0 1.5.6 2.4 2-.6 1-1.2 2.2-1.6 2.9-.8 1.4-1.2 1.7-1.7 1.7-.8 0-1.6-1.3-1.6-3.2 0-2 .9-3.4 2.1-3.4zm10.6 0c1.2 0 2.1 1.4 2.1 3.4 0 1.9-.8 3.2-1.6 3.2-.5 0-.9-.3-1.6-1.6-.3-.6-.9-1.7-1.5-2.8.9-1.6 1.7-2.2 2.6-2.2z"/></svg>`
     };
     return lib[name] || '';
   }
@@ -153,14 +165,16 @@
 
   // ─── Cmd-K palette ─────────────────────────
   const cmdkItems = [
-    { group: "Navigate", label: "Dashboard",              href: "index.html",         icon: "grid",     shortcut: "G D" },
-    { group: "Navigate", label: "Conversations",          href: "conversations.html", icon: "chat",     shortcut: "G C" },
-    { group: "Navigate", label: "Leads to qualify",       href: "leads.html",         icon: "check",    shortcut: "G L" },
-    { group: "Navigate", label: "Ads & theme pages",      href: "ads.html",           icon: "layers",   shortcut: "G A" },
-    { group: "Navigate", label: "Sebastian's agenda",     href: "agenda.html",        icon: "calendar", shortcut: "G S" },
-    { group: "Actions",  label: "New theme page",         href: "ads.html",           icon: "plus" },
-    { group: "Actions",  label: "Schedule a post",        href: "ads.html",           icon: "send" },
-    { group: "Actions",  label: "Pause AI agent",         href: "conversations.html", icon: "pause" },
+    { group: "Analytics", label: "Dashboard",             href: "index.html",          icon: "grid",     shortcut: "G D" },
+    { group: "Analytics", label: "Ads performance",       href: "ads-performance.html",icon: "chart",    shortcut: "G P" },
+    { group: "Analytics", label: "Targeting & audiences", href: "targeting.html",      icon: "target",   shortcut: "G T" },
+    { group: "Analytics", label: "Math console",          href: "math-console.html",   icon: "calc",     shortcut: "G M" },
+    { group: "Navigate",  label: "Creatives & pages",     href: "ads.html",            icon: "layers",   shortcut: "G A" },
+    { group: "Navigate",  label: "Conversations",         href: "conversations.html",  icon: "chat",     shortcut: "G C" },
+    { group: "Navigate",  label: "Leads to qualify",      href: "leads.html",          icon: "check",    shortcut: "G L" },
+    { group: "Navigate",  label: "Today's calls",         href: "agenda.html",         icon: "calendar", shortcut: "G S" },
+    { group: "Actions",   label: "Connect Meta Ads",      href: "#",                   icon: "plug" },
+    { group: "Actions",   label: "Schedule a post",       href: "ads.html",            icon: "send" },
   ];
 
   function renderCmdk() {
@@ -222,7 +236,57 @@
     if (!meta) return;
     const [page, label] = meta.content.split('|');
     renderShell(page, label || page);
+
+    // Connect Meta Ads modal
+    const metaBtn = document.getElementById('metaConnBtn');
+    if (metaBtn) metaBtn.addEventListener('click', (e) => { e.preventDefault(); window.openMetaConnect(); });
   });
+
+  // ─── Meta connect modal ────────────────────
+  window.openMetaConnect = function () {
+    const mount = document.getElementById('cmdk-mount');
+    if (!mount) return;
+    mount.innerHTML = `
+      <div class="modal-bg modal-bg--open" id="meta-overlay" onclick="if(event.target===this) document.getElementById('cmdk-mount').innerHTML=''">
+        <div class="modal" style="max-width:520px">
+          <div style="padding:var(--s-8) var(--s-8) var(--s-6);border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:var(--s-3);margin-bottom:var(--s-4)">
+              <div style="width:44px;height:44px;border-radius:var(--r-md);background:#0866FF;display:flex;align-items:center;justify-content:center;color:#fff">${icon('meta', 26)}</div>
+              <div>
+                <div class="display" style="font-size:var(--text-xl);font-weight:500">Connect Meta Ads</div>
+                <div class="mono text-xs text-quiet">Marketing API · read + manage</div>
+              </div>
+            </div>
+            <p class="text-sm text-mute" style="line-height:1.55;margin:0">
+              Caliber se conecta a tu cuenta publicitaria de Meta para leer Insights en vivo
+              (impresiones, clicks, gasto, conversiones) y calcular el costo real por lead
+              calificado y por cliente. Lectura cada 15 min.
+            </p>
+          </div>
+          <div style="padding:var(--s-6) var(--s-8)">
+            <div class="mono text-xs text-quiet mb-4" style="letter-spacing:0.14em;text-transform:uppercase">Necesitarás</div>
+            <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+              ${['Business Manager (ya lo tienes)', 'Ad Account ID — act_XXXXXXXX', 'System User Token · scope ads_read', 'No requiere App Review para tus propios assets'].map(t => `
+                <div style="display:flex;gap:var(--s-3);align-items:flex-start;font-size:var(--text-sm)">
+                  <span style="color:var(--success);flex-shrink:0;margin-top:2px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                  <span>${t}</span>
+                </div>`).join('')}
+            </div>
+            <div style="margin-top:var(--s-6);padding:var(--s-4);background:var(--gold-tint);border-radius:var(--r-md);font-size:var(--text-sm);line-height:1.5;color:var(--ink)">
+              Estás viendo Caliber con <strong>datos de demostración</strong>. Al conectar tu cuenta,
+              cada número se reemplaza por tu data real sin cambiar nada del tablero.
+            </div>
+          </div>
+          <div style="padding:var(--s-5) var(--s-8);border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:var(--s-3)">
+            <button class="btn btn--ghost" onclick="document.getElementById('cmdk-mount').innerHTML=''">Ahora no</button>
+            <button class="btn btn--primary" onclick="document.getElementById('cmdk-mount').innerHTML='';calToast('Conexión Meta — disponible en la fase de implementación')">
+              ${icon('plug', 14)} Conectar cuenta
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  };
 
   // ─── Toast utility ─────────────────────────
   window.calToast = function (msg) {
