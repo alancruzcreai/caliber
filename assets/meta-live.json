@@ -3,56 +3,180 @@
     "id": "act_120218744349790215",
     "name": "2213074872440477",
     "connected": true,
-    "scope": "active_only",
-    "activeCount": 0,
-    "syncedAt": "2026-06-03 14:54"
+    "scope": "allowlist",
+    "activeCount": 1,
+    "syncedAt": "2026-06-03 15:14"
   },
   "windows": {
     "last_7d": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 740.48,
+      "impressions": 8393,
+      "clicks": 367,
+      "cpm": 88.225903,
+      "cpc": 2.017657,
+      "ctr": 4.372692,
+      "reach": 4569,
+      "frequency": 1.836945,
+      "hasData": true,
+      "from": "2026-05-27",
+      "to": "2026-06-02"
     },
     "last_30d": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 740.48,
+      "impressions": 8393,
+      "clicks": 367,
+      "cpm": 88.225903,
+      "cpc": 2.017657,
+      "ctr": 4.372692,
+      "reach": 4569,
+      "frequency": 1.836945,
+      "hasData": true,
+      "from": "2026-05-04",
+      "to": "2026-06-02"
     },
     "maximum": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 834.58,
+      "impressions": 8722,
+      "clicks": 378,
+      "cpm": 95.686769,
+      "cpc": 2.207884,
+      "ctr": 4.333868,
+      "reach": 4692,
+      "frequency": 1.858909,
+      "hasData": true,
+      "from": "2026-05-23",
+      "to": "2026-06-03"
     }
   },
-  "campaigns": [],
+  "campaigns": [
+    {
+      "id": "120246772606070215",
+      "name": "HSTP-Spain",
+      "status": "PAUSED",
+      "effective_status": "PAUSED",
+      "objective": "OUTCOME_LEADS",
+      "spend": 834.58,
+      "impressions": 8722,
+      "clicks": 378,
+      "cpm": 95.686769,
+      "cpc": 2.207884,
+      "ctr": 4.333868,
+      "reach": 4692
+    }
+  ],
   "breakdowns": {
-    "age": [],
-    "gender": [],
-    "country": [],
-    "placement": []
+    "age": [
+      {
+        "key": "18-24",
+        "spend": 22.43,
+        "impressions": 401,
+        "clicks": 5,
+        "ctr": 1.246883
+      },
+      {
+        "key": "25-34",
+        "spend": 79.82,
+        "impressions": 944,
+        "clicks": 20,
+        "ctr": 2.118644
+      },
+      {
+        "key": "35-44",
+        "spend": 55.52,
+        "impressions": 908,
+        "clicks": 42,
+        "ctr": 4.625551
+      },
+      {
+        "key": "45-54",
+        "spend": 59.95,
+        "impressions": 1268,
+        "clicks": 51,
+        "ctr": 4.022082
+      },
+      {
+        "key": "55-64",
+        "spend": 62.27,
+        "impressions": 1452,
+        "clicks": 60,
+        "ctr": 4.132231
+      },
+      {
+        "key": "65+",
+        "spend": 554.59,
+        "impressions": 3749,
+        "clicks": 200,
+        "ctr": 5.334756
+      }
+    ],
+    "gender": [
+      {
+        "key": "female",
+        "spend": 470.6,
+        "impressions": 4680,
+        "clicks": 220,
+        "ctr": 4.700855
+      },
+      {
+        "key": "male",
+        "spend": 359.17,
+        "impressions": 3995,
+        "clicks": 156,
+        "ctr": 3.904881
+      },
+      {
+        "key": "unknown",
+        "spend": 4.81,
+        "impressions": 47,
+        "clicks": 2,
+        "ctr": 4.255319
+      }
+    ],
+    "country": [
+      {
+        "key": "ES",
+        "spend": 834.500002,
+        "impressions": 8722,
+        "clicks": 378,
+        "ctr": 4.333868
+      }
+    ],
+    "placement": [
+      {
+        "key": "audience_network",
+        "spend": 74.598212,
+        "impressions": 4262,
+        "clicks": 266,
+        "ctr": 6.241201
+      },
+      {
+        "key": "facebook",
+        "spend": 547.296885,
+        "impressions": 2908,
+        "clicks": 86,
+        "ctr": 2.957359
+      },
+      {
+        "key": "instagram",
+        "spend": 212.674903,
+        "impressions": 1549,
+        "clicks": 25,
+        "ctr": 1.613944
+      },
+      {
+        "key": "messenger",
+        "spend": 0.01,
+        "impressions": 3,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "unknown",
+        "spend": 0,
+        "impressions": 0,
+        "clicks": 1,
+        "ctr": 0
+      }
+    ]
   }
 }
