@@ -122,23 +122,34 @@
 <script>
   const D = window.CALIBER_DATA;
 
-  // Ads snapshot (dark band)
-  const M = D.meta, ai = M.accountInsights;
-  const usd = (n) => '$' + n.toLocaleString('en-US', {maximumFractionDigits: n < 100 ? 2 : 0});
-  const usdK = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + n;
-  const snap = [
-    { label: "Ad spend",         value: usdK(ai.spend) },
-    { label: "Qualified leads",  value: ai.qualified },
-    { label: "Clients closed",   value: ai.customers },
-    { label: "Cost / client",    value: usd(ai.spend/ai.customers) },
-    { label: "Blended ROAS",     value: (ai.revenue/ai.spend).toFixed(1)+'×', gold: true }
-  ];
-  document.getElementById('adsSnapshot').innerHTML = snap.map(s => `
-    <div>
-      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:var(--s-3)">${s.label}</div>
-      <div class="display" style="font-size:var(--text-3xl);font-weight:400;letter-spacing:-0.02em;color:${s.gold ? 'var(--gold-soft)' : '#fff'};line-height:1">${s.value}</div>
-    </div>
-  `).join('');
+  // Ads snapshot (dark band) — REAL data from Meta
+  (async function () {
+    const F = window.calFmt;
+    const M = await window.loadMetaLive();
+    const elSnap = document.getElementById('adsSnapshot');
+    if (!M) {
+      elSnap.innerHTML = `<div style="grid-column:1/-1;color:rgba(255,255,255,0.7);font-size:var(--text-sm)">Meta Ads no conectado. <a href="ads-performance.html" style="color:var(--gold-soft)">Conectar →</a></div>`;
+      return;
+    }
+    const w = (M.windows.last_30d && M.windows.last_30d.hasData) ? M.windows.last_30d : M.windows.maximum;
+    const isHist = !(M.windows.last_30d && M.windows.last_30d.hasData);
+    const snap = [
+      { label: "Inversión" + (isHist ? " · histórico" : " · 30d"), value: F.usdK(w.spend) },
+      { label: "Impresiones",  value: F.compact(w.impressions) },
+      { label: "Clics",        value: F.compact(w.clicks) },
+      { label: "CPC",          value: F.usd(w.cpc) },
+      { label: "CTR",          value: F.pct(w.ctr), gold: true }
+    ];
+    elSnap.innerHTML = snap.map(s => `
+      <div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:var(--s-3)">${s.label}</div>
+        <div class="display" style="font-size:var(--text-3xl);font-weight:400;letter-spacing:-0.02em;color:${s.gold ? 'var(--gold-soft)' : '#fff'};line-height:1">${s.value}</div>
+      </div>`).join('');
+    // Update the eyebrow with sync time
+    const eb = document.querySelector('#adsSnapshot');
+    const band = eb.closest('.card').querySelector('.eyebrow');
+    if (band) band.textContent = `— META ADS · ${M.account.name.toUpperCase()} · SYNC ${M.account.syncedAt || ''}`;
+  })();
 
   // KPIs
   document.getElementById('kpiGrid').innerHTML = D.kpis.map(k => {

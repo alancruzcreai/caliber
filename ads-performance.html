@@ -60,22 +60,12 @@
     <section class="card reveal reveal-3">
       <header class="card__header">
         <div>
-          <div class="eyebrow-num">— 02 / DAILY SPEND</div>
-          <h2 class="card__title mt-2">Spend vs qualified</h2>
+          <div class="eyebrow-num">— 02 / BY PLATFORM</div>
+          <h2 class="card__title mt-2">Inversión por plataforma</h2>
         </div>
       </header>
       <div class="card__body">
         <div id="spendChart"></div>
-        <div class="flex justify-between mt-4" style="padding-top:var(--s-4);border-top:1px solid var(--line)">
-          <div>
-            <div class="eyebrow">Avg daily spend</div>
-            <div class="display text-2xl mt-2">$418</div>
-          </div>
-          <div style="text-align:right">
-            <div class="eyebrow">Qualified / week</div>
-            <div class="display text-2xl mt-2">~10</div>
-          </div>
-        </div>
       </div>
     </section>
   </div>
@@ -123,112 +113,220 @@
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
 <script>
-  const M = window.CALIBER_DATA.meta;
-  const fmt = (n) => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(n>=10000?0:1)+'K' : n;
-  const usd = (n) => '$' + n.toLocaleString('en-US', {maximumFractionDigits: n < 100 ? 2 : 0});
+(async function () {
+  const F = window.calFmt;
+  const M = await window.loadMetaLive();
 
-  // KPIs
-  const ai = M.accountInsights;
-  const kpis = [
-    { label: "Spend · 30d",      value: usd(ai.spend),        delta: "5 campaigns active", trend: "flat" },
-    { label: "Cost / qualified", value: usd(ai.spend/ai.qualified), delta: "41 qualified leads", trend: "up" },
-    { label: "CAC",              value: usd(ai.spend/ai.customers), delta: ai.customers + " clients closed", trend: "up" },
-    { label: "Blended ROAS",     value: (ai.revenue/ai.spend).toFixed(1)+"×", delta: usd(ai.revenue)+" revenue", trend: "up" }
-  ];
-  document.getElementById('adsKpis').innerHTML = kpis.map(k => `
-    <div class="kpi">
-      <div class="kpi__label">${k.label}</div>
-      <div class="kpi__value">${k.value}</div>
-      <div class="kpi__delta kpi__delta--${k.trend === 'up' ? 'up' : 'flat'}">${k.trend==='up'?'↑':'—'} ${k.delta}</div>
-    </div>
-  `).join('');
+  // Not connected → empty states everywhere
+  if (!M) {
+    ['adsKpis','funnel','spendChart','campaignRows','insights'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) window.renderNotConnected(el);
+    });
+    const cb = document.querySelector('.conn-banner');
+    if (cb) cb.style.display = 'none';
+    return;
+  }
 
-  // Funnel
-  const maxVal = M.funnel[0].value;
-  const palette = ['#0866FF','#3D7DD8','#8F8A7A','#B8915A','#9A7B45','#1A1814'];
-  document.getElementById('funnel').innerHTML = M.funnel.map((f, i) => {
-    const widthPct = Math.max(8, (f.value / maxVal) * 100);
-    const conv = i > 0 ? ((f.value / M.funnel[i-1].value) * 100).toFixed(1) : null;
-    const costStr = f.key === 'impressions' ? 'CPM ' + usd(f.cost*1000) : usd(f.cost);
-    return `
-      ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continue</div>` : ''}
-      <div class="funnel-row">
-        <div class="funnel-row__label">
-          <div class="funnel-row__stage">${f.label}
-            <span class="funnel-meta-tag funnel-meta-tag--${f.meta ? 'api' : 'calc'}">${f.meta ? 'Meta' : 'calc'}</span>
+  // Connection banner → connected state
+  const cb = document.querySelector('.conn-banner');
+  if (cb) {
+    cb.style.background = 'var(--success-tint)';
+    cb.style.borderColor = 'rgba(74,93,63,0.3)';
+    cb.querySelector('.conn-banner__dot').style.background = 'var(--success)';
+    cb.querySelector('.conn-banner__text').innerHTML =
+      `<strong>Conectado a ${M.account.name}.</strong> Datos reales de Meta · última sincronización ${M.account.syncedAt || '—'} · se actualiza cada 6 h.`;
+    cb.querySelector('.conn-banner__cta').outerHTML =
+      `<span class="conn-banner__cta tag tag--success">● En vivo</span>`;
+  }
+
+  // Pick window (30d if it has data, else full history)
+  const sel = window.pickWindow(M);
+  let win = sel.win;
+  const histNote = sel.isHistoric ? ' · histórico (sin campañas activas)' : ' · últimos 30 días';
+
+  // ── KPIs (only metrics Meta actually provides) ──
+  function renderKpis(w, label) {
+    const kpis = [
+      { label: `Inversión${label}`, value: F.usdK(w.spend),     sub: w.from ? `${w.from} → ${w.to}` : 'sin datos' },
+      { label: 'Impresiones',        value: F.compact(w.impressions), sub: F.compact(w.reach) + ' personas' },
+      { label: 'Clics',              value: F.compact(w.clicks),  sub: 'CPC ' + F.usd(w.cpc) },
+      { label: 'CTR',                value: F.pct(w.ctr),         sub: 'CPM ' + F.usd(w.cpm) }
+    ];
+    document.getElementById('adsKpis').innerHTML = kpis.map(k => `
+      <div class="kpi">
+        <div class="kpi__label">${k.label}</div>
+        <div class="kpi__value">${k.value}</div>
+        <div class="kpi__delta kpi__delta--flat">${k.sub}</div>
+      </div>`).join('');
+  }
+  renderKpis(win, histNote);
+
+  // ── Funnel: real (impressions→clicks) + tracker-pending stages ──
+  function renderFunnel(w) {
+    const realRows = [
+      { label: 'Impresiones', value: w.impressions, cost: 'CPM ' + F.usd(w.cpm), color: '#0866FF', meta: true },
+      { label: 'Clics al enlace', value: w.clicks, cost: F.usd(w.cpc) + ' / clic', color: '#B8915A', meta: true },
+    ];
+    const pending = ['Conversaciones (DM)', 'Llamadas agendadas', 'Leads calificados', 'Clientes cerrados'];
+    const maxVal = Math.max(realRows[0].value, 1);
+    let html = realRows.map((f, i) => {
+      const widthPct = Math.max(10, (f.value / maxVal) * 100);
+      const conv = i > 0 ? ((f.value / realRows[i - 1].value) * 100).toFixed(1) : null;
+      return `
+        ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continúan</div>` : ''}
+        <div class="funnel-row">
+          <div class="funnel-row__label">
+            <div class="funnel-row__stage">${f.label}
+              <span class="funnel-meta-tag funnel-meta-tag--api">Meta</span>
+            </div>
+            <div class="funnel-row__count">${F.compact(f.value)}</div>
           </div>
-          <div class="funnel-row__count">${fmt(f.value)}</div>
+          <div class="funnel-row__bar-wrap">
+            <div class="funnel-row__bar" style="width:${widthPct}%;background:${f.color}">${F.compact(f.value)}</div>
+          </div>
+          <div class="funnel-row__cost">
+            <div class="funnel-row__cost-val">${f.cost.split(' ')[0] === 'CPM' ? F.usd(w.cpm) : F.usd(w.cpc)}</div>
+            <div class="funnel-row__cost-lbl">${f.cost.includes('CPM') ? 'CPM' : 'por clic'}</div>
+          </div>
+        </div>`;
+    }).join('');
+    html += `<div style="margin:var(--s-4) 0 var(--s-3);padding-top:var(--s-3);border-top:1px dashed var(--line-strong);font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-quiet)">— de aquí abajo requiere el tracker de conversiones —</div>`;
+    html += pending.map(label => `
+      <div class="funnel-row" style="opacity:0.5">
+        <div class="funnel-row__label">
+          <div class="funnel-row__stage">${label}
+            <span class="funnel-meta-tag funnel-meta-tag--calc">pendiente</span>
+          </div>
+          <div class="funnel-row__count">—</div>
         </div>
         <div class="funnel-row__bar-wrap">
-          <div class="funnel-row__bar" style="width:${widthPct}%;background:${palette[i]}">${fmt(f.value)}</div>
+          <div class="funnel-row__bar" style="width:14%;background:var(--surface-3);color:var(--ink-quiet)">—</div>
         </div>
-        <div class="funnel-row__cost">
-          <div class="funnel-row__cost-val">${costStr}</div>
-          <div class="funnel-row__cost-lbl">${f.costLabel}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
+        <div class="funnel-row__cost"><div class="funnel-row__cost-val">—</div><div class="funnel-row__cost-lbl">por conectar</div></div>
+      </div>`).join('');
+    document.getElementById('funnel').innerHTML = html;
+  }
+  renderFunnel(win);
 
-  // Spend chart (bars)
-  const daily = M.daily;
-  const maxSpend = Math.max(...daily.map(d => d.spend));
+  // ── Window selector (wire the header chips) ──
+  const chips = document.querySelectorAll('.page-header .filter-chip');
+  const map = [
+    { el: chips[0], key: 'maximum',  label: ' · histórico' },
+    { el: chips[1], key: 'last_30d', label: ' · últimos 30 días' },
+    { el: chips[2], key: 'last_7d',  label: ' · últimos 7 días' }
+  ];
+  // relabel chips
+  if (chips[0]) chips[0].textContent = 'Histórico';
+  if (chips[1]) chips[1].textContent = '30 días';
+  if (chips[2]) chips[2].textContent = '7 días';
+  // set active to the picked window
+  chips.forEach(c => c.classList.remove('filter-chip--active'));
+  (map.find(m => m.key === sel.key) || map[0]).el.classList.add('filter-chip--active');
+  map.forEach(m => m.el && m.el.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('filter-chip--active'));
+    m.el.classList.add('filter-chip--active');
+    const w = M.windows[m.key] || {};
+    renderKpis(w, m.label);
+    renderFunnel(w);
+  }));
+
+  // ── Spend by placement (replaces the old daily chart) ──
+  const pl = (M.breakdowns.placement || []).filter(p => p.spend > 0).sort((a, b) => b.spend - a.spend);
+  const maxPlSpend = Math.max(...pl.map(p => p.spend), 1);
   document.getElementById('spendChart').innerHTML = `
-    <div style="display:flex;align-items:flex-end;gap:2px;height:120px">
-      ${daily.map(d => {
-        const h = (d.spend / maxSpend) * 100;
-        const hot = d.qualified >= 2;
-        return `<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%" title="Day ${d.d}: ${usd(d.spend)}, ${d.qualified} qualified">
-          <div style="height:${h}%;background:${hot ? 'var(--gold)' : 'var(--surface-3)'};border-radius:2px 2px 0 0;min-height:3px"></div>
-        </div>`;
-      }).join('')}
+    <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+      ${pl.map(p => `
+        <div class="bd-row" style="grid-template-columns:120px 1fr 90px">
+          <div class="bd-row__label" style="text-transform:capitalize">${p.key.replace('_', ' ')}</div>
+          <div class="bd-row__track"><div class="bd-row__fill${p.key === pl[0].key ? ' bd-row__fill--gold' : ''}" style="width:${(p.spend / maxPlSpend) * 100}%"></div></div>
+          <div class="bd-row__val">${F.usdK(p.spend)} · ${F.pct(p.ctr)}</div>
+        </div>`).join('')}
     </div>
-    <div class="flex justify-between mt-2">
-      <span class="mono text-xs text-quiet">Day 1</span>
-      <span class="mono text-xs text-quiet">Day 30</span>
-    </div>
+    <div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">Inversión histórica por plataforma · oro = mayor gasto</div>
   `;
 
-  // Campaign table
-  const b = M.benchmarks;
-  const cls = (val, bench, lowerBetter=true) => {
-    if (val == null) return 'metric--bad';
-    if (lowerBetter) return val <= bench*0.85 ? 'metric--good' : val <= bench*1.15 ? '' : 'metric--bad';
-    return val >= bench*1.15 ? 'metric--good' : val >= bench*0.85 ? '' : 'metric--bad';
+  // ── Campaign table (real data) ──
+  const statusTag = (s) => s === 'ACTIVE'
+    ? '<span class="tag tag--success">Activa</span>'
+    : '<span class="tag tag--ghost">Pausada</span>';
+  const cls = (val, good, warn, lowerBetter = true) => {
+    if (val == null) return '';
+    if (lowerBetter) return val <= good ? 'metric--good' : val <= warn ? '' : 'metric--bad';
+    return val >= good ? 'metric--good' : val >= warn ? '' : 'metric--bad';
   };
-  document.getElementById('campaignRows').innerHTML = M.campaigns.map(c => `
+  const camps = (M.campaigns || []).slice().sort((a, b) => b.spend - a.spend);
+  document.getElementById('campaignRows').innerHTML = camps.map(c => `
     <tr>
       <td>
         <div class="flex items-center gap-2">
-          <strong style="font-weight:500">${c.name}</strong>
-          ${c.trend === 'down' ? '<span class="tag tag--danger">Leaking</span>' : c.roas >= 10 ? '<span class="tag tag--gold">Top</span>' : ''}
+          <strong style="font-weight:500">${c.name.length > 38 ? c.name.slice(0, 38) + '…' : c.name}</strong>
         </div>
-        <div class="mono text-xs text-quiet" style="margin-top:2px">${c.id} · ${c.objective}</div>
+        <div class="mono text-xs text-quiet" style="margin-top:2px">${(c.objective || '').replace('OUTCOME_', '')}</div>
       </td>
-      <td><span class="tag tag--ghost">${c.platform}</span></td>
-      <td class="metric">${usd(c.spend)}</td>
-      <td class="metric ${cls(c.cpm, b.cpm)}">${usd(c.cpm)}</td>
-      <td class="metric ${cls(c.cpc, b.cpc)}">${usd(c.cpc)}</td>
-      <td class="metric ${cls(c.ctr, b.ctr, false)}">${c.ctr}%</td>
-      <td class="metric ${cls(c.cpl, b.cpl)}">${usd(c.cpl)}</td>
-      <td class="metric ${c.cac ? cls(c.cac, b.cac) : 'metric--bad'}">${c.cac ? usd(c.cac) : '—'}</td>
-      <td class="metric ${c.roas >= b.roas ? 'metric--good' : c.roas > 0 ? 'metric--warn' : 'metric--bad'}">${c.roas > 0 ? c.roas.toFixed(1)+'×' : '—'}</td>
-      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Campaign detail — connect Meta for live drill-down')">View</button></td>
+      <td>${statusTag(c.status)}</td>
+      <td class="metric">${F.usd(c.spend)}</td>
+      <td class="metric">${F.usd(c.cpm)}</td>
+      <td class="metric ${cls(c.cpc, 3, 6)}">${F.usd(c.cpc)}</td>
+      <td class="metric ${cls(c.ctr, 2.5, 1.2, false)}">${F.pct(c.ctr)}</td>
+      <td class="metric text-quiet">—</td>
+      <td class="metric text-quiet">—</td>
+      <td class="metric text-quiet">—</td>
+      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Detalle por campaña — próximamente')">Ver</button></td>
     </tr>
-  `).join('');
+  `).join('') + `
+    <tr><td colspan="10" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">
+      Costo/calificado, CAC y ROAS se calculan al conectar el tracker de conversiones (Calendly/Stripe). Lo demás es data real de Meta.
+    </td></tr>`;
 
-  // Insights
+  // ── Insights generated from REAL data ──
+  const ins = [];
+  const bd = M.breakdowns;
+  // 1. No active campaigns
+  const active = camps.filter(c => c.status === 'ACTIVE').length;
+  if (active === 0) {
+    ins.push({ tone: 'warn', title: 'No hay campañas activas', icon: 'sparkles',
+      body: `Las ${camps.length} campañas están pausadas. El histórico suma ${F.usdK(M.windows.maximum.spend)} invertidos. Al reactivar, aplica los aprendizajes de abajo.`,
+      action: 'Planear nueva campaña' });
+  }
+  // 2. Best placement by CTR
+  if (bd.placement && bd.placement.length) {
+    const best = bd.placement.filter(p => p.impressions > 1000).sort((a, b) => b.ctr - a.ctr)[0];
+    if (best) ins.push({ tone: 'good', title: `${best.key.replace('_',' ')} lidera en CTR`, icon: 'arrowUp',
+      body: `CTR de ${F.pct(best.ctr)} en ${best.key.replace('_',' ')} — ${best.ctr > 5 ? 'muy por encima' : 'arriba'} del resto. Vale la pena destinarle más presupuesto en la próxima campaña.`,
+      action: 'Priorizar este placement' });
+  }
+  // 3. Age insight
+  if (bd.age && bd.age.length) {
+    const byCtr = bd.age.slice().sort((a, b) => b.ctr - a.ctr);
+    const bySpend = bd.age.slice().sort((a, b) => b.spend - a.spend);
+    if (byCtr[0].key !== bySpend[0].key) {
+      ins.push({ tone: 'bad', title: `El gasto y el rendimiento no coinciden por edad`, icon: 'arrowDown',
+        body: `El grupo ${bySpend[0].key} recibe el mayor gasto, pero ${byCtr[0].key} tiene el mejor CTR (${F.pct(byCtr[0].ctr)}). Estás sobre-invirtiendo en el segmento equivocado.`,
+        action: 'Reajustar edades' });
+    }
+  }
+  // 4. Gender insight
+  if (bd.gender && bd.gender.length >= 2) {
+    const m = bd.gender.find(g => g.key === 'male'), f = bd.gender.find(g => g.key === 'female');
+    if (m && f && f.ctr > m.ctr) {
+      const fShare = (f.spend / (m.spend + f.spend) * 100).toFixed(0);
+      ins.push({ tone: 'warn', title: 'Las mujeres convierten mejor pero reciben menos', icon: 'sparkles',
+        body: `CTR mujeres ${F.pct(f.ctr)} vs hombres ${F.pct(m.ctr)}, pero ellas solo reciben ${fShare}% del gasto. Hay margen para rebalancear.`,
+        action: 'Subir presupuesto a mujeres' });
+    }
+  }
   const iconFor = { good: 'arrowUp', bad: 'arrowDown', warn: 'sparkles' };
-  document.getElementById('insights').innerHTML = M.insights.map(ins => `
-    <div class="insight insight--${ins.tone}">
+  document.getElementById('insights').innerHTML = ins.map(i => `
+    <div class="insight insight--${i.tone}">
       <div class="insight__head">
-        <span class="insight__icon">${calIcon(iconFor[ins.tone] || 'sparkles', 18)}</span>
-        <span class="insight__title">${ins.title}</span>
+        <span class="insight__icon">${window.calIcon(iconFor[i.tone], 18)}</span>
+        <span class="insight__title">${i.title}</span>
       </div>
-      <div class="insight__body">${ins.body}</div>
-      <button class="insight__action" onclick="calToast('${ins.action} — available once Meta is connected')">${ins.action} →</button>
-    </div>
-  `).join('');
+      <div class="insight__body">${i.body}</div>
+      <button class="insight__action" onclick="calToast('Acción sugerida — se ejecuta en Meta Ads Manager')">${i.action} →</button>
+    </div>`).join('');
+})();
 </script>
 </body>
 </html>

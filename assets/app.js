@@ -288,6 +288,51 @@
     `;
   };
 
+  // ─── Meta live-data loader ─────────────────
+  // Loads assets/meta-live.json (written by the GitHub Action robot).
+  // Returns the parsed object, or null if not connected / unavailable.
+  window.loadMetaLive = async function () {
+    try {
+      const res = await fetch('assets/meta-live.json?t=' + Date.now());
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data || !data.account || data.account.connected !== true) return null;
+      return data;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // Picks the most relevant window: prefer last_30d if it has data,
+  // otherwise fall back to maximum (full history). Returns {win, key, isHistoric}.
+  window.pickWindow = function (M) {
+    if (M.windows.last_30d && M.windows.last_30d.hasData) {
+      return { win: M.windows.last_30d, key: 'last_30d', isHistoric: false };
+    }
+    return { win: M.windows.maximum || {}, key: 'maximum', isHistoric: true };
+  };
+
+  // Formatters shared by analytics screens
+  window.calFmt = {
+    usd: (n) => '$' + (Number(n) || 0).toLocaleString('en-US', { maximumFractionDigits: (Number(n) < 100 ? 2 : 0) }),
+    usdK: (n) => { n = Number(n) || 0; return n >= 1000 ? '$' + (n / 1000).toFixed(1) + 'K' : '$' + n.toFixed(0); },
+    int: (n) => (Number(n) || 0).toLocaleString('en-US'),
+    compact: (n) => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'K' : String(n); },
+    pct: (n) => (Number(n) || 0).toFixed(2) + '%',
+  };
+
+  // Renders a standard "not connected" empty state into a container
+  window.renderNotConnected = function (el, opts) {
+    opts = opts || {};
+    el.innerHTML = `
+      <div class="empty" style="border:1px dashed var(--line-strong);border-radius:var(--r-lg)">
+        <div class="empty__icon">${icon('plug', 22)}</div>
+        <div class="empty__title">${opts.title || 'Meta Ads no conectado'}</div>
+        <div class="empty__sub">${opts.sub || 'Conecta la cuenta de Meta para ver datos reales aquí. El robot sincroniza cada 6 horas.'}</div>
+        <button class="btn btn--gold mt-3" onclick="window.openMetaConnect && window.openMetaConnect()">Conectar Meta Ads</button>
+      </div>`;
+  };
+
   // ─── Toast utility ─────────────────────────
   window.calToast = function (msg) {
     const t = document.createElement('div');
