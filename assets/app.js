@@ -59,6 +59,9 @@
     const topbar = `
       <header class="topbar">
         <div class="topbar__left">
+          <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
           <nav class="breadcrumb">
             <span>Caliber</span>
             <span class="breadcrumb__sep">/</span>
@@ -79,12 +82,29 @@
     document.body.insertAdjacentHTML('afterbegin', `
       <div class="shell">
         ${sidebar}
+        <div class="sidebar__scrim" id="navScrim"></div>
         <div class="main">
           ${topbar}
           <div id="cmdk-mount"></div>
         </div>
       </div>
     `);
+
+    // Mobile off-canvas sidebar
+    const sb = document.querySelector('.sidebar');
+    const scrim = document.getElementById('navScrim');
+    const toggle = document.getElementById('navToggle');
+    const setMenu = (open) => {
+      sb.classList.toggle('sidebar--open', open);
+      scrim.classList.toggle('sidebar__scrim--on', open);
+      if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    if (toggle) toggle.addEventListener('click', () => setMenu(!sb.classList.contains('sidebar--open')));
+    if (scrim) scrim.addEventListener('click', () => setMenu(false));
+    // Close the drawer when a nav link is tapped
+    sb.querySelectorAll('.nav-item').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    // Close on Escape
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
     // Move existing content into .main
     const main = document.querySelector('.main');

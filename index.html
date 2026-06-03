@@ -35,11 +35,11 @@
   <section class="card reveal reveal-1" style="margin-bottom:var(--s-8);background:var(--ink);border-color:var(--ink);overflow:hidden;position:relative">
     <div style="position:absolute;top:-80px;right:-40px;width:300px;height:300px;background:radial-gradient(circle, rgba(184,145,90,0.25), transparent 70%);pointer-events:none"></div>
     <div class="card__body" style="position:relative">
-      <div class="flex justify-between items-center mb-6">
-        <div class="eyebrow" style="color:var(--gold-soft)">— META ADS · LAST 30 DAYS</div>
+      <div class="flex justify-between items-center mb-6" style="flex-wrap:wrap;gap:var(--s-3)">
+        <div class="eyebrow" style="color:var(--gold-soft);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">— META ADS · LAST 30 DAYS</div>
         <a href="ads-performance.html" class="btn btn--gold btn--sm">Full breakdown →</a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s-6)" id="adsSnapshot"></div>
+      <div class="ads-snapshot-grid" id="adsSnapshot"></div>
     </div>
   </section>
 
@@ -48,7 +48,7 @@
   <section class="kpi-grid reveal reveal-1" id="kpiGrid"></section>
 
   <!-- Two-column section ──────────────────── -->
-  <div style="display:grid;grid-template-columns: 1.4fr 1fr;gap:var(--s-6);margin-top:var(--s-8)">
+  <div class="grid-split-l" style="margin-top:var(--s-8)">
 
     <!-- Pipeline funnel ───────────────────── -->
     <section class="card reveal reveal-2">

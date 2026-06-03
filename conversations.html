@@ -234,6 +234,18 @@
     font-size: var(--text-sm);
   }
   .signal__check { color: var(--success); flex-shrink: 0; margin-top: 2px; }
+
+  /* Responsive: not enough room for 3 zones on tablet/phone → show the chat only */
+  @media (max-width: 1024px) {
+    .conv-shell { grid-template-columns: 1fr; height: auto; }
+    .conv-list, .conv-aside { display: none; }
+    .conv-main { min-height: calc(100vh - 61px); }
+  }
+  @media (max-width: 768px) {
+    .conv-main__head { flex-wrap: wrap; gap: var(--s-3); }
+    .conv-msg-group { max-width: 88%; }
+    .conv-main__body { padding: var(--s-5) var(--s-4); }
+  }
 </style>
 </head>
 <body>

@@ -274,6 +274,19 @@
     justify-content: space-between;
     gap: var(--s-4);
   }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .agenda-hero { padding: var(--s-8) var(--s-5); }
+    .agenda-hero__title { font-size: clamp(2rem, 1.4rem + 6vw, 3rem); }
+    .agenda-hero__count { font-size: var(--text-5xl); }
+    .agenda-hero__stats { flex-wrap: wrap; gap: var(--s-5) var(--s-8); }
+    .call-brief__head { grid-template-columns: 1fr; gap: var(--s-3); }
+    .call-brief__body { grid-template-columns: 1fr; gap: var(--s-6); padding: var(--s-6) var(--s-5); }
+    .brief-side { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: var(--s-5); }
+    .call-brief__actions { flex-direction: column; align-items: stretch; gap: var(--s-3); }
+    .call-brief__actions .flex { width: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -322,7 +335,7 @@
     </div>
 
     <div class="card reveal reveal-5">
-      <div class="card__body" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-8);padding:var(--s-8)">
+      <div class="card__body grid-2" style="gap:var(--s-8);padding:var(--s-8)">
         <div>
           <div class="eyebrow mb-4">Tomorrow's confirmed</div>
           <div class="display text-2xl">2 calls · 10:00, 15:30</div>
