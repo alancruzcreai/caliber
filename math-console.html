@@ -17,11 +17,11 @@
 
   <div class="page-header reveal">
     <div>
-      <div class="page-header__num">— MATH · DECISION ENGINE</div>
-      <h1 class="page-header__title">The math that <em>guides the call.</em></h1>
+      <div class="page-header__num">— MATEMÁTICA · MOTOR DE DECISIÓN</div>
+      <h1 class="page-header__title">La matemática que <em>guía la decisión.</em></h1>
       <p class="page-header__sub">
-        Move the levers. See exactly how many clients a budget produces, what they cost,
-        and where the break-even line sits. Decisions from data, not gut.
+        Parte del CPC real de tu campaña. Mueve las palancas y mira cuántos clientes
+        produce un presupuesto, cuánto cuestan y dónde está el punto de equilibrio.
       </p>
     </div>
   </div>
@@ -29,78 +29,88 @@
   <!-- What-if simulator -->
   <div class="math-grid reveal reveal-1">
     <div class="math-panel">
-      <div class="eyebrow mb-6">— Scenario inputs</div>
+      <div class="eyebrow mb-6">— Escenario · partiendo de HSTP-Spain</div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Monthly ad budget</span>
-          <span class="math-slider-row__value" id="vBudget">$11,480</span>
+          <span class="math-slider-row__label">Presupuesto mensual</span>
+          <span class="math-slider-row__value" id="vBudget">—</span>
         </div>
-        <input type="range" class="math-slider" id="sBudget" min="2000" max="40000" step="500" value="11480">
+        <input type="range" class="math-slider" id="sBudget" min="2000" max="60000" step="500" value="10000">
+        <div class="mono text-xs text-quiet mt-2" id="budgetNote">&nbsp;</div>
       </div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Cost per qualified lead</span>
-          <span class="math-slider-row__value" id="vCpl">$280</span>
+          <span class="math-slider-row__label">CPC · costo por clic</span>
+          <span class="math-slider-row__value" id="vCpc">—</span>
         </div>
-        <input type="range" class="math-slider" id="sCpl" min="120" max="600" step="10" value="280">
-        <div class="mono text-xs text-quiet mt-2">Current blended: $280 · best campaign: $217</div>
+        <input type="range" class="math-slider" id="sCpc" min="0.5" max="12" step="0.1" value="2.2">
+        <div class="mono text-xs text-quiet mt-2" id="cpcNote">&nbsp;</div>
       </div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Call → close rate</span>
-          <span class="math-slider-row__value" id="vClose">27%</span>
+          <span class="math-slider-row__label">Clic → lead calificado</span>
+          <span class="math-slider-row__value" id="vClickLead">3%</span>
         </div>
-        <input type="range" class="math-slider" id="sClose" min="10" max="50" step="1" value="27">
-        <div class="mono text-xs text-quiet mt-2">Sebastian closes on the call — only human step</div>
+        <input type="range" class="math-slider" id="sClickLead" min="1" max="30" step="1" value="3">
+        <div class="mono text-xs text-quiet mt-2">Estimado · se confirma al conectar el tracker de citas</div>
       </div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Program ticket</span>
+          <span class="math-slider-row__label">Lead → cliente (cierre)</span>
+          <span class="math-slider-row__value" id="vClose">20%</span>
+        </div>
+        <input type="range" class="math-slider" id="sClose" min="5" max="60" step="1" value="20">
+        <div class="mono text-xs text-quiet mt-2">El cierre lo hace Sebastian en la llamada</div>
+      </div>
+
+      <div class="math-slider-row">
+        <div class="math-slider-row__head">
+          <span class="math-slider-row__label">Ticket del programa</span>
           <span class="math-slider-row__value" id="vTicket">$7,500</span>
         </div>
-        <input type="range" class="math-slider" id="sTicket" min="3000" max="20000" step="500" value="7500">
+        <input type="range" class="math-slider" id="sTicket" min="3000" max="30000" step="500" value="7500">
       </div>
 
-      <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reset to current</button>
+      <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reiniciar a la data real</button>
     </div>
 
     <!-- Live result -->
     <div class="math-result">
-      <div class="eyebrow mb-6" style="color:var(--gold-soft)">— Projected monthly outcome</div>
+      <div class="eyebrow mb-6" style="color:var(--gold-soft)">— Resultado mensual proyectado</div>
       <div class="math-out-grid">
         <div>
-          <div class="math-out__label">Qualified leads</div>
-          <div class="math-out__value" id="oQualified">41</div>
-          <div class="math-out__sub" id="oQualifiedSub">at $280 each</div>
+          <div class="math-out__label">Leads calificados</div>
+          <div class="math-out__value" id="oQualified">—</div>
+          <div class="math-out__sub" id="oQualifiedSub">—</div>
         </div>
         <div>
-          <div class="math-out__label">Clients closed</div>
-          <div class="math-out__value" id="oClients"><em>11</em></div>
-          <div class="math-out__sub" id="oClientsSub">27% of calls</div>
+          <div class="math-out__label">Clientes cerrados</div>
+          <div class="math-out__value" id="oClients"><em>—</em></div>
+          <div class="math-out__sub" id="oClientsSub">—</div>
         </div>
         <div>
-          <div class="math-out__label">Revenue</div>
-          <div class="math-out__value" id="oRevenue">$82.5K</div>
-          <div class="math-out__sub">at $7,500 ticket</div>
+          <div class="math-out__label">Ingresos</div>
+          <div class="math-out__value" id="oRevenue">—</div>
+          <div class="math-out__sub">según el ticket</div>
         </div>
         <div>
           <div class="math-out__label">ROAS</div>
-          <div class="math-out__value" id="oRoas"><em>7.2×</em></div>
-          <div class="math-out__sub" id="oRoasSub">return on ad spend</div>
+          <div class="math-out__value" id="oRoas"><em>—</em></div>
+          <div class="math-out__sub" id="oRoasSub">retorno sobre inversión</div>
         </div>
       </div>
       <div style="position:relative;margin-top:var(--s-8);padding-top:var(--s-6);border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div class="math-out__label">Cost per client (CAC)</div>
-          <div class="display text-2xl" style="color:#fff;margin-top:4px" id="oCac">$1,044</div>
+          <div class="math-out__label">Costo por cliente (CAC)</div>
+          <div class="display text-2xl" style="color:#fff;margin-top:4px" id="oCac">—</div>
         </div>
         <div style="text-align:right">
-          <div class="math-out__label">Net profit after ad spend</div>
-          <div class="display text-2xl" id="oProfit" style="color:var(--gold-soft);margin-top:4px">$71.0K</div>
+          <div class="math-out__label">Utilidad neta tras inversión</div>
+          <div class="display text-2xl" id="oProfit" style="color:var(--gold-soft);margin-top:4px">—</div>
         </div>
       </div>
     </div>
@@ -108,38 +118,38 @@
 
   <!-- Break-even -->
   <div class="divider-label">
-    <span class="divider-label__text">— Break-even & unit economics</span>
+    <span class="divider-label__text">— Punto de equilibrio y economía unitaria</span>
     <span class="divider-label__line"></span>
   </div>
 
   <div style="display:grid;grid-template-columns: 1fr 1fr 1fr;gap:var(--s-6)" class="reveal reveal-2">
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">Break-even CAC</div>
-      <div class="display text-4xl" id="beCac">$7,500</div>
-      <div class="text-sm text-mute mt-3">Max you can pay per client before losing money</div>
+      <div class="eyebrow mb-4">CAC de equilibrio</div>
+      <div class="display text-4xl" id="beCac">—</div>
+      <div class="text-sm text-mute mt-3">Lo máximo que puedes pagar por cliente sin perder</div>
     </div></div>
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">Current margin / client</div>
-      <div class="display text-4xl text-success" id="beMargin">$6,456</div>
-      <div class="text-sm text-mute mt-3">Ticket minus current CAC</div>
+      <div class="eyebrow mb-4">Margen por cliente</div>
+      <div class="display text-4xl text-success" id="beMargin">—</div>
+      <div class="text-sm text-mute mt-3">Ticket menos el CAC actual</div>
     </div></div>
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">Headroom to scale</div>
-      <div class="display text-4xl text-gold" id="beHeadroom">7.2×</div>
-      <div class="text-sm text-mute mt-3">You could pay 7× more per client and still profit</div>
+      <div class="eyebrow mb-4">Margen para escalar</div>
+      <div class="display text-4xl text-gold" id="beHeadroom">—</div>
+      <div class="text-sm text-mute mt-3">Cuánto más podrías pagar por cliente y seguir ganando</div>
     </div></div>
   </div>
 
   <!-- Projection -->
   <div class="divider-label">
-    <span class="divider-label__text">— Projection at this scenario</span>
+    <span class="divider-label__text">— Proyección con este escenario</span>
     <span class="divider-label__line"></span>
   </div>
 
   <section class="card reveal reveal-3">
     <div class="card__body" style="padding:0">
       <table class="table">
-        <thead><tr><th>Horizon</th><th>Ad spend</th><th>Qualified leads</th><th>Calls for Sebastian</th><th>Clients</th><th>Revenue</th><th>Net profit</th></tr></thead>
+        <thead><tr><th>Horizonte</th><th>Inversión</th><th>Leads calif.</th><th>Llamadas a Sebastian</th><th>Clientes</th><th>Ingresos</th><th>Utilidad neta</th></tr></thead>
         <tbody id="projRows"></tbody>
       </table>
     </div>
@@ -147,7 +157,7 @@
 
   <div class="conn-banner reveal reveal-4" style="margin-top:var(--s-8);margin-bottom:0">
     <span class="conn-banner__dot"></span>
-    <span class="conn-banner__text">These projections use your <strong>current blended numbers</strong> as the baseline. Once Meta is connected, the sliders snap to your live CPL, close rate and spend automatically.</span>
+    <span class="conn-banner__text">El CPC parte de la <strong>data real de la campaña</strong> y se actualiza solo cada 6 h conforme Mauricio sube anuncios. Las tasas de conversión se afinan al conectar el tracker de citas.</span>
   </div>
 
   <div style="height:var(--s-16)"></div>
@@ -157,80 +167,112 @@
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
 <script>
+(async function () {
   const usd  = (n) => '$' + Math.round(n).toLocaleString('en-US');
   const usdK = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
 
   const els = {
-    budget: document.getElementById('sBudget'), cpl: document.getElementById('sCpl'),
-    close: document.getElementById('sClose'), ticket: document.getElementById('sTicket')
+    budget:    document.getElementById('sBudget'),
+    cpc:       document.getElementById('sCpc'),
+    clickLead: document.getElementById('sClickLead'),
+    close:     document.getElementById('sClose'),
+    ticket:    document.getElementById('sTicket')
   };
 
-  // Anchor the simulator to Sebastian's REAL numbers from Meta
-  (async function seedReal() {
-    const M = await window.loadMetaLive();
-    if (!M) return;
-    const max = M.windows.maximum || {};
-    const realCpc = max.cpc || 0;
-    const realCtr = max.ctr || 0;
-    // Update the CPL slider helper with the real CPC reference
-    const cplHelp = document.querySelector('#sCpl + .mono');
-    if (cplHelp) cplHelp.innerHTML =
-      `CPC real de Sebastian: <strong>${usd(realCpc)}</strong> · CTR ${realCtr.toFixed(2)}% · El costo por <em>lead calificado</em> se confirma al conectar el tracker`;
-    // Add a real-baseline strip above the sliders
+  // ── Anchor defaults to the connected campaign's REAL numbers ──
+  const M = await window.loadMetaLive();
+  // Conservative defaults so projections stay credible (editable by the user).
+  // budget = a realistic monthly figure to project; CPC comes from real data.
+  let defaults = { budget: 10000, cpc: 2.2, clickLead: 3, close: 20, ticket: 7500 };
+  let campaignName = 'la campaña conectada';
+
+  if (M) {
+    const w = (M.windows.last_30d && M.windows.last_30d.hasData) ? M.windows.last_30d : M.windows.maximum;
+    const realCpc = w.cpc || defaults.cpc;
+    campaignName = (M.campaigns[0] && M.campaigns[0].name) || M.account.name;
+    // CPC anchored to real data (the metric Meta actually gives us)
+    defaults.cpc = Math.max(0.5, Math.round(realCpc * 10) / 10);
+
+    // CPC slider note → cite the real value
+    const cpcNote = document.getElementById('cpcNote');
+    if (cpcNote) cpcNote.innerHTML = `CPC real de <strong>${campaignName}</strong>: ${usd(realCpc)} · CTR ${ (w.ctr||0).toFixed(2) }%`;
+    const budgetNote = document.getElementById('budgetNote');
+    if (budgetNote) budgetNote.innerHTML = `Gasto real de la campaña: <strong>${usdK(w.spend||0)}</strong> (${(w.clicks||0).toLocaleString()} clics)`;
+
+    // Real-baseline strip
     const panel = document.querySelector('.math-panel');
     if (panel) {
       const strip = document.createElement('div');
       strip.style.cssText = 'margin-bottom:var(--s-6);padding:var(--s-3) var(--s-4);background:var(--success-tint);border-radius:var(--r-md);font-size:var(--text-xs);color:var(--ink-soft);line-height:1.5';
-      strip.innerHTML = `<strong>Anclado a data real:</strong> ${M.account.name} ha invertido ${usdK(max.spend)} histórico, ${(max.clicks||0).toLocaleString()} clics a CPC ${usd(realCpc)}. Las tasas de cierre son tu estimación hasta conectar el tracker.`;
+      strip.innerHTML = `<strong>● Anclado a ${campaignName}:</strong> ${usdK(w.spend||0)} invertidos, ${(w.clicks||0).toLocaleString()} clics, CTR ${(w.ctr||0).toFixed(2)}%. El CPC es real; las tasas de conversión son tu estimación hasta conectar el tracker de citas.`;
       panel.insertBefore(strip, panel.firstChild.nextSibling);
     }
-  })();
+  } else {
+    const panel = document.querySelector('.math-panel');
+    if (panel) {
+      const strip = document.createElement('div');
+      strip.style.cssText = 'margin-bottom:var(--s-6);padding:var(--s-3) var(--s-4);background:var(--gold-tint);border-radius:var(--r-md);font-size:var(--text-xs);color:var(--ink-soft);line-height:1.5';
+      strip.innerHTML = 'Meta no conectado — usando estimaciones genéricas. Conecta la cuenta para anclar al CPC real.';
+      panel.insertBefore(strip, panel.firstChild.nextSibling);
+    }
+  }
+
+  function applyDefaults() {
+    els.budget.value    = defaults.budget;
+    els.cpc.value       = defaults.cpc;
+    els.clickLead.value = defaults.clickLead;
+    els.close.value     = defaults.close;
+    els.ticket.value    = defaults.ticket;
+  }
+  applyDefaults();
 
   function recompute() {
-    const budget = +els.budget.value;
-    const cpl    = +els.cpl.value;
-    const close  = +els.close.value / 100;
-    const ticket = +els.ticket.value;
+    const budget    = +els.budget.value;
+    const cpc       = +els.cpc.value;
+    const clickLead = +els.clickLead.value / 100;
+    const close     = +els.close.value / 100;
+    const ticket    = +els.ticket.value;
 
-    const qualified = budget / cpl;
-    const calls     = qualified;            // every qualified lead → a call with Sebastian
-    const clients   = calls * close;
+    const clicks    = cpc > 0 ? budget / cpc : 0;
+    const leads     = clicks * clickLead;          // clic → lead calificado
+    const clients   = leads * close;               // lead → cliente (cierre de Sebastian)
     const revenue   = clients * ticket;
     const cac       = clients > 0 ? budget / clients : 0;
-    const roas      = revenue / budget;
+    const roas      = budget > 0 ? revenue / budget : 0;
     const profit    = revenue - budget;
     const margin    = ticket - cac;
     const headroom  = cac > 0 ? ticket / cac : 0;
 
-    // labels
-    document.getElementById('vBudget').textContent = usd(budget);
-    document.getElementById('vCpl').textContent    = usd(cpl);
-    document.getElementById('vClose').textContent  = (close*100).toFixed(0) + '%';
-    document.getElementById('vTicket').textContent = usd(ticket);
+    // slider labels
+    document.getElementById('vBudget').textContent    = usd(budget);
+    document.getElementById('vCpc').textContent       = '$' + cpc.toFixed(2);
+    document.getElementById('vClickLead').textContent = (clickLead*100).toFixed(0) + '%';
+    document.getElementById('vClose').textContent     = (close*100).toFixed(0) + '%';
+    document.getElementById('vTicket').textContent    = usd(ticket);
 
-    // outputs
-    document.getElementById('oQualified').textContent = Math.round(qualified);
-    document.getElementById('oQualifiedSub').textContent = 'at ' + usd(cpl) + ' each';
-    document.getElementById('oClients').innerHTML = '<em>' + Math.round(clients) + '</em>';
-    document.getElementById('oClientsSub').textContent = (close*100).toFixed(0) + '% of calls';
-    document.getElementById('oRevenue').textContent = usdK(revenue);
-    document.getElementById('oRoas').innerHTML = '<em>' + roas.toFixed(1) + '×</em>';
-    document.getElementById('oCac').textContent = usd(cac);
-    document.getElementById('oProfit').textContent = usdK(profit);
+    // outputs (reusing existing ids; relabel to the new model)
+    document.getElementById('oQualified').textContent    = Math.round(leads);
+    document.getElementById('oQualifiedSub').textContent = Math.round(clicks).toLocaleString() + ' clics × ' + (clickLead*100).toFixed(0) + '%';
+    document.getElementById('oClients').innerHTML        = '<em>' + Math.round(clients) + '</em>';
+    document.getElementById('oClientsSub').textContent   = (close*100).toFixed(0) + '% de cierre';
+    document.getElementById('oRevenue').textContent      = usdK(revenue);
+    document.getElementById('oRoas').innerHTML           = '<em>' + roas.toFixed(1) + '×</em>';
+    document.getElementById('oCac').textContent          = usd(cac);
+    document.getElementById('oProfit').textContent       = usdK(profit);
 
     // break-even
-    document.getElementById('beCac').textContent = usd(ticket);
-    document.getElementById('beMargin').textContent = usd(margin);
+    document.getElementById('beCac').textContent      = usd(ticket);
+    document.getElementById('beMargin').textContent   = usd(margin);
     document.getElementById('beHeadroom').textContent = headroom.toFixed(1) + '×';
 
     // projection table
-    const horizons = [{label:'30 days', mult:1},{label:'60 days', mult:2},{label:'90 days', mult:3}];
+    const horizons = [{label:'30 días', mult:1},{label:'60 días', mult:2},{label:'90 días', mult:3}];
     document.getElementById('projRows').innerHTML = horizons.map(h => `
       <tr>
         <td><strong style="font-weight:500">${h.label}</strong></td>
         <td class="metric">${usd(budget*h.mult)}</td>
-        <td class="metric">${Math.round(qualified*h.mult)}</td>
-        <td class="metric">${Math.round(calls*h.mult)}</td>
+        <td class="metric">${Math.round(leads*h.mult)}</td>
+        <td class="metric">${Math.round(leads*h.mult)}</td>
         <td class="metric">${Math.round(clients*h.mult)}</td>
         <td class="metric">${usdK(revenue*h.mult)}</td>
         <td class="metric ${profit>0?'metric--good':'metric--bad'}">${usdK(profit*h.mult)}</td>
@@ -239,11 +281,9 @@
   }
 
   Object.values(els).forEach(el => el.addEventListener('input', recompute));
-  window.resetMath = function () {
-    els.budget.value = 11480; els.cpl.value = 280; els.close.value = 27; els.ticket.value = 7500;
-    recompute();
-  };
+  window.resetMath = function () { applyDefaults(); recompute(); };
   recompute();
+})();
 </script>
 </body>
 </html>
