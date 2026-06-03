@@ -3,7 +3,7 @@
     "id": "act_1656033801684436",
     "name": "Dragon Consultations",
     "connected": true,
-    "syncedAt": "2026-06-02 21:56"
+    "syncedAt": "2026-06-03 04:56"
   },
   "windows": {
     "last_7d": {
@@ -43,7 +43,7 @@
       "frequency": 1.950066,
       "hasData": true,
       "from": "2025-01-29",
-      "to": "2026-06-02"
+      "to": "2026-06-03"
     }
   },
   "campaigns": [
