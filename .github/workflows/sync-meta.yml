@@ -35,6 +35,7 @@ jobs:
         env:
           META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
           META_AD_ACCOUNT: ${{ vars.META_AD_ACCOUNT }}
+          META_CAMPAIGN_IDS: ${{ vars.META_CAMPAIGN_IDS }}
           SYNC_TS: ${{ steps.ts.outputs.ts }}
         run: node scripts/fetch-meta.js
 

@@ -138,17 +138,13 @@ async function breakdown(by, ids, preset = 'maximum') {
   console.log(`  campañas totales en la cuenta: ${allCampaigns.length}`);
   allCampaigns.forEach(c => console.log(`    · [${c.effective_status || c.status}] ${c.id} — ${c.name.slice(0, 50)}`));
 
-  // Decide which campaigns count:
-  //  - if an allowlist is provided, use it
-  //  - else: only ACTIVE (the new one + whatever Mauricio activates)
-  let selected;
-  if (ALLOWLIST.length) {
-    selected = allCampaigns.filter(c => ALLOWLIST.includes(c.id));
-    console.log(`  filtro: allowlist (${ALLOWLIST.length} ids)`);
-  } else {
-    selected = allCampaigns.filter(c => c.status === 'ACTIVE' || c.effective_status === 'ACTIVE');
-    console.log(`  filtro: solo ACTIVAS`);
-  }
+  // Which campaigns count = (in the allowlist) OR (currently ACTIVE).
+  //  - allowlist = the specific campaign(s) we always want shown, even paused
+  //  - ACTIVE = anything Mauricio turns on later shows up automatically
+  // Old paused campaigns not in the allowlist stay hidden.
+  const isActive = (c) => c.status === 'ACTIVE' || c.effective_status === 'ACTIVE';
+  const selected = allCampaigns.filter(c => ALLOWLIST.includes(c.id) || isActive(c));
+  console.log(`  filtro: allowlist (${ALLOWLIST.length}) + activas → ${selected.length} campaña(s)`);
   const ids = selected.map(c => c.id);
   console.log(`  campañas seleccionadas: ${ids.length}`);
 
