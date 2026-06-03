@@ -1,263 +1,582 @@
 {
   "account": {
-    "id": "act_1656033801684436",
-    "name": "Dragon Consultations",
+    "id": "act_120218744349790215",
+    "name": "2213074872440477",
     "connected": true,
-    "syncedAt": "2026-06-03 10:46"
+    "syncedAt": "2026-06-03 12:07"
   },
   "windows": {
     "last_7d": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 740.17,
+      "impressions": 8390,
+      "clicks": 366,
+      "cpm": 88.220501,
+      "cpc": 2.022322,
+      "ctr": 4.362336,
+      "reach": 4569,
+      "frequency": 1.836288,
+      "hasData": true,
+      "from": "2026-05-27",
+      "to": "2026-06-02"
     },
     "last_30d": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 2395.23,
+      "impressions": 56465,
+      "clicks": 3793,
+      "cpm": 42.419729,
+      "cpc": 0.631487,
+      "ctr": 6.717436,
+      "reach": 38175,
+      "frequency": 1.479109,
+      "hasData": true,
+      "from": "2026-05-04",
+      "to": "2026-06-02"
     },
     "maximum": {
-      "spend": 12552.69,
-      "impressions": 203113,
-      "clicks": 5540,
-      "cpm": 61.80151,
-      "cpc": 2.265829,
-      "ctr": 2.727546,
-      "reach": 104157,
-      "frequency": 1.950066,
+      "spend": 3131.46,
+      "impressions": 104274,
+      "clicks": 4801,
+      "cpm": 30.031072,
+      "cpc": 0.652252,
+      "ctr": 4.604216,
+      "reach": 74719,
+      "frequency": 1.395549,
       "hasData": true,
-      "from": "2025-01-29",
+      "from": "2025-02-17",
       "to": "2026-06-03"
     }
   },
   "campaigns": [
     {
-      "id": "120236618983310505",
-      "name": "12/NOV/25|DSAP-TEVAWELLNESS|RETARGETING|CBO",
-      "status": "PAUSED",
-      "objective": "OUTCOME_SALES",
-      "spend": 466.55,
-      "impressions": 904,
-      "clicks": 37,
-      "cpm": 516.095133,
-      "cpc": 12.609459,
-      "ctr": 4.09292,
-      "reach": 605
-    },
-    {
-      "id": "120236209733650505",
-      "name": "4/NOV/25|DSAP-TEVAWELLNESS|TOF|ABO",
-      "status": "PAUSED",
-      "objective": "OUTCOME_SALES",
-      "spend": 5384.62,
-      "impressions": 46089,
-      "clicks": 1311,
-      "cpm": 116.830914,
-      "cpc": 4.107262,
-      "ctr": 2.844497,
-      "reach": 31631
-    },
-    {
-      "id": "120220960786570505",
-      "name": "V-BIE",
-      "status": "PAUSED",
-      "objective": "OUTCOME_SALES",
-      "spend": 1018.74,
-      "impressions": 5458,
-      "clicks": 249,
-      "cpm": 186.650788,
-      "cpc": 4.091325,
-      "ctr": 4.562111,
-      "reach": 3413
-    },
-    {
-      "id": "120217551403820505",
-      "name": "CP-LifeOS Upgrade Optimizado",
+      "id": "120246772606070215",
+      "name": "HSTP-Spain",
       "status": "PAUSED",
       "objective": "OUTCOME_LEADS",
-      "spend": 207.26,
-      "impressions": 1818,
-      "clicks": 88,
-      "cpm": 114.0044,
-      "cpc": 2.355227,
-      "ctr": 4.840484,
-      "reach": 1550
+      "spend": 833.51,
+      "impressions": 8712,
+      "clicks": 377,
+      "cpm": 95.673783,
+      "cpc": 2.210902,
+      "ctr": 4.327365,
+      "reach": 4678
     },
     {
-      "id": "120216692095280505",
-      "name": "CP-LifeOS Upgrade",
-      "status": "PAUSED",
-      "objective": "OUTCOME_LEADS",
-      "spend": 3283.5,
-      "impressions": 30710,
-      "clicks": 576,
-      "cpm": 106.91957,
-      "cpc": 5.700521,
-      "ctr": 1.875611,
-      "reach": 10819
-    },
-    {
-      "id": "120216483917890505",
-      "name": "Foto con Form",
-      "status": "PAUSED",
-      "objective": "OUTCOME_LEADS",
-      "spend": 127.5,
-      "impressions": 1171,
-      "clicks": 27,
-      "cpm": 108.881298,
-      "cpc": 4.722222,
-      "ctr": 2.305722,
-      "reach": 782
-    },
-    {
-      "id": "120216017490840505",
-      "name": "V-LifeOs Upgrade",
+      "id": "120246239203740215",
+      "name": "DC | Sales | Schedule | HST Program | v1",
       "status": "PAUSED",
       "objective": "OUTCOME_SALES",
-      "spend": 2046.75,
-      "impressions": 116626,
-      "clicks": 3194,
-      "cpm": 17.549689,
-      "cpc": 0.640811,
-      "ctr": 2.738669,
-      "reach": 55763
+      "spend": 1655.06,
+      "impressions": 48075,
+      "clicks": 3427,
+      "cpm": 34.426625,
+      "cpc": 0.482947,
+      "ctr": 7.128445,
+      "reach": 33647
+    },
+    {
+      "id": "120234925044790215",
+      "name": "[9/18/2025] Promoting https://dragonconsultations.info/dragonsync_abundance_protocol",
+      "status": "PAUSED",
+      "objective": "LINK_CLICKS",
+      "spend": 642.89,
+      "impressions": 47487,
+      "clicks": 997,
+      "cpm": 13.538232,
+      "cpc": 0.644824,
+      "ctr": 2.099522,
+      "reach": 36571
     }
   ],
   "breakdowns": {
     "age": [
       {
         "key": "18-24",
-        "spend": 803.05,
-        "impressions": 9048,
-        "clicks": 201,
-        "ctr": 2.221485
+        "spend": 174.48,
+        "impressions": 7600,
+        "clicks": 352,
+        "ctr": 4.631579
       },
       {
         "key": "25-34",
-        "spend": 4953.75,
-        "impressions": 99749,
-        "clicks": 2364,
-        "ctr": 2.369949
+        "spend": 551.76,
+        "impressions": 15803,
+        "clicks": 615,
+        "ctr": 3.891666
       },
       {
         "key": "35-44",
-        "spend": 4326.33,
-        "impressions": 75152,
-        "clicks": 2143,
-        "ctr": 2.851554
+        "spend": 363.74,
+        "impressions": 13765,
+        "clicks": 687,
+        "ctr": 4.990919
       },
       {
         "key": "45-54",
-        "spend": 1414.07,
-        "impressions": 12253,
-        "clicks": 440,
-        "ctr": 3.590957
+        "spend": 390.7,
+        "impressions": 15188,
+        "clicks": 824,
+        "ctr": 5.425336
       },
       {
         "key": "55-64",
-        "spend": 609.15,
-        "impressions": 3430,
-        "clicks": 189,
-        "ctr": 5.510204
+        "spend": 507.84,
+        "impressions": 22430,
+        "clicks": 1128,
+        "ctr": 5.028979
       },
       {
         "key": "65+",
-        "spend": 446.34,
-        "impressions": 3481,
-        "clicks": 203,
-        "ctr": 5.831658
+        "spend": 1142.94,
+        "impressions": 29485,
+        "clicks": 1195,
+        "ctr": 4.052908
+      },
+      {
+        "key": "Unknown",
+        "spend": 0,
+        "impressions": 3,
+        "clicks": 0,
+        "ctr": 0
       }
     ],
     "gender": [
       {
         "key": "female",
-        "spend": 3518.65,
-        "impressions": 78416,
-        "clicks": 2396,
-        "ctr": 3.055499
+        "spend": 1524.15,
+        "impressions": 58267,
+        "clicks": 3180,
+        "ctr": 5.457635
       },
       {
         "key": "male",
-        "spend": 8932.4,
-        "impressions": 123251,
-        "clicks": 3108,
-        "ctr": 2.521683
+        "spend": 1588.3,
+        "impressions": 45308,
+        "clicks": 1605,
+        "ctr": 3.542421
       },
       {
         "key": "unknown",
-        "spend": 101.64,
-        "impressions": 1446,
-        "clicks": 36,
-        "ctr": 2.489627
+        "spend": 19.01,
+        "impressions": 699,
+        "clicks": 16,
+        "ctr": 2.288984
       }
     ],
     "country": [
       {
+        "key": "AL",
+        "spend": 63.744428,
+        "impressions": 2454,
+        "clicks": 98,
+        "ctr": 3.99348
+      },
+      {
+        "key": "AD",
+        "spend": 2.457857,
+        "impressions": 50,
+        "clicks": 1,
+        "ctr": 2
+      },
+      {
+        "key": "AU",
+        "spend": 19.91264,
+        "impressions": 57,
+        "clicks": 7,
+        "ctr": 12.280702
+      },
+      {
+        "key": "AT",
+        "spend": 2.238049,
+        "impressions": 39,
+        "clicks": 2,
+        "ctr": 5.128205
+      },
+      {
+        "key": "BY",
+        "spend": 67.181431,
+        "impressions": 7909,
+        "clicks": 900,
+        "ctr": 11.379441
+      },
+      {
+        "key": "BE",
+        "spend": 2.347953,
+        "impressions": 39,
+        "clicks": 1,
+        "ctr": 2.564103
+      },
+      {
+        "key": "BA",
+        "spend": 39.225803,
+        "impressions": 1119,
+        "clicks": 51,
+        "ctr": 4.557641
+      },
+      {
+        "key": "BG",
+        "spend": 28.565097,
+        "impressions": 451,
+        "clicks": 6,
+        "ctr": 1.330377
+      },
+      {
+        "key": "CA",
+        "spend": 12.868781,
+        "impressions": 172,
+        "clicks": 3,
+        "ctr": 1.744186
+      },
+      {
+        "key": "HR",
+        "spend": 4.18635,
+        "impressions": 61,
+        "clicks": 2,
+        "ctr": 3.278689
+      },
+      {
+        "key": "CZ",
+        "spend": 9.511708,
+        "impressions": 92,
+        "clicks": 3,
+        "ctr": 3.26087
+      },
+      {
+        "key": "DK",
+        "spend": 1.069068,
+        "impressions": 10,
+        "clicks": 1,
+        "ctr": 10
+      },
+      {
+        "key": "EE",
+        "spend": 9.072091,
+        "impressions": 31,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "FO",
+        "spend": 4.33622,
+        "impressions": 260,
+        "clicks": 4,
+        "ctr": 1.538462
+      },
+      {
+        "key": "FI",
+        "spend": 44.401291,
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "FR",
+        "spend": 13.298406,
+        "impressions": 388,
+        "clicks": 10,
+        "ctr": 2.57732
+      },
+      {
+        "key": "DE",
+        "spend": 9.981298,
+        "impressions": 178,
+        "clicks": 8,
+        "ctr": 4.494382
+      },
+      {
+        "key": "GI",
+        "spend": 2.737613,
+        "impressions": 90,
+        "clicks": 2,
+        "ctr": 2.222222
+      },
+      {
+        "key": "GR",
+        "spend": 32.471691,
+        "impressions": 393,
+        "clicks": 11,
+        "ctr": 2.798982
+      },
+      {
+        "key": "GG",
+        "spend": 1.608598,
+        "impressions": 75,
+        "clicks": 3,
+        "ctr": 4
+      },
+      {
+        "key": "HK",
+        "spend": 12.23933,
+        "impressions": 160,
+        "clicks": 4,
+        "ctr": 2.5
+      },
+      {
+        "key": "HU",
+        "spend": 18.863555,
+        "impressions": 263,
+        "clicks": 8,
+        "ctr": 3.041825
+      },
+      {
+        "key": "IS",
+        "spend": 20.092483,
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "IE",
+        "spend": 5.125532,
+        "impressions": 26,
+        "clicks": 1,
+        "ctr": 3.846154
+      },
+      {
+        "key": "IM",
+        "spend": 8.322744,
+        "impressions": 129,
+        "clicks": 7,
+        "ctr": 5.426357
+      },
+      {
+        "key": "IT",
+        "spend": 17.58467,
+        "impressions": 196,
+        "clicks": 6,
+        "ctr": 3.061224
+      },
+      {
+        "key": "JE",
+        "spend": 6.414408,
+        "impressions": 88,
+        "clicks": 1,
+        "ctr": 1.136364
+      },
+      {
+        "key": "XK",
+        "spend": 35.918686,
+        "impressions": 2068,
+        "clicks": 77,
+        "ctr": 3.723404
+      },
+      {
+        "key": "LV",
+        "spend": 3.776707,
+        "impressions": 41,
+        "clicks": 2,
+        "ctr": 4.878049
+      },
+      {
+        "key": "LT",
+        "spend": 11.420044,
+        "impressions": 102,
+        "clicks": 3,
+        "ctr": 2.941176
+      },
+      {
+        "key": "LU",
+        "spend": 1.378798,
+        "impressions": 7,
+        "clicks": 1,
+        "ctr": 14.285714
+      },
+      {
+        "key": "MT",
+        "spend": 21.741046,
+        "impressions": 136,
+        "clicks": 2,
+        "ctr": 1.470588
+      },
+      {
         "key": "MX",
-        "spend": 11994.592929,
-        "impressions": 202233,
-        "clicks": 5523,
-        "ctr": 2.731008
+        "spend": 1221.844798,
+        "impressions": 58533,
+        "clicks": 1571,
+        "ctr": 2.683956
+      },
+      {
+        "key": "MD",
+        "spend": 31.84224,
+        "impressions": 1469,
+        "clicks": 65,
+        "ctr": 4.424779
+      },
+      {
+        "key": "ME",
+        "spend": 14.437413,
+        "impressions": 321,
+        "clicks": 10,
+        "ctr": 3.115265
+      },
+      {
+        "key": "NL",
+        "spend": 1.958293,
+        "impressions": 37,
+        "clicks": 2,
+        "ctr": 5.405405
+      },
+      {
+        "key": "MK",
+        "spend": 43.212328,
+        "impressions": 2304,
+        "clicks": 98,
+        "ctr": 4.253472
+      },
+      {
+        "key": "NO",
+        "spend": 1.798432,
+        "impressions": 13,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "PL",
+        "spend": 7.36358,
+        "impressions": 150,
+        "clicks": 6,
+        "ctr": 4
+      },
+      {
+        "key": "PT",
+        "spend": 35.928677,
+        "impressions": 513,
+        "clicks": 11,
+        "ctr": 2.14425
+      },
+      {
+        "key": "RO",
+        "spend": 58.818722,
+        "impressions": 461,
+        "clicks": 17,
+        "ctr": 3.687636
+      },
+      {
+        "key": "RU",
+        "spend": 0,
+        "impressions": 0,
+        "clicks": 1,
+        "ctr": 0
+      },
+      {
+        "key": "SM",
+        "spend": 0.119895,
+        "impressions": 7,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "RS",
+        "spend": 57.170159,
+        "impressions": 1301,
+        "clicks": 48,
+        "ctr": 3.68947
+      },
+      {
+        "key": "SK",
+        "spend": 7.213711,
+        "impressions": 47,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "SI",
+        "spend": 2.977404,
+        "impressions": 43,
+        "clicks": 1,
+        "ctr": 2.325581
+      },
+      {
+        "key": "ES",
+        "spend": 854.375158,
+        "impressions": 8936,
+        "clicks": 383,
+        "ctr": 4.286034
+      },
+      {
+        "key": "SJ",
+        "spend": 0,
+        "impressions": 1,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "SE",
+        "spend": 4.985654,
+        "impressions": 28,
+        "clicks": 1,
+        "ctr": 3.571429
+      },
+      {
+        "key": "CH",
+        "spend": 1.268894,
+        "impressions": 14,
+        "clicks": 1,
+        "ctr": 7.142857
+      },
+      {
+        "key": "UA",
+        "spend": 181.631654,
+        "impressions": 12544,
+        "clicks": 1340,
+        "ctr": 10.682398
+      },
+      {
+        "key": "GB",
+        "spend": 7.133781,
+        "impressions": 86,
+        "clicks": 1,
+        "ctr": 1.162791
       },
       {
         "key": "US",
-        "spend": 558.097071,
-        "impressions": 880,
-        "clicks": 17,
-        "ctr": 1.931818
+        "spend": 63.284828,
+        "impressions": 351,
+        "clicks": 20,
+        "ctr": 5.698006
       }
     ],
     "placement": [
       {
         "key": "audience_network",
-        "spend": 611.22632,
-        "impressions": 6853,
-        "clicks": 778,
-        "ctr": 11.352692
+        "spend": 317.583132,
+        "impressions": 18223,
+        "clicks": 3157,
+        "ctr": 17.324261
       },
       {
         "key": "facebook",
-        "spend": 7468.878694,
-        "impressions": 164008,
-        "clicks": 4164,
-        "ctr": 2.538901
+        "spend": 2010.457288,
+        "impressions": 75175,
+        "clicks": 1437,
+        "ctr": 1.91154
       },
       {
         "key": "instagram",
-        "spend": 4454.358674,
-        "impressions": 27844,
-        "clicks": 597,
-        "ctr": 2.144088
+        "spend": 788.003021,
+        "impressions": 5754,
+        "clicks": 181,
+        "ctr": 3.145638
       },
       {
         "key": "messenger",
-        "spend": 4.639061,
-        "impressions": 3941,
+        "spend": 0.099913,
+        "impressions": 55,
         "clicks": 0,
         "ctr": 0
       },
       {
         "key": "threads",
-        "spend": 13.587251,
-        "impressions": 467,
-        "clicks": 1,
-        "ctr": 0.214133
+        "spend": 15.316647,
+        "impressions": 5067,
+        "clicks": 12,
+        "ctr": 0.236827
+      },
+      {
+        "key": "unknown",
+        "spend": 0,
+        "impressions": 0,
+        "clicks": 14,
+        "ctr": 0
       }
     ]
   }
