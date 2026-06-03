@@ -48,9 +48,9 @@ window.CALIBER_DATA = {
       sourceTheme: "@luxuryyachtworld",
       angleHit: "C",
       why: [
-        "Pain específico, no genérico",
-        "Confirmó rango sin que la IA insistiera",
-        "Prior investment = sabe que esto cuesta"
+        "Specific pain, not generic",
+        "Confirmed a range without the AI pushing",
+        "Prior investment = knows this costs money"
       ],
       lastTurn: 6,
       status: "awaiting_review",
@@ -61,17 +61,17 @@ window.CALIBER_DATA = {
       name: "Julio Álvarez",
       score: 79,
       lang: "ES",
-      country: "México · CDMX/PV",
+      country: "Mexico · CDMX/PV",
       vertical: "VC / Founder",
-      pain: "viajo 9 meses al año y mi sueño profundo se desploma",
-      priorInvestment: "Strategic Coach, dejó por falta de tiempo",
-      budgetSignal: "Confirmó rango $8-15K (turn 6)",
+      pain: "I travel 9 months a year and my deep sleep collapses",
+      priorInvestment: "Strategic Coach, dropped it for lack of time",
+      budgetSignal: "Confirmed $8-15K range (turn 6)",
       sourceTheme: "@founders.daily",
       angleHit: "B",
       why: [
-        "Métricas específicas (sueño profundo)",
-        "Cargo verificable: GP en fondo top-10 LATAM",
-        "Mencionó peers que ya están en programas similares"
+        "Specific metrics (deep sleep)",
+        "Verifiable title: GP at a top-10 LATAM fund",
+        "Mentioned peers already in similar programs"
       ],
       lastTurn: 6,
       status: "awaiting_review",
@@ -90,9 +90,9 @@ window.CALIBER_DATA = {
       sourceTheme: "@executivewellness",
       angleHit: "D",
       why: [
-        "Pain biológico nombrado (cortisol)",
-        "Inversión previa documentable",
-        "Lenguaje técnico — sofistication alta"
+        "Named biological pain (cortisol)",
+        "Documentable prior investment",
+        "Technical language — high sophistication"
       ],
       lastTurn: 7,
       status: "awaiting_review",
@@ -105,15 +105,15 @@ window.CALIBER_DATA = {
       lang: "ES",
       country: "Miami · FL",
       vertical: "Family office",
-      pain: "rutinas no me duran más de 3 semanas viajando",
-      priorInvestment: "Solo coaches locales",
-      budgetSignal: "No confirmado aún",
+      pain: "routines don't last me more than 3 weeks when traveling",
+      priorInvestment: "Local coaches only",
+      budgetSignal: "Not confirmed yet",
       sourceTheme: "@luxurywellbeing",
       angleHit: "A",
       why: [
-        "Reconoce el problema con precisión",
-        "Audiencia con disposición a invertir",
-        "Falta confirmación de budget — pendiente turn 7"
+        "Recognizes the problem precisely",
+        "Audience with willingness to invest",
+        "Budget not yet confirmed — pending turn 7"
       ],
       lastTurn: 5,
       status: "awaiting_review",
@@ -123,11 +123,11 @@ window.CALIBER_DATA = {
 
   conversations: [
     { handle: "@marco_jet",    score: 87, status: "hot",     lastMsg: "yeah, 7 months on yacht mostly",      timeAgo: "2m", unread: 1, lang: "EN" },
-    { handle: "@julio_vc",     score: 79, status: "hot",     lastMsg: "sí, soy GP en un fondo aquí en MX",   timeAgo: "8m", unread: 0, lang: "ES" },
+    { handle: "@julio_vc",     score: 79, status: "hot",     lastMsg: "yeah, I'm a GP at a fund here in MX",  timeAgo: "8m", unread: 0, lang: "ES" },
     { handle: "@kira.ldn",     score: 74, status: "hot",     lastMsg: "cortisol panels are on file, yes",    timeAgo: "12m", unread: 2, lang: "EN" },
-    { handle: "@dani.miami",   score: 68, status: "warm",    lastMsg: "déjame ver y te confirmo",            timeAgo: "1h", unread: 0, lang: "ES" },
+    { handle: "@dani.miami",   score: 68, status: "warm",    lastMsg: "let me check and I'll confirm",        timeAgo: "1h", unread: 0, lang: "ES" },
     { handle: "@trev.singapore", score: 62, status: "warm",    lastMsg: "what's the time commitment weekly?",  timeAgo: "1h", unread: 0, lang: "EN" },
-    { handle: "@sara.mtz",     score: 41, status: "cool",    lastMsg: "okay, gracias por la info",            timeAgo: "3h", unread: 0, lang: "ES" },
+    { handle: "@sara.mtz",     score: 41, status: "cool",    lastMsg: "okay, thanks for the info",            timeAgo: "3h", unread: 0, lang: "ES" },
     { handle: "@lifeofdana",   score: 52, status: "cool",    lastMsg: "interesting, will think about it",    timeAgo: "5h", unread: 0, lang: "EN" },
     { handle: "@nico.zrh",     score: 38, status: "cool",    lastMsg: "I'm not actively looking right now",  timeAgo: "Yest", unread: 0, lang: "EN" }
   ],
@@ -162,9 +162,9 @@ window.CALIBER_DATA = {
     { id: "C-03", format: "reel",     angle: "B", hook: "From jet-lagged to VO2max 95th in 90 days",    lang: "EN", posted: 12, cls: "reel"     },
     { id: "C-04", format: "static",   angle: "D", hook: "The 90-second nervous-system reset",            lang: "EN", posted: 5,  cls: "static"   },
     { id: "C-05", format: "reel",     angle: "E", hook: "Stop your 5 AM cold plunge. Do this instead.",  lang: "EN", posted: 6,  cls: "reel"     },
-    { id: "C-06", format: "carousel", angle: "C", hook: "Lo que mis clientes en Monaco vienen a buscar", lang: "ES", posted: 2,  cls: "carousel" },
-    { id: "C-07", format: "reel",     angle: "B", hook: "De jet lag crónico a VO2max top 5% en 12 sem.", lang: "ES", posted: 4,  cls: "reel"     },
-    { id: "C-08", format: "static",   angle: "D", hook: "Reset nervioso en 90 segundos antes de un C-suite", lang: "ES", posted: 2,  cls: "static" }
+    { id: "C-06", format: "carousel", angle: "C", hook: "What my Monaco clients come looking for", lang: "ES", posted: 2,  cls: "carousel" },
+    { id: "C-07", format: "reel",     angle: "B", hook: "From chronic jet lag to top 5% VO2max in 12 weeks", lang: "ES", posted: 4,  cls: "reel"     },
+    { id: "C-08", format: "static",   angle: "D", hook: "90-second nervous-system reset before a C-suite", lang: "ES", posted: 2,  cls: "static" }
   ],
 
   todaysCalls: [
@@ -194,15 +194,15 @@ window.CALIBER_DATA = {
       handle: "@julio_vc",
       flag: "🇲🇽",
       vertical: "VC · General Partner",
-      country: "México · CDMX",
+      country: "Mexico · CDMX",
       lang: "ES",
       score: 79,
-      pain: "viajo 9 meses al año y mi sueño profundo se desploma",
-      priorPrograms: "Strategic Coach (Foundations), dejó por tiempo",
+      pain: "I travel 9 months a year and my deep sleep collapses",
+      priorPrograms: "Strategic Coach (Foundations), dropped it for time",
       budgetConfirmed: "$8-15K range",
       whyClicked: "Founders.daily reel — transformation angle",
-      angleToOpen: "Anclar en métricas: él habló de sueño profundo. Empezar con cómo los 6 pilares mejoran sleep score en 14 días. Strategic Coach lo dejó por tiempo — posicionar el programa como menor friction temporal pero más profundo.",
-      hotButtons: ["sueño profundo se desploma", "no aguanto más programas que piden 5 hrs/semana", "mis socios están en algo así"],
+      angleToOpen: "Anchor in metrics: he talked about deep sleep. Open with how the 6 pillars improve sleep score in 14 days. He dropped Strategic Coach over time — position the program as less time friction but deeper.",
+      hotButtons: ["my deep sleep collapses", "I can't take more programs that demand 5 hrs/week", "my partners are in something like this"],
       sourceTheme: "@founders.daily",
       zoomLink: "#"
     }
@@ -320,10 +320,10 @@ window.CALIBER_DATA = {
       ],
       country: [
         { code: "US", name: "United States", spend: 4820, qualified: 16, cac: 980 },
-        { code: "MX", name: "México",        spend: 2410, qualified: 9,  cac: 720 },
+        { code: "MX", name: "Mexico",        spend: 2410, qualified: 9,  cac: 720 },
         { code: "GB", name: "United Kingdom",spend: 1680, qualified: 6,  cac: 1100 },
         { code: "AE", name: "UAE",           spend: 1290, qualified: 5,  cac: 1340 },
-        { code: "ES", name: "España",        spend: 880,  qualified: 3,  cac: 950 },
+        { code: "ES", name: "Spain",        spend: 880,  qualified: 3,  cac: 950 },
         { code: "CH", name: "Switzerland",   spend: 400,  qualified: 2,  cac: 1500 }
       ],
       placement: [

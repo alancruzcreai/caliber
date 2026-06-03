@@ -17,11 +17,11 @@
 
   <div class="page-header reveal">
     <div>
-      <div class="page-header__num">— MATEMÁTICA · MOTOR DE DECISIÓN</div>
-      <h1 class="page-header__title">La matemática que <em>guía la decisión.</em></h1>
+      <div class="page-header__num">— MATH · DECISION ENGINE</div>
+      <h1 class="page-header__title">The math that <em>guides the call.</em></h1>
       <p class="page-header__sub">
-        Parte del CPC real de tu campaña. Mueve las palancas y mira cuántos clientes
-        produce un presupuesto, cuánto cuestan y dónde está el punto de equilibrio.
+        It starts from your campaign's real CPC. Move the levers and see how many clients
+        a budget produces, what they cost, and where the break-even point sits.
       </p>
     </div>
   </div>
@@ -29,11 +29,11 @@
   <!-- What-if simulator -->
   <div class="math-grid reveal reveal-1">
     <div class="math-panel">
-      <div class="eyebrow mb-6">— Escenario · partiendo de HSTP-Spain</div>
+      <div class="eyebrow mb-6">— Scenario · starting from HSTP-Spain</div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Presupuesto mensual</span>
+          <span class="math-slider-row__label">Monthly budget</span>
           <span class="math-slider-row__value" id="vBudget">—</span>
         </div>
         <input type="range" class="math-slider" id="sBudget" min="2000" max="60000" step="500" value="10000">
@@ -42,7 +42,7 @@
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">CPC · costo por clic</span>
+          <span class="math-slider-row__label">CPC · cost per click</span>
           <span class="math-slider-row__value" id="vCpc">—</span>
         </div>
         <input type="range" class="math-slider" id="sCpc" min="0.5" max="12" step="0.1" value="2.2">
@@ -51,65 +51,65 @@
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Clic → lead calificado</span>
+          <span class="math-slider-row__label">Click → qualified lead</span>
           <span class="math-slider-row__value" id="vClickLead">3%</span>
         </div>
         <input type="range" class="math-slider" id="sClickLead" min="1" max="30" step="1" value="3">
-        <div class="mono text-xs text-quiet mt-2">Estimado · se confirma al conectar el tracker de citas</div>
+        <div class="mono text-xs text-quiet mt-2">Estimate · confirmed once you connect the booking tracker</div>
       </div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Lead → cliente (cierre)</span>
+          <span class="math-slider-row__label">Lead → client (close)</span>
           <span class="math-slider-row__value" id="vClose">20%</span>
         </div>
         <input type="range" class="math-slider" id="sClose" min="5" max="60" step="1" value="20">
-        <div class="mono text-xs text-quiet mt-2">El cierre lo hace Sebastian en la llamada</div>
+        <div class="mono text-xs text-quiet mt-2">Sebastian closes the deal on the call</div>
       </div>
 
       <div class="math-slider-row">
         <div class="math-slider-row__head">
-          <span class="math-slider-row__label">Ticket del programa</span>
+          <span class="math-slider-row__label">Program ticket</span>
           <span class="math-slider-row__value" id="vTicket">$7,500</span>
         </div>
         <input type="range" class="math-slider" id="sTicket" min="3000" max="30000" step="500" value="7500">
       </div>
 
-      <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reiniciar a la data real</button>
+      <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reset to live data</button>
     </div>
 
     <!-- Live result -->
     <div class="math-result">
-      <div class="eyebrow mb-6" style="color:var(--gold-soft)">— Resultado mensual proyectado</div>
+      <div class="eyebrow mb-6" style="color:var(--gold-soft)">— Projected monthly result</div>
       <div class="math-out-grid">
         <div>
-          <div class="math-out__label">Leads calificados</div>
+          <div class="math-out__label">Qualified leads</div>
           <div class="math-out__value" id="oQualified">—</div>
           <div class="math-out__sub" id="oQualifiedSub">—</div>
         </div>
         <div>
-          <div class="math-out__label">Clientes cerrados</div>
+          <div class="math-out__label">Clients closed</div>
           <div class="math-out__value" id="oClients"><em>—</em></div>
           <div class="math-out__sub" id="oClientsSub">—</div>
         </div>
         <div>
-          <div class="math-out__label">Ingresos</div>
+          <div class="math-out__label">Revenue</div>
           <div class="math-out__value" id="oRevenue">—</div>
-          <div class="math-out__sub">según el ticket</div>
+          <div class="math-out__sub">based on ticket</div>
         </div>
         <div>
           <div class="math-out__label">ROAS</div>
           <div class="math-out__value" id="oRoas"><em>—</em></div>
-          <div class="math-out__sub" id="oRoasSub">retorno sobre inversión</div>
+          <div class="math-out__sub" id="oRoasSub">return on ad spend</div>
         </div>
       </div>
       <div style="position:relative;margin-top:var(--s-8);padding-top:var(--s-6);border-top:1px solid rgba(255,255,255,0.12);display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div class="math-out__label">Costo por cliente (CAC)</div>
+          <div class="math-out__label">Cost per client (CAC)</div>
           <div class="display text-2xl" style="color:#fff;margin-top:4px" id="oCac">—</div>
         </div>
         <div style="text-align:right">
-          <div class="math-out__label">Utilidad neta tras inversión</div>
+          <div class="math-out__label">Net profit after spend</div>
           <div class="display text-2xl" id="oProfit" style="color:var(--gold-soft);margin-top:4px">—</div>
         </div>
       </div>
@@ -118,38 +118,38 @@
 
   <!-- Break-even -->
   <div class="divider-label">
-    <span class="divider-label__text">— Punto de equilibrio y economía unitaria</span>
+    <span class="divider-label__text">— Break-even and unit economics</span>
     <span class="divider-label__line"></span>
   </div>
 
   <div style="display:grid;grid-template-columns: 1fr 1fr 1fr;gap:var(--s-6)" class="reveal reveal-2">
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">CAC de equilibrio</div>
+      <div class="eyebrow mb-4">Break-even CAC</div>
       <div class="display text-4xl" id="beCac">—</div>
-      <div class="text-sm text-mute mt-3">Lo máximo que puedes pagar por cliente sin perder</div>
+      <div class="text-sm text-mute mt-3">The most you can pay per client without losing money</div>
     </div></div>
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">Margen por cliente</div>
+      <div class="eyebrow mb-4">Margin per client</div>
       <div class="display text-4xl text-success" id="beMargin">—</div>
-      <div class="text-sm text-mute mt-3">Ticket menos el CAC actual</div>
+      <div class="text-sm text-mute mt-3">Ticket minus current CAC</div>
     </div></div>
     <div class="card"><div class="card__body" style="text-align:center;padding:var(--s-8)">
-      <div class="eyebrow mb-4">Margen para escalar</div>
+      <div class="eyebrow mb-4">Headroom to scale</div>
       <div class="display text-4xl text-gold" id="beHeadroom">—</div>
-      <div class="text-sm text-mute mt-3">Cuánto más podrías pagar por cliente y seguir ganando</div>
+      <div class="text-sm text-mute mt-3">How much more you could pay per client and still profit</div>
     </div></div>
   </div>
 
   <!-- Projection -->
   <div class="divider-label">
-    <span class="divider-label__text">— Proyección con este escenario</span>
+    <span class="divider-label__text">— Projection with this scenario</span>
     <span class="divider-label__line"></span>
   </div>
 
   <section class="card reveal reveal-3">
     <div class="card__body" style="padding:0">
       <table class="table">
-        <thead><tr><th>Horizonte</th><th>Inversión</th><th>Leads calif.</th><th>Llamadas a Sebastian</th><th>Clientes</th><th>Ingresos</th><th>Utilidad neta</th></tr></thead>
+        <thead><tr><th>Horizon</th><th>Spend</th><th>Qualified leads</th><th>Calls to Sebastian</th><th>Clients</th><th>Revenue</th><th>Net profit</th></tr></thead>
         <tbody id="projRows"></tbody>
       </table>
     </div>
@@ -157,7 +157,7 @@
 
   <div class="conn-banner reveal reveal-4" style="margin-top:var(--s-8);margin-bottom:0">
     <span class="conn-banner__dot"></span>
-    <span class="conn-banner__text">El CPC parte de la <strong>data real de la campaña</strong> y se actualiza solo cada 6 h conforme Mauricio sube anuncios. Las tasas de conversión se afinan al conectar el tracker de citas.</span>
+    <span class="conn-banner__text">The CPC comes from the <strong>campaign's live data</strong> and refreshes on its own every 6 h as Mauricio uploads ads. Conversion rates get dialed in once you connect the booking tracker.</span>
   </div>
 
   <div style="height:var(--s-16)"></div>
@@ -184,7 +184,7 @@
   // Conservative defaults so projections stay credible (editable by the user).
   // budget = a realistic monthly figure to project; CPC comes from real data.
   let defaults = { budget: 10000, cpc: 2.2, clickLead: 3, close: 20, ticket: 7500 };
-  let campaignName = 'la campaña conectada';
+  let campaignName = 'the connected campaign';
 
   if (M) {
     const w = (M.windows.last_30d && M.windows.last_30d.hasData) ? M.windows.last_30d : M.windows.maximum;
@@ -195,16 +195,16 @@
 
     // CPC slider note → cite the real value
     const cpcNote = document.getElementById('cpcNote');
-    if (cpcNote) cpcNote.innerHTML = `CPC real de <strong>${campaignName}</strong>: ${usd(realCpc)} · CTR ${ (w.ctr||0).toFixed(2) }%`;
+    if (cpcNote) cpcNote.innerHTML = `Live CPC for <strong>${campaignName}</strong>: ${usd(realCpc)} · CTR ${ (w.ctr||0).toFixed(2) }%`;
     const budgetNote = document.getElementById('budgetNote');
-    if (budgetNote) budgetNote.innerHTML = `Gasto real de la campaña: <strong>${usdK(w.spend||0)}</strong> (${(w.clicks||0).toLocaleString()} clics)`;
+    if (budgetNote) budgetNote.innerHTML = `Campaign's live spend: <strong>${usdK(w.spend||0)}</strong> (${(w.clicks||0).toLocaleString()} clicks)`;
 
     // Real-baseline strip
     const panel = document.querySelector('.math-panel');
     if (panel) {
       const strip = document.createElement('div');
       strip.style.cssText = 'margin-bottom:var(--s-6);padding:var(--s-3) var(--s-4);background:var(--success-tint);border-radius:var(--r-md);font-size:var(--text-xs);color:var(--ink-soft);line-height:1.5';
-      strip.innerHTML = `<strong>● Anclado a ${campaignName}:</strong> ${usdK(w.spend||0)} invertidos, ${(w.clicks||0).toLocaleString()} clics, CTR ${(w.ctr||0).toFixed(2)}%. El CPC es real; las tasas de conversión son tu estimación hasta conectar el tracker de citas.`;
+      strip.innerHTML = `<strong>● Anchored to ${campaignName}:</strong> ${usdK(w.spend||0)} spent, ${(w.clicks||0).toLocaleString()} clicks, CTR ${(w.ctr||0).toFixed(2)}%. The CPC is live; conversion rates are your estimate until you connect the booking tracker.`;
       panel.insertBefore(strip, panel.firstChild.nextSibling);
     }
   } else {
@@ -212,7 +212,7 @@
     if (panel) {
       const strip = document.createElement('div');
       strip.style.cssText = 'margin-bottom:var(--s-6);padding:var(--s-3) var(--s-4);background:var(--gold-tint);border-radius:var(--r-md);font-size:var(--text-xs);color:var(--ink-soft);line-height:1.5';
-      strip.innerHTML = 'Meta no conectado — usando estimaciones genéricas. Conecta la cuenta para anclar al CPC real.';
+      strip.innerHTML = 'Meta not connected — using generic estimates. Connect the account to anchor to the live CPC.';
       panel.insertBefore(strip, panel.firstChild.nextSibling);
     }
   }
@@ -252,9 +252,9 @@
 
     // outputs (reusing existing ids; relabel to the new model)
     document.getElementById('oQualified').textContent    = Math.round(leads);
-    document.getElementById('oQualifiedSub').textContent = Math.round(clicks).toLocaleString() + ' clics × ' + (clickLead*100).toFixed(0) + '%';
+    document.getElementById('oQualifiedSub').textContent = Math.round(clicks).toLocaleString() + ' clicks × ' + (clickLead*100).toFixed(0) + '%';
     document.getElementById('oClients').innerHTML        = '<em>' + Math.round(clients) + '</em>';
-    document.getElementById('oClientsSub').textContent   = (close*100).toFixed(0) + '% de cierre';
+    document.getElementById('oClientsSub').textContent   = (close*100).toFixed(0) + '% close rate';
     document.getElementById('oRevenue').textContent      = usdK(revenue);
     document.getElementById('oRoas').innerHTML           = '<em>' + roas.toFixed(1) + '×</em>';
     document.getElementById('oCac').textContent          = usd(cac);
@@ -266,7 +266,7 @@
     document.getElementById('beHeadroom').textContent = headroom.toFixed(1) + '×';
 
     // projection table
-    const horizons = [{label:'30 días', mult:1},{label:'60 días', mult:2},{label:'90 días', mult:3}];
+    const horizons = [{label:'30 days', mult:1},{label:'60 days', mult:2},{label:'90 days', mult:3}];
     document.getElementById('projRows').innerHTML = horizons.map(h => `
       <tr>
         <td><strong style="font-weight:500">${h.label}</strong></td>

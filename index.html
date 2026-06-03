@@ -128,15 +128,15 @@
     const M = await window.loadMetaLive();
     const elSnap = document.getElementById('adsSnapshot');
     if (!M) {
-      elSnap.innerHTML = `<div style="grid-column:1/-1;color:rgba(255,255,255,0.7);font-size:var(--text-sm)">Meta Ads no conectado. <a href="ads-performance.html" style="color:var(--gold-soft)">Conectar →</a></div>`;
+      elSnap.innerHTML = `<div style="grid-column:1/-1;color:rgba(255,255,255,0.7);font-size:var(--text-sm)">Meta Ads not connected. <a href="ads-performance.html" style="color:var(--gold-soft)">Connect →</a></div>`;
       return;
     }
     const w = (M.windows.last_30d && M.windows.last_30d.hasData) ? M.windows.last_30d : M.windows.maximum;
     const isHist = !(M.windows.last_30d && M.windows.last_30d.hasData);
     const snap = [
-      { label: "Inversión" + (isHist ? " · histórico" : " · 30d"), value: F.usdK(w.spend) },
-      { label: "Impresiones",  value: F.compact(w.impressions) },
-      { label: "Clics",        value: F.compact(w.clicks) },
+      { label: "Spend" + (isHist ? " · all-time" : " · 30d"), value: F.usdK(w.spend) },
+      { label: "Impressions",  value: F.compact(w.impressions) },
+      { label: "Clicks",       value: F.compact(w.clicks) },
       { label: "CPC",          value: F.usd(w.cpc) },
       { label: "CTR",          value: F.pct(w.ctr), gold: true }
     ];

@@ -18,10 +18,10 @@
   <div class="page-header reveal">
     <div>
       <div class="page-header__num">— TARGETING · AUDIENCES</div>
-      <h1 class="page-header__title">A quién le <em>hablan</em> tus anuncios.</h1>
+      <h1 class="page-header__title">Who your ads actually <em>reach.</em></h1>
       <p class="page-header__sub">
-        Dónde se va tu inversión y qué segmentos responden mejor (CTR real de Meta).
-        Úsalo para afinar el targeting y armar audiencias de retargeting y lookalikes.
+        Where your spend goes and which segments respond best (live CTR from Meta).
+        Use it to sharpen targeting and build retargeting and lookalike audiences.
       </p>
     </div>
     <button class="btn btn--gold" onclick="window.openMetaConnect && window.openMetaConnect()">Connect Meta Ads</button>
@@ -31,14 +31,14 @@
   <div style="display:grid;grid-template-columns: 1fr 1fr;gap:var(--s-6)">
     <section class="card reveal reveal-1">
       <header class="card__header">
-        <div><div class="eyebrow-num">— 01 / EDAD</div><h2 class="card__title mt-2">Inversión y CTR por edad</h2></div>
+        <div><div class="eyebrow-num">— 01 / AGE</div><h2 class="card__title mt-2">Spend and CTR by age</h2></div>
       </header>
       <div class="card__body" id="ageBreakdown"></div>
     </section>
 
     <section class="card reveal reveal-2">
       <header class="card__header">
-        <div><div class="eyebrow-num">— 02 / PLATAFORMA</div><h2 class="card__title mt-2">Rendimiento por placement</h2></div>
+        <div><div class="eyebrow-num">— 02 / PLATFORM</div><h2 class="card__title mt-2">Performance by placement</h2></div>
       </header>
       <div class="card__body" id="placementBreakdown"></div>
     </section>
@@ -47,14 +47,14 @@
   <div style="display:grid;grid-template-columns: 1fr 1fr;gap:var(--s-6);margin-top:var(--s-6)">
     <section class="card reveal reveal-2">
       <header class="card__header">
-        <div><div class="eyebrow-num">— 03 / PAÍS</div><h2 class="card__title mt-2">Inversión por mercado</h2></div>
+        <div><div class="eyebrow-num">— 03 / COUNTRY</div><h2 class="card__title mt-2">Spend by market</h2></div>
       </header>
       <div class="card__body" id="countryBreakdown"></div>
     </section>
 
     <section class="card reveal reveal-3">
       <header class="card__header">
-        <div><div class="eyebrow-num">— 04 / GÉNERO</div><h2 class="card__title mt-2">Reparto</h2></div>
+        <div><div class="eyebrow-num">— 04 / GENDER</div><h2 class="card__title mt-2">Split</h2></div>
       </header>
       <div class="card__body" id="genderBreakdown"></div>
     </section>
@@ -85,15 +85,15 @@
       if (el) window.renderNotConnected(el);
     });
     const btn = document.querySelector('.page-header .btn');
-    if (btn) { btn.textContent = '● Conectado'; btn.className = 'tag tag--success'; }
+    if (btn) { btn.textContent = '● Connected'; btn.className = 'tag tag--success'; }
     return;
   }
 
   // header button → connected
   const hb = document.querySelector('.page-header .btn');
-  if (hb) hb.outerHTML = `<span class="tag tag--success" style="padding:8px 14px">● ${M.account.name} · en vivo</span>`;
+  if (hb) hb.outerHTML = `<span class="tag tag--success" style="padding:8px 14px">● ${M.account.name} · live</span>`;
 
-  const COUNTRY_NAMES = { MX: 'México', US: 'Estados Unidos', GB: 'Reino Unido', AE: 'UAE', ES: 'España', CH: 'Suiza', CA: 'Canadá', AR: 'Argentina', CO: 'Colombia' };
+  const COUNTRY_NAMES = { MX: 'Mexico', US: 'United States', GB: 'United Kingdom', AE: 'UAE', ES: 'Spain', CH: 'Switzerland', CA: 'Canada', AR: 'Argentina', CO: 'Colombia' };
   const cap = (s) => s.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
   const note = (txt) => `<div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">${txt}</div>`;
 
@@ -113,20 +113,20 @@
   const bestAgeCtr = age.slice().sort((a, b) => b.ctr - a.ctr)[0];
   document.getElementById('ageBreakdown').innerHTML =
     bars(age, r => r.spend, r => r.key, r => `${F.usdK(r.spend)} · ${F.pct(r.ctr)}`, bestAgeCtr ? bestAgeCtr.key : null)
-    + note(`Barra = inversión · oro = mejor CTR (${bestAgeCtr ? bestAgeCtr.key + ', ' + F.pct(bestAgeCtr.ctr) : '—'})`);
+    + note(`Bar = spend · gold = best CTR (${bestAgeCtr ? bestAgeCtr.key + ', ' + F.pct(bestAgeCtr.ctr) : '—'})`);
 
   // ── Placement: bars by spend, value CTR ──
   const pl = (M.breakdowns.placement || []).filter(p => p.spend > 0).sort((a, b) => b.spend - a.spend);
   const bestPlCtr = pl.slice().sort((a, b) => b.ctr - a.ctr)[0];
   document.getElementById('placementBreakdown').innerHTML =
     bars(pl, r => r.spend, r => cap(r.key), r => `${F.usdK(r.spend)} · ${F.pct(r.ctr)}`, bestPlCtr ? cap(bestPlCtr.key) : null)
-    + note(`${bestPlCtr ? cap(bestPlCtr.key) + ' tiene el mejor CTR (' + F.pct(bestPlCtr.ctr) + ')' : ''}`);
+    + note(`${bestPlCtr ? cap(bestPlCtr.key) + ' has the best CTR (' + F.pct(bestPlCtr.ctr) + ')' : ''}`);
 
   // ── Country: bars by spend ──
   const co = (M.breakdowns.country || []).slice().sort((a, b) => b.spend - a.spend);
   document.getElementById('countryBreakdown').innerHTML =
     bars(co, r => r.spend, r => COUNTRY_NAMES[r.key] || r.key, r => `${F.usdK(r.spend)} · ${F.pct(r.ctr)}`, co[0] ? (COUNTRY_NAMES[co[0].key] || co[0].key) : null)
-    + note('Inversión por país · oro = mayor gasto');
+    + note('Spend by country · gold = highest spend');
 
   // ── Gender: stacked bar by spend ──
   const gn = (M.breakdowns.gender || []).slice().sort((a, b) => b.spend - a.spend);
@@ -142,32 +142,32 @@
         <span class="text-sm" style="flex:1;text-transform:capitalize">${g.key}</span>
         <span class="mono text-xs text-quiet">${F.usdK(g.spend)} · CTR ${F.pct(g.ctr)}</span>
       </div>`).join('')}
-    ${note('Reparto de inversión por género · valor = gasto y CTR')}
+    ${note('Spend split by gender · value = spend and CTR')}
   `;
 
   // ── Audiences: real, actionable retargeting/lookalike suggestions ──
   // Meta no expone tamaños de custom audiences vía este token sin más permisos,
   // así que mostramos las audiencias RECOMENDADAS a crear, basadas en su data real.
   const audiences = [
-    { name: 'Lookalike 1% · compradores', type: 'lookalike', basis: `Basado en quienes ya compraron (objetivo ${'OUTCOME_SALES'})`, potential: 'high' },
-    { name: 'Retargeting · clic sin compra (30d)', type: 'retargeting', basis: `${F.compact(M.windows.maximum.clicks)} clics históricos sin conversión registrada`, potential: 'high' },
-    { name: `Lookalike · ${bestAgeCtr ? bestAgeCtr.key : '55+'} alto CTR`, type: 'lookalike', basis: `El segmento de mejor CTR (${bestAgeCtr ? F.pct(bestAgeCtr.ctr) : '—'})`, potential: 'medium' },
-    { name: `Mujeres ${age[0] ? age[0].key : ''} · placement ganador`, type: 'targeting', basis: `Mujeres convierten mejor + ${bestPlCtr ? cap(bestPlCtr.key) : 'IG'}`, potential: 'medium' },
+    { name: 'Lookalike 1% · buyers', type: 'lookalike', basis: `Based on people who already bought (objective ${'OUTCOME_SALES'})`, potential: 'high' },
+    { name: 'Retargeting · clicked, no purchase (30d)', type: 'retargeting', basis: `${F.compact(M.windows.maximum.clicks)} all-time clicks with no recorded conversion`, potential: 'high' },
+    { name: `Lookalike · ${bestAgeCtr ? bestAgeCtr.key : '55+'} high CTR`, type: 'lookalike', basis: `The best-CTR segment (${bestAgeCtr ? F.pct(bestAgeCtr.ctr) : '—'})`, potential: 'medium' },
+    { name: `Women ${age[0] ? age[0].key : ''} · winning placement`, type: 'targeting', basis: `Women convert better + ${bestPlCtr ? cap(bestPlCtr.key) : 'IG'}`, potential: 'medium' },
   ];
   document.getElementById('audiences').innerHTML = audiences.map(a => `
     <div class="aud-card">
       <div>
         <div class="aud-card__name">${a.name}</div>
-        <div class="aud-card__size">Sugerida por Caliber</div>
+        <div class="aud-card__size">Suggested by Caliber</div>
       </div>
       <div class="flex gap-2 items-center">
         <span class="tag ${a.type === 'lookalike' ? 'tag--gold' : a.type === 'retargeting' ? 'tag--info' : 'tag--ghost'}">${a.type}</span>
         <span class="tag ${a.potential === 'high' ? 'tag--success' : 'tag--ghost'}">${a.potential}</span>
       </div>
-      <div class="aud-card__suggested">Por qué: <strong>${a.basis}</strong></div>
+      <div class="aud-card__suggested">Why: <strong>${a.basis}</strong></div>
     </div>`).join('') + `
     <div class="aud-card" style="grid-column:1/-1;opacity:0.7">
-      <div class="aud-card__suggested" style="border:none;padding:0">Los tamaños exactos de audiencia y el armado en 1 clic se habilitan al ampliar permisos de la app (Custom Audiences). Estas recomendaciones salen de tu data real.</div>
+      <div class="aud-card__suggested" style="border:none;padding:0">Exact audience sizes and one-click building unlock once the app's permissions are expanded (Custom Audiences). These recommendations come from your live data.</div>
     </div>`;
 })();
 </script>

@@ -61,7 +61,7 @@
       <header class="card__header">
         <div>
           <div class="eyebrow-num">— 02 / BY PLATFORM</div>
-          <h2 class="card__title mt-2">Inversión por plataforma</h2>
+          <h2 class="card__title mt-2">Spend by platform</h2>
         </div>
       </header>
       <div class="card__body">
@@ -135,22 +135,22 @@
     cb.style.borderColor = 'rgba(74,93,63,0.3)';
     cb.querySelector('.conn-banner__dot').style.background = 'var(--success)';
     cb.querySelector('.conn-banner__text').innerHTML =
-      `<strong>Conectado a ${M.account.name}.</strong> Datos reales de Meta · última sincronización ${M.account.syncedAt || '—'} · se actualiza cada 6 h.`;
+      `<strong>Connected to ${M.account.name}.</strong> Live Meta data · last sync ${M.account.syncedAt || '—'} · refreshes every 6 h.`;
     cb.querySelector('.conn-banner__cta').outerHTML =
-      `<span class="conn-banner__cta tag tag--success">● En vivo</span>`;
+      `<span class="conn-banner__cta tag tag--success">● Live</span>`;
   }
 
   // Pick window (30d if it has data, else full history)
   const sel = window.pickWindow(M);
   let win = sel.win;
-  const histNote = sel.isHistoric ? ' · histórico (sin campañas activas)' : ' · últimos 30 días';
+  const histNote = sel.isHistoric ? ' · all-time (no active campaigns)' : ' · last 30 days';
 
   // ── KPIs (only metrics Meta actually provides) ──
   function renderKpis(w, label) {
     const kpis = [
-      { label: `Inversión${label}`, value: F.usdK(w.spend),     sub: w.from ? `${w.from} → ${w.to}` : 'sin datos' },
-      { label: 'Impresiones',        value: F.compact(w.impressions), sub: F.compact(w.reach) + ' personas' },
-      { label: 'Clics',              value: F.compact(w.clicks),  sub: 'CPC ' + F.usd(w.cpc) },
+      { label: `Spend${label}`,      value: F.usdK(w.spend),     sub: w.from ? `${w.from} → ${w.to}` : 'no data' },
+      { label: 'Impressions',        value: F.compact(w.impressions), sub: F.compact(w.reach) + ' people' },
+      { label: 'Clicks',             value: F.compact(w.clicks),  sub: 'CPC ' + F.usd(w.cpc) },
       { label: 'CTR',                value: F.pct(w.ctr),         sub: 'CPM ' + F.usd(w.cpm) }
     ];
     document.getElementById('adsKpis').innerHTML = kpis.map(k => `
@@ -165,16 +165,16 @@
   // ── Funnel: real (impressions→clicks) + tracker-pending stages ──
   function renderFunnel(w) {
     const realRows = [
-      { label: 'Impresiones', value: w.impressions, cost: 'CPM ' + F.usd(w.cpm), color: '#0866FF', meta: true },
-      { label: 'Clics al enlace', value: w.clicks, cost: F.usd(w.cpc) + ' / clic', color: '#B8915A', meta: true },
+      { label: 'Impressions', value: w.impressions, cost: 'CPM ' + F.usd(w.cpm), color: '#0866FF', meta: true },
+      { label: 'Link clicks', value: w.clicks, cost: F.usd(w.cpc) + ' / click', color: '#B8915A', meta: true },
     ];
-    const pending = ['Conversaciones (DM)', 'Llamadas agendadas', 'Leads calificados', 'Clientes cerrados'];
+    const pending = ['Conversations (DM)', 'Calls booked', 'Qualified leads', 'Clients closed'];
     const maxVal = Math.max(realRows[0].value, 1);
     let html = realRows.map((f, i) => {
       const widthPct = Math.max(10, (f.value / maxVal) * 100);
       const conv = i > 0 ? ((f.value / realRows[i - 1].value) * 100).toFixed(1) : null;
       return `
-        ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continúan</div>` : ''}
+        ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continue</div>` : ''}
         <div class="funnel-row">
           <div class="funnel-row__label">
             <div class="funnel-row__stage">${f.label}
@@ -187,23 +187,23 @@
           </div>
           <div class="funnel-row__cost">
             <div class="funnel-row__cost-val">${f.cost.split(' ')[0] === 'CPM' ? F.usd(w.cpm) : F.usd(w.cpc)}</div>
-            <div class="funnel-row__cost-lbl">${f.cost.includes('CPM') ? 'CPM' : 'por clic'}</div>
+            <div class="funnel-row__cost-lbl">${f.cost.includes('CPM') ? 'CPM' : 'per click'}</div>
           </div>
         </div>`;
     }).join('');
-    html += `<div style="margin:var(--s-4) 0 var(--s-3);padding-top:var(--s-3);border-top:1px dashed var(--line-strong);font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-quiet)">— de aquí abajo requiere el tracker de conversiones —</div>`;
+    html += `<div style="margin:var(--s-4) 0 var(--s-3);padding-top:var(--s-3);border-top:1px dashed var(--line-strong);font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-quiet)">— everything below needs the conversion tracker —</div>`;
     html += pending.map(label => `
       <div class="funnel-row" style="opacity:0.5">
         <div class="funnel-row__label">
           <div class="funnel-row__stage">${label}
-            <span class="funnel-meta-tag funnel-meta-tag--calc">pendiente</span>
+            <span class="funnel-meta-tag funnel-meta-tag--calc">pending</span>
           </div>
           <div class="funnel-row__count">—</div>
         </div>
         <div class="funnel-row__bar-wrap">
           <div class="funnel-row__bar" style="width:14%;background:var(--surface-3);color:var(--ink-quiet)">—</div>
         </div>
-        <div class="funnel-row__cost"><div class="funnel-row__cost-val">—</div><div class="funnel-row__cost-lbl">por conectar</div></div>
+        <div class="funnel-row__cost"><div class="funnel-row__cost-val">—</div><div class="funnel-row__cost-lbl">to connect</div></div>
       </div>`).join('');
     document.getElementById('funnel').innerHTML = html;
   }
@@ -212,14 +212,14 @@
   // ── Window selector (wire the header chips) ──
   const chips = document.querySelectorAll('.page-header .filter-chip');
   const map = [
-    { el: chips[0], key: 'maximum',  label: ' · histórico' },
-    { el: chips[1], key: 'last_30d', label: ' · últimos 30 días' },
-    { el: chips[2], key: 'last_7d',  label: ' · últimos 7 días' }
+    { el: chips[0], key: 'maximum',  label: ' · all-time' },
+    { el: chips[1], key: 'last_30d', label: ' · last 30 days' },
+    { el: chips[2], key: 'last_7d',  label: ' · last 7 days' }
   ];
   // relabel chips
-  if (chips[0]) chips[0].textContent = 'Histórico';
-  if (chips[1]) chips[1].textContent = '30 días';
-  if (chips[2]) chips[2].textContent = '7 días';
+  if (chips[0]) chips[0].textContent = 'All-time';
+  if (chips[1]) chips[1].textContent = '30 days';
+  if (chips[2]) chips[2].textContent = '7 days';
   // set active to the picked window
   chips.forEach(c => c.classList.remove('filter-chip--active'));
   (map.find(m => m.key === sel.key) || map[0]).el.classList.add('filter-chip--active');
@@ -243,13 +243,13 @@
           <div class="bd-row__val">${F.usdK(p.spend)} · ${F.pct(p.ctr)}</div>
         </div>`).join('')}
     </div>
-    <div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">Inversión histórica por plataforma · oro = mayor gasto</div>
+    <div class="mono text-xs text-quiet mt-4" style="padding-top:var(--s-3);border-top:1px solid var(--line)">All-time spend by platform · gold = highest spend</div>
   `;
 
   // ── Campaign table (real data) ──
   const statusTag = (s) => s === 'ACTIVE'
-    ? '<span class="tag tag--success">Activa</span>'
-    : '<span class="tag tag--ghost">Pausada</span>';
+    ? '<span class="tag tag--success">Active</span>'
+    : '<span class="tag tag--ghost">Paused</span>';
   const cls = (val, good, warn, lowerBetter = true) => {
     if (val == null) return '';
     if (lowerBetter) return val <= good ? 'metric--good' : val <= warn ? '' : 'metric--bad';
@@ -272,11 +272,11 @@
       <td class="metric text-quiet">—</td>
       <td class="metric text-quiet">—</td>
       <td class="metric text-quiet">—</td>
-      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Detalle por campaña — próximamente')">Ver</button></td>
+      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Per-campaign detail — coming soon')">View</button></td>
     </tr>
   `).join('') + `
     <tr><td colspan="10" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">
-      Costo/calificado, CAC y ROAS se calculan al conectar el tracker de conversiones (Calendly/Stripe). Lo demás es data real de Meta.
+      Cost/qualified, CAC and ROAS are calculated once you connect the conversion tracker (Calendly/Stripe). Everything else is live Meta data.
     </td></tr>`;
 
   // ── Insights generated from REAL data ──
@@ -285,25 +285,25 @@
   // 1. No active campaigns
   const active = camps.filter(c => c.status === 'ACTIVE').length;
   if (active === 0) {
-    ins.push({ tone: 'warn', title: 'No hay campañas activas', icon: 'sparkles',
-      body: `Las ${camps.length} campañas están pausadas. El histórico suma ${F.usdK(M.windows.maximum.spend)} invertidos. Al reactivar, aplica los aprendizajes de abajo.`,
-      action: 'Planear nueva campaña' });
+    ins.push({ tone: 'warn', title: 'No active campaigns', icon: 'sparkles',
+      body: `All ${camps.length} campaigns are paused. All-time spend totals ${F.usdK(M.windows.maximum.spend)}. When you relaunch, apply the learnings below.`,
+      action: 'Plan a new campaign' });
   }
   // 2. Best placement by CTR
   if (bd.placement && bd.placement.length) {
     const best = bd.placement.filter(p => p.impressions > 1000).sort((a, b) => b.ctr - a.ctr)[0];
-    if (best) ins.push({ tone: 'good', title: `${best.key.replace('_',' ')} lidera en CTR`, icon: 'arrowUp',
-      body: `CTR de ${F.pct(best.ctr)} en ${best.key.replace('_',' ')} — ${best.ctr > 5 ? 'muy por encima' : 'arriba'} del resto. Vale la pena destinarle más presupuesto en la próxima campaña.`,
-      action: 'Priorizar este placement' });
+    if (best) ins.push({ tone: 'good', title: `${best.key.replace('_',' ')} leads on CTR`, icon: 'arrowUp',
+      body: `CTR of ${F.pct(best.ctr)} on ${best.key.replace('_',' ')} — ${best.ctr > 5 ? 'well above' : 'above'} the rest. Worth allocating more budget here in the next campaign.`,
+      action: 'Prioritize this placement' });
   }
   // 3. Age insight
   if (bd.age && bd.age.length) {
     const byCtr = bd.age.slice().sort((a, b) => b.ctr - a.ctr);
     const bySpend = bd.age.slice().sort((a, b) => b.spend - a.spend);
     if (byCtr[0].key !== bySpend[0].key) {
-      ins.push({ tone: 'bad', title: `El gasto y el rendimiento no coinciden por edad`, icon: 'arrowDown',
-        body: `El grupo ${bySpend[0].key} recibe el mayor gasto, pero ${byCtr[0].key} tiene el mejor CTR (${F.pct(byCtr[0].ctr)}). Estás sobre-invirtiendo en el segmento equivocado.`,
-        action: 'Reajustar edades' });
+      ins.push({ tone: 'bad', title: `Spend and performance don't match by age`, icon: 'arrowDown',
+        body: `The ${bySpend[0].key} group gets the most spend, but ${byCtr[0].key} has the best CTR (${F.pct(byCtr[0].ctr)}). You're over-investing in the wrong segment.`,
+        action: 'Rebalance ages' });
     }
   }
   // 4. Gender insight
@@ -311,9 +311,9 @@
     const m = bd.gender.find(g => g.key === 'male'), f = bd.gender.find(g => g.key === 'female');
     if (m && f && f.ctr > m.ctr) {
       const fShare = (f.spend / (m.spend + f.spend) * 100).toFixed(0);
-      ins.push({ tone: 'warn', title: 'Las mujeres convierten mejor pero reciben menos', icon: 'sparkles',
-        body: `CTR mujeres ${F.pct(f.ctr)} vs hombres ${F.pct(m.ctr)}, pero ellas solo reciben ${fShare}% del gasto. Hay margen para rebalancear.`,
-        action: 'Subir presupuesto a mujeres' });
+      ins.push({ tone: 'warn', title: 'Women convert better but get less spend', icon: 'sparkles',
+        body: `Women's CTR ${F.pct(f.ctr)} vs men's ${F.pct(m.ctr)}, yet they only receive ${fShare}% of spend. There's room to rebalance.`,
+        action: 'Increase budget to women' });
     }
   }
   const iconFor = { good: 'arrowUp', bad: 'arrowDown', warn: 'sparkles' };
@@ -324,7 +324,7 @@
         <span class="insight__title">${i.title}</span>
       </div>
       <div class="insight__body">${i.body}</div>
-      <button class="insight__action" onclick="calToast('Acción sugerida — se ejecuta en Meta Ads Manager')">${i.action} →</button>
+      <button class="insight__action" onclick="calToast('Suggested action — runs in Meta Ads Manager')">${i.action} →</button>
     </div>`).join('');
 })();
 </script>

@@ -258,29 +258,29 @@
               </div>
             </div>
             <p class="text-sm text-mute" style="line-height:1.55;margin:0">
-              Caliber se conecta a tu cuenta publicitaria de Meta para leer Insights en vivo
-              (impresiones, clicks, gasto, conversiones) y calcular el costo real por lead
-              calificado y por cliente. Lectura cada 15 min.
+              Caliber connects to your Meta ad account to read live Insights
+              (impressions, clicks, spend, conversions) and calculate the real cost per
+              qualified lead and per client. Reads every 15 min.
             </p>
           </div>
           <div style="padding:var(--s-6) var(--s-8)">
-            <div class="mono text-xs text-quiet mb-4" style="letter-spacing:0.14em;text-transform:uppercase">Necesitarás</div>
+            <div class="mono text-xs text-quiet mb-4" style="letter-spacing:0.14em;text-transform:uppercase">You'll need</div>
             <div style="display:flex;flex-direction:column;gap:var(--s-3)">
-              ${['Business Manager (ya lo tienes)', 'Ad Account ID — act_XXXXXXXX', 'System User Token · scope ads_read', 'No requiere App Review para tus propios assets'].map(t => `
+              ${['Business Manager (you already have it)', 'Ad Account ID — act_XXXXXXXX', 'System User Token · scope ads_read', 'No App Review required for your own assets'].map(t => `
                 <div style="display:flex;gap:var(--s-3);align-items:flex-start;font-size:var(--text-sm)">
                   <span style="color:var(--success);flex-shrink:0;margin-top:2px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
                   <span>${t}</span>
                 </div>`).join('')}
             </div>
             <div style="margin-top:var(--s-6);padding:var(--s-4);background:var(--gold-tint);border-radius:var(--r-md);font-size:var(--text-sm);line-height:1.5;color:var(--ink)">
-              Estás viendo Caliber con <strong>datos de demostración</strong>. Al conectar tu cuenta,
-              cada número se reemplaza por tu data real sin cambiar nada del tablero.
+              You're viewing Caliber with <strong>demo data</strong>. Once you connect your account,
+              every number is replaced with your live data without changing anything in the dashboard.
             </div>
           </div>
           <div style="padding:var(--s-5) var(--s-8);border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:var(--s-3)">
-            <button class="btn btn--ghost" onclick="document.getElementById('cmdk-mount').innerHTML=''">Ahora no</button>
-            <button class="btn btn--primary" onclick="document.getElementById('cmdk-mount').innerHTML='';calToast('Conexión Meta — disponible en la fase de implementación')">
-              ${icon('plug', 14)} Conectar cuenta
+            <button class="btn btn--ghost" onclick="document.getElementById('cmdk-mount').innerHTML=''">Not now</button>
+            <button class="btn btn--primary" onclick="document.getElementById('cmdk-mount').innerHTML='';calToast('Meta connection — available in the implementation phase')">
+              ${icon('plug', 14)} Connect account
             </button>
           </div>
         </div>
@@ -327,9 +327,9 @@
     el.innerHTML = `
       <div class="empty" style="border:1px dashed var(--line-strong);border-radius:var(--r-lg)">
         <div class="empty__icon">${icon('plug', 22)}</div>
-        <div class="empty__title">${opts.title || 'Meta Ads no conectado'}</div>
-        <div class="empty__sub">${opts.sub || 'Conecta la cuenta de Meta para ver datos reales aquí. El robot sincroniza cada 6 horas.'}</div>
-        <button class="btn btn--gold mt-3" onclick="window.openMetaConnect && window.openMetaConnect()">Conectar Meta Ads</button>
+        <div class="empty__title">${opts.title || 'Meta Ads not connected'}</div>
+        <div class="empty__sub">${opts.sub || 'Connect your Meta account to see live data here. The robot syncs every 6 hours.'}</div>
+        <button class="btn btn--gold mt-3" onclick="window.openMetaConnect && window.openMetaConnect()">Connect Meta Ads</button>
       </div>`;
   };
 
