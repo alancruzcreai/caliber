@@ -5,44 +5,44 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-04 08:56"
+    "syncedAt": "2026-06-04 14:04"
   },
   "windows": {
     "last_7d": {
-      "spend": 835.32,
-      "impressions": 8727,
+      "spend": 835.42,
+      "impressions": 8728,
       "clicks": 378,
-      "cpm": 95.716741,
-      "cpc": 2.209841,
-      "ctr": 4.331385,
+      "cpm": 95.717232,
+      "cpc": 2.210106,
+      "ctr": 4.330889,
       "reach": 4693,
-      "frequency": 1.859578,
+      "frequency": 1.859791,
       "hasData": true,
       "from": "2026-05-28",
       "to": "2026-06-03"
     },
     "last_30d": {
-      "spend": 835.32,
-      "impressions": 8727,
+      "spend": 835.42,
+      "impressions": 8728,
       "clicks": 378,
-      "cpm": 95.716741,
-      "cpc": 2.209841,
-      "ctr": 4.331385,
+      "cpm": 95.717232,
+      "cpc": 2.210106,
+      "ctr": 4.330889,
       "reach": 4693,
-      "frequency": 1.859578,
+      "frequency": 1.859791,
       "hasData": true,
       "from": "2026-05-05",
       "to": "2026-06-03"
     },
     "maximum": {
-      "spend": 835.32,
-      "impressions": 8727,
+      "spend": 835.42,
+      "impressions": 8728,
       "clicks": 378,
-      "cpm": 95.716741,
-      "cpc": 2.209841,
-      "ctr": 4.331385,
+      "cpm": 95.717232,
+      "cpc": 2.210106,
+      "ctr": 4.330889,
       "reach": 4693,
-      "frequency": 1.859578,
+      "frequency": 1.859791,
       "hasData": true,
       "from": "2026-05-23",
       "to": "2026-06-04"
@@ -55,12 +55,12 @@
       "status": "PAUSED",
       "effective_status": "PAUSED",
       "objective": "OUTCOME_LEADS",
-      "spend": 835.32,
-      "impressions": 8727,
+      "spend": 835.42,
+      "impressions": 8728,
       "clicks": 378,
-      "cpm": 95.716741,
-      "cpc": 2.209841,
-      "ctr": 4.331385,
+      "cpm": 95.717232,
+      "cpc": 2.210106,
+      "ctr": 4.330889,
       "reach": 4693
     }
   ],
@@ -96,10 +96,10 @@
       },
       {
         "key": "55-64",
-        "spend": 62.64,
-        "impressions": 1453,
+        "spend": 62.74,
+        "impressions": 1454,
         "clicks": 60,
-        "ctr": 4.129387
+        "ctr": 4.126547
       },
       {
         "key": "65+",
@@ -112,10 +112,10 @@
     "gender": [
       {
         "key": "female",
-        "spend": 471.23,
-        "impressions": 4684,
+        "spend": 471.33,
+        "impressions": 4685,
         "clicks": 220,
-        "ctr": 4.69684
+        "ctr": 4.695838
       },
       {
         "key": "male",
@@ -135,10 +135,10 @@
     "country": [
       {
         "key": "ES",
-        "spend": 835.32,
-        "impressions": 8727,
+        "spend": 835.42,
+        "impressions": 8728,
         "clicks": 378,
-        "ctr": 4.331385
+        "ctr": 4.330889
       }
     ],
     "placement": [
@@ -151,14 +151,14 @@
       },
       {
         "key": "facebook",
-        "spend": 548.036878,
-        "impressions": 2913,
+        "spend": 548.136878,
+        "impressions": 2914,
         "clicks": 86,
-        "ctr": 2.952283
+        "ctr": 2.95127
       },
       {
         "key": "instagram",
-        "spend": 212.674908,
+        "spend": 212.674909,
         "impressions": 1549,
         "clicks": 25,
         "ctr": 1.613944
