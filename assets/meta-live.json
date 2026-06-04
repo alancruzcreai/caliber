@@ -5,47 +5,47 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-03 21:51"
+    "syncedAt": "2026-06-04 03:54"
   },
   "windows": {
     "last_7d": {
-      "spend": 740.48,
-      "impressions": 8393,
-      "clicks": 367,
-      "cpm": 88.225903,
-      "cpc": 2.017657,
-      "ctr": 4.372692,
-      "reach": 4569,
-      "frequency": 1.836945,
+      "spend": 835.26,
+      "impressions": 8726,
+      "clicks": 378,
+      "cpm": 95.720834,
+      "cpc": 2.209683,
+      "ctr": 4.331882,
+      "reach": 4693,
+      "frequency": 1.859365,
       "hasData": true,
-      "from": "2026-05-27",
-      "to": "2026-06-02"
+      "from": "2026-05-28",
+      "to": "2026-06-03"
     },
     "last_30d": {
-      "spend": 740.48,
-      "impressions": 8393,
-      "clicks": 367,
-      "cpm": 88.225903,
-      "cpc": 2.017657,
-      "ctr": 4.372692,
-      "reach": 4569,
-      "frequency": 1.836945,
+      "spend": 835.26,
+      "impressions": 8726,
+      "clicks": 378,
+      "cpm": 95.720834,
+      "cpc": 2.209683,
+      "ctr": 4.331882,
+      "reach": 4693,
+      "frequency": 1.859365,
       "hasData": true,
-      "from": "2026-05-04",
-      "to": "2026-06-02"
+      "from": "2026-05-05",
+      "to": "2026-06-03"
     },
     "maximum": {
-      "spend": 835.15,
-      "impressions": 8725,
+      "spend": 835.26,
+      "impressions": 8726,
       "clicks": 378,
-      "cpm": 95.719198,
-      "cpc": 2.209392,
-      "ctr": 4.332378,
+      "cpm": 95.720834,
+      "cpc": 2.209683,
+      "ctr": 4.331882,
       "reach": 4693,
-      "frequency": 1.859152,
+      "frequency": 1.859365,
       "hasData": true,
       "from": "2026-05-23",
-      "to": "2026-06-03"
+      "to": "2026-06-04"
     }
   },
   "campaigns": [
@@ -55,12 +55,12 @@
       "status": "PAUSED",
       "effective_status": "PAUSED",
       "objective": "OUTCOME_LEADS",
-      "spend": 835.15,
-      "impressions": 8725,
+      "spend": 835.26,
+      "impressions": 8726,
       "clicks": 378,
-      "cpm": 95.719198,
-      "cpc": 2.209392,
-      "ctr": 4.332378,
+      "cpm": 95.720834,
+      "cpc": 2.209683,
+      "ctr": 4.331882,
       "reach": 4693
     }
   ],
@@ -103,10 +103,10 @@
       },
       {
         "key": "65+",
-        "spend": 554.79,
-        "impressions": 3751,
+        "spend": 554.9,
+        "impressions": 3752,
         "clicks": 200,
-        "ctr": 5.331911
+        "ctr": 5.33049
       }
     ],
     "gender": [
@@ -119,10 +119,10 @@
       },
       {
         "key": "male",
-        "spend": 359.17,
-        "impressions": 3995,
+        "spend": 359.28,
+        "impressions": 3996,
         "clicks": 156,
-        "ctr": 3.904881
+        "ctr": 3.903904
       },
       {
         "key": "unknown",
@@ -135,10 +135,10 @@
     "country": [
       {
         "key": "ES",
-        "spend": 835.15,
-        "impressions": 8725,
+        "spend": 835.26,
+        "impressions": 8726,
         "clicks": 378,
-        "ctr": 4.332378
+        "ctr": 4.331882
       }
     ],
     "placement": [
@@ -151,14 +151,14 @@
       },
       {
         "key": "facebook",
-        "spend": 547.86688,
-        "impressions": 2911,
+        "spend": 547.976879,
+        "impressions": 2912,
         "clicks": 86,
-        "ctr": 2.954311
+        "ctr": 2.953297
       },
       {
         "key": "instagram",
-        "spend": 212.674907,
+        "spend": 212.674908,
         "impressions": 1549,
         "clicks": 25,
         "ctr": 1.613944
