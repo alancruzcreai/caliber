@@ -75,6 +75,21 @@
 
   <section style="display:flex;flex-direction:column" id="funnelStages"></section>
 
+  <!-- To go live · integration blockers (mirrors the client journey) -->
+  <div class="divider-label">
+    <span class="divider-label__text">— To go live · integrations</span>
+    <span class="divider-label__line"></span>
+  </div>
+  <section class="card reveal reveal-6">
+    <div class="card__body">
+      <div class="flex justify-between items-center mb-4" style="flex-wrap:wrap;gap:var(--s-2)">
+        <div class="text-sm text-mute">Everything upstream (creative, ads, funnel logic) is ready. These connect the live data.</div>
+        <span class="tag tag--ghost">4 to wire</span>
+      </div>
+      <div id="goLive" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-3)"></div>
+    </div>
+  </section>
+
   <div style="height:var(--s-16)"></div>
 </main>
 </div>
@@ -139,6 +154,19 @@
       </div>
       ${arrow}`;
   }).join('');
+
+  // To-go-live integration blockers (from the client's journey)
+  const blockers = [
+    { t: "WhatsApp auto-reply + qualification script", n: "GoHighLevel" },
+    { t: "Response SLA (who answers, how fast)", n: "Process" },
+    { t: "GoHighLevel connected (inbound → stages → calendar)", n: "CRM" },
+    { t: "Offline conversions back to Meta (optimize for closes)", n: "Meta Ads" }
+  ];
+  document.getElementById('goLive').innerHTML = blockers.map(b => `
+    <div style="display:flex;gap:var(--s-3);align-items:flex-start;padding:var(--s-3) var(--s-4);border:1px solid var(--line);border-radius:var(--r-md)">
+      <span style="width:16px;height:16px;border:1.5px solid var(--line-strong);border-radius:4px;flex-shrink:0;margin-top:2px"></span>
+      <div><div class="text-sm" style="color:var(--ink)">${b.t}</div><div class="mono text-xs text-quiet" style="margin-top:2px">${b.n}</div></div>
+    </div>`).join('');
 
   // AI daily insight
   (async function () {

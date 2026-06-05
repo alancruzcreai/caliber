@@ -70,9 +70,9 @@
       <div class="math-slider-row">
         <div class="math-slider-row__head">
           <span class="math-slider-row__label">Program ticket</span>
-          <span class="math-slider-row__value" id="vTicket">$7,500</span>
+          <span class="math-slider-row__value" id="vTicket">$2,000</span>
         </div>
-        <input type="range" class="math-slider" id="sTicket" min="3000" max="30000" step="500" value="7500">
+        <input type="range" class="math-slider" id="sTicket" min="1000" max="12000" step="100" value="2000">
       </div>
 
       <button class="btn btn--ghost w-full" onclick="resetMath()" style="margin-top:var(--s-2)">Reset to live data</button>
@@ -183,7 +183,7 @@
   const M = await window.loadMetaLive();
   // Conservative defaults so projections stay credible (editable by the user).
   // budget = a realistic monthly figure to project; CPC comes from real data.
-  let defaults = { budget: 10000, cpc: 2.2, clickLead: 3, close: 20, ticket: 7500 };
+  let defaults = { budget: 10000, cpc: 2.2, clickLead: 3, close: 20, ticket: 2000 };
   let campaignName = 'the connected campaign';
 
   if (M) {

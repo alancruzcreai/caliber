@@ -47,7 +47,7 @@
   <div class="page-header reveal">
     <div>
       <div class="page-header__num">— COMMAND CENTER · UNIT ECONOMICS</div>
-      <h1 class="page-header__title">The math to the <em>first $3,000.</em></h1>
+      <h1 class="page-header__title">The math to the <em>first $2,000.</em></h1>
       <p class="page-header__sub">
         Move the levers and watch the whole funnel recalculate — from CPM to closed revenue.
         The north-star tracker shows exactly what it takes to close one profitable client.
@@ -114,7 +114,7 @@
     { key: 'bookingRate',     label: 'Qualified → booked',       min: 10,  max: 80,    step: 1,   def: UE.bookingRate, fmt: (v)=>v+'%' },
     { key: 'showRate',        label: 'Show-up rate',             min: 30,  max: 95,    step: 1,   def: UE.showRate, fmt: (v)=>v+'%' },
     { key: 'closeRate',       label: 'Close rate',               min: 2,   max: 50,    step: 1,   def: UE.closeRate, fmt: (v)=>v+'%' },
-    { key: 'ticket',          label: 'Program ticket',           min: 1000,max: 12000, step: 250, def: UE.ticket, fmt: usd }
+    { key: 'ticket',          label: 'Program ticket',           min: 1000,max: 12000, step: 100, def: UE.ticket, fmt: usd }
   ];
   const state = {};
   SPECS.forEach(s => state[s.key] = s.def);

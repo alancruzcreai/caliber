@@ -47,7 +47,7 @@
         <button class="filter-chip" data-f="warm">Warm</button>
         <button class="filter-chip" data-f="cold">Cold</button>
       </div>
-      <div class="mono text-xs text-quiet" style="margin-top:var(--s-2)">via ManyChat · WhatsApp + IG DM</div>
+      <div class="mono text-xs text-quiet" style="margin-top:var(--s-2)">via GoHighLevel · WhatsApp + IG DM</div>
     </div>
     <div class="inbox-list__body" id="leadList"></div>
   </aside>
@@ -189,7 +189,7 @@
         : t.temp === 'warm'
         ? `<button class="btn btn--ghost w-full mt-4" onclick="calToast('Kept in nurture')">Keep nurturing</button>`
         : `<button class="btn btn--ghost w-full mt-4" onclick="calToast('Sent free resources, archived')">Send resources & archive</button>`}
-      <div class="mono text-xs text-quiet mt-4" style="text-align:center">// INTEGRATION POINT: ManyChat</div>`;
+      <div class="mono text-xs text-quiet mt-4" style="text-align:center">// INTEGRATION POINT: GoHighLevel (inbound → stages → calendar)</div>`;
   }
 
   renderList();

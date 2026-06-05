@@ -387,8 +387,8 @@ window.CALIBER_DATA = {
   growth: {
     period: "last_30d",
     spend: 1008.00,                 // total ad spend, 30d
-    revenue: 12000.00,              // 4 clients × $3,000
-    target: { ticket: 3000, clientsGoal: 1, clientsClosed: 4 },
+    revenue: 8000.00,               // 4 clients × $2,000
+    target: { ticket: 2000, clientsGoal: 1, clientsClosed: 4 },
 
     funnel: [
       { stage: 0, key: "cold",        label: "Cold audience",   what: "Travelers, yacht crew, high-performing remotes",
@@ -415,7 +415,7 @@ window.CALIBER_DATA = {
     // Unit-economics assumptions (editable in the calculator)
     unitEcon: {
       cpm: 7.10, ctr: 1.5, clickToConvo: 13.6, convoToQualified: 33.1,
-      bookingRate: 32, showRate: 71, closeRate: 18, ticket: 3000
+      bookingRate: 32, showRate: 71, closeRate: 18, ticket: 2000
     },
 
     // Audience segments + pains (feed the creative-brief agent)
@@ -427,7 +427,7 @@ window.CALIBER_DATA = {
     ]
   },
 
-  // ~Lead inbox (WhatsApp/IG DM via ManyChat) — mock threads
+  // ~Lead inbox (WhatsApp/IG DM via GoHighLevel) — mock threads
   // status: hot | warm | cold · score 0-100 · axes 0-100 each
   inbox: [
     { id:"l01", name:"Marco Petrov", handle:"@marco_jet", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"hot", score:87,
