@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-04 21:36"
+    "syncedAt": "2026-06-05 03:44"
   },
   "windows": {
     "last_7d": {
@@ -18,8 +18,8 @@
       "reach": 4693,
       "frequency": 1.860004,
       "hasData": true,
-      "from": "2026-05-28",
-      "to": "2026-06-03"
+      "from": "2026-05-29",
+      "to": "2026-06-04"
     },
     "last_30d": {
       "spend": 835.47,
@@ -31,8 +31,8 @@
       "reach": 4693,
       "frequency": 1.860004,
       "hasData": true,
-      "from": "2026-05-05",
-      "to": "2026-06-03"
+      "from": "2026-05-06",
+      "to": "2026-06-04"
     },
     "maximum": {
       "spend": 835.47,
@@ -45,7 +45,7 @@
       "frequency": 1.860004,
       "hasData": true,
       "from": "2026-05-23",
-      "to": "2026-06-04"
+      "to": "2026-06-05"
     }
   },
   "campaigns": [
