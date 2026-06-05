@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="unit|Unit Economics" />
+<title>Caliber · Unit Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .ue-grid { display: grid; grid-template-columns: 380px 1fr; gap: var(--s-6); align-items: start; }
+  /* North-star card */
+  .northstar {
+    background: var(--ink); color: var(--surface); border-radius: var(--r-lg);
+    padding: var(--s-8); position: relative; overflow: hidden; margin-bottom: var(--s-6);
+  }
+  .northstar::before { content:""; position:absolute; top:-70px; right:-40px; width:280px; height:280px; background:radial-gradient(circle, rgba(184,145,90,0.3), transparent 70%); }
+  .northstar__eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-soft); margin-bottom: var(--s-3); position: relative; }
+  .northstar__line { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; position: relative; }
+  .northstar__line b { color: var(--gold-soft); font-weight: 500; }
+  .northstar__stats { display: flex; gap: var(--s-8); margin-top: var(--s-6); padding-top: var(--s-5); border-top: 1px solid rgba(255,255,255,0.12); position: relative; flex-wrap: wrap; }
+  .northstar__stat-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .northstar__stat-val { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 500; margin-top: 4px; }
+  /* funnel flow chips */
+  .ue-flow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin-top: var(--s-4); }
+  .ue-node { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s-3) var(--s-4); min-width: 92px; }
+  .ue-node__label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-quiet); }
+  .ue-node__val { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 500; letter-spacing: -0.01em; margin-top: 2px; }
+  .ue-node--rev { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .ue-node--rev .ue-node__label { color: rgba(255,255,255,0.5); }
+  .ue-arrow { color: var(--ink-faint); font-family: var(--font-mono); font-size: 12px; }
+  .profit-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--s-4); margin-top: var(--s-6); }
+  .profit-tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s-5); text-align: center; }
+  .profit-tile__label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-quiet); margin-bottom: var(--s-2); }
+  .profit-tile__val { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 400; letter-spacing: -0.02em; }
+  @media (max-width: 980px) { .ue-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .profit-strip { grid-template-columns: 1fr; } .northstar { padding: var(--s-6); } .northstar__line { font-size: var(--text-xl); } }
+</style>
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— COMMAND CENTER · UNIT ECONOMICS</div>
+      <h1 class="page-header__title">The math to the <em>first $3,000.</em></h1>
+      <p class="page-header__sub">
+        Move the levers and watch the whole funnel recalculate — from CPM to closed revenue.
+        The north-star tracker shows exactly what it takes to close one profitable client.
+      </p>
+    </div>
+  </div>
+
+  <div class="ue-grid reveal reveal-1">
+
+    <!-- INPUTS -->
+    <div class="math-panel">
+      <div class="eyebrow mb-6">— Funnel assumptions</div>
+      <div id="ueSliders"></div>
+      <button class="btn btn--ghost w-full" onclick="resetUE()" style="margin-top:var(--s-2)">Reset to current</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div>
+      <!-- North star -->
+      <div class="northstar">
+        <div class="northstar__eyebrow">— North star · prove it works</div>
+        <div class="northstar__line" id="nsLine">…</div>
+        <div class="northstar__stats" id="nsStats"></div>
+      </div>
+
+      <!-- Live funnel flow -->
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Live funnel · from spend</h2><span class="tag tag--ghost" id="ueSpendTag"></span></div>
+        <div class="card__body">
+          <div class="ue-flow" id="ueFlow"></div>
+        </div>
+      </div>
+
+      <!-- Profit tiles -->
+      <div class="profit-strip" id="ueProfit"></div>
+
+      <!-- AI simulator -->
+      <div class="card" style="margin-top:var(--s-6)">
+        <div class="card__header"><h2 class="card__title">What to move · AI</h2><span class="tag tag--gold">simulator</span></div>
+        <div class="card__body" id="ueSim">…</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/ai.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const UE = window.CALIBER_DATA.growth.unitEcon;
+  const usd  = (n) => '$' + Math.round(n).toLocaleString('en-US');
+  const usdK = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
+  const compact = (n) => n >= 1000 ? (n/1000).toFixed(n>=10000?0:1)+'K' : String(Math.round(n));
+
+  const SPECS = [
+    { key: 'spend',           label: 'Monthly ad spend',        min: 500, max: 20000, step: 100, def: 1008, fmt: usd },
+    { key: 'cpm',             label: 'CPM',                      min: 3,   max: 20,    step: 0.1, def: UE.cpm, fmt: (v)=>'$'+v.toFixed(2) },
+    { key: 'ctr',             label: 'CTR',                      min: 0.5, max: 4,     step: 0.1, def: UE.ctr, fmt: (v)=>v.toFixed(1)+'%' },
+    { key: 'clickToConvo',    label: 'Click → WhatsApp',         min: 5,   max: 40,    step: 1,   def: UE.clickToConvo, fmt: (v)=>v+'%' },
+    { key: 'convoToQualified',label: 'Conversation → qualified', min: 10,  max: 70,    step: 1,   def: UE.convoToQualified, fmt: (v)=>v+'%' },
+    { key: 'bookingRate',     label: 'Qualified → booked',       min: 10,  max: 80,    step: 1,   def: UE.bookingRate, fmt: (v)=>v+'%' },
+    { key: 'showRate',        label: 'Show-up rate',             min: 30,  max: 95,    step: 1,   def: UE.showRate, fmt: (v)=>v+'%' },
+    { key: 'closeRate',       label: 'Close rate',               min: 2,   max: 50,    step: 1,   def: UE.closeRate, fmt: (v)=>v+'%' },
+    { key: 'ticket',          label: 'Program ticket',           min: 1000,max: 12000, step: 250, def: UE.ticket, fmt: usd }
+  ];
+  const state = {};
+  SPECS.forEach(s => state[s.key] = s.def);
+
+  document.getElementById('ueSliders').innerHTML = SPECS.map(s => `
+    <div class="math-slider-row">
+      <div class="math-slider-row__head">
+        <span class="math-slider-row__label">${s.label}</span>
+        <span class="math-slider-row__value" id="v_${s.key}">${s.fmt(s.def)}</span>
+      </div>
+      <input type="range" class="math-slider" id="s_${s.key}" min="${s.min}" max="${s.max}" step="${s.step}" value="${s.def}">
+    </div>`).join('');
+
+  function calc() {
+    const s = state;
+    const impressions = (s.spend / s.cpm) * 1000;
+    const clicks      = impressions * (s.ctr / 100);
+    const convos      = clicks * (s.clickToConvo / 100);
+    const qualified   = convos * (s.convoToQualified / 100);
+    const booked      = qualified * (s.bookingRate / 100);
+    const showed      = booked * (s.showRate / 100);
+    const clients     = showed * (s.closeRate / 100);
+    const revenue     = clients * s.ticket;
+    const cac         = clients > 0 ? s.spend / clients : 0;
+    const roas        = s.spend > 0 ? revenue / s.spend : 0;
+    const profit      = revenue - s.spend;
+    const costPerQ    = qualified > 0 ? s.spend / qualified : 0;
+    return { impressions, clicks, convos, qualified, booked, showed, clients, revenue, cac, roas, profit, costPerQ };
+  }
+
+  function render() {
+    SPECS.forEach(s => document.getElementById('v_' + s.key).textContent = s.fmt(state[s.key]));
+    const r = calc();
+
+    // North star: leads & spend to close 1 client
+    const perClientQualified = state.closeRate && state.showRate && state.bookingRate
+      ? 1 / ((state.bookingRate/100) * (state.showRate/100) * (state.closeRate/100)) : 0;
+    const spendPerClient = r.clients > 0 ? state.spend / r.clients : (r.costPerQ * perClientQualified);
+    document.getElementById('nsLine').innerHTML =
+      `To close <b>1 client of ${usd(state.ticket)}</b> at a <b>${state.closeRate}%</b> close rate, you need about <b>${Math.ceil(perClientQualified)} qualified leads</b> and <b>${usdK(spendPerClient)}</b> in ad spend.`;
+    document.getElementById('nsStats').innerHTML = [
+      { l: "Clients this scenario", v: Math.round(r.clients) },
+      { l: "Cost per client (CAC)", v: usd(r.cac) },
+      { l: "ROAS", v: r.roas.toFixed(1) + '×' },
+      { l: "Profit", v: usdK(r.profit) }
+    ].map(x => `<div><div class="northstar__stat-label">${x.l}</div><div class="northstar__stat-val">${x.v}</div></div>`).join('');
+
+    // Live flow
+    document.getElementById('ueSpendTag').textContent = usd(state.spend) + ' / mo';
+    const nodes = [
+      { l: "Impressions", v: compact(r.impressions) },
+      { l: "Clicks", v: compact(r.clicks) },
+      { l: "WhatsApp", v: compact(r.convos) },
+      { l: "Qualified", v: compact(r.qualified) },
+      { l: "Booked", v: compact(r.booked) },
+      { l: "Showed", v: compact(r.showed) },
+      { l: "Clients", v: Math.round(r.clients) },
+      { l: "Revenue", v: usdK(r.revenue), rev: true }
+    ];
+    document.getElementById('ueFlow').innerHTML = nodes.map((n, i) =>
+      `<div class="ue-node ${n.rev ? 'ue-node--rev' : ''}"><div class="ue-node__label">${n.l}</div><div class="ue-node__val">${n.v}</div></div>` +
+      (i < nodes.length - 1 ? '<span class="ue-arrow">→</span>' : '')
+    ).join('');
+
+    // Profit tiles
+    document.getElementById('ueProfit').innerHTML = [
+      { l: "Cost / qualified", v: usd(r.costPerQ), c: r.costPerQ <= 9 ? 'var(--success)' : 'var(--danger)' },
+      { l: "Break-even CAC", v: usd(state.ticket), c: 'var(--ink)' },
+      { l: "Margin / client", v: usd(state.ticket - r.cac), c: (state.ticket - r.cac) > 0 ? 'var(--success)' : 'var(--danger)' }
+    ].map(t => `<div class="profit-tile"><div class="profit-tile__label">${t.l}</div><div class="profit-tile__val" style="color:${t.c}">${t.v}</div></div>`).join('');
+  }
+
+  SPECS.forEach(s => document.getElementById('s_' + s.key).addEventListener('input', (e) => {
+    state[s.key] = +e.target.value; render(); runSim();
+  }));
+  window.resetUE = function () { SPECS.forEach(s => { state[s.key] = s.def; document.getElementById('s_' + s.key).value = s.def; }); render(); runSim(); };
+
+  // AI: unit-economics simulator
+  let simTimer;
+  function runSim() {
+    clearTimeout(simTimer);
+    simTimer = setTimeout(async () => {
+      const r = calc();
+      const sim = await window.aiSimulateUnitEconomics({ ...state, costPerQualified: +r.costPerQ.toFixed(1) });
+      document.getElementById('ueSim').innerHTML = `
+        <div class="text-sm" style="color:var(--ink);font-weight:500;margin-bottom:var(--s-4)">${sim.verdict}</div>
+        ${sim.levers.length ? sim.levers.map(l => `
+          <div style="display:flex;gap:var(--s-3);align-items:flex-start;padding:var(--s-3) 0;border-top:1px solid var(--line-soft)">
+            <span class="tag tag--gold" style="flex-shrink:0">${l.lever}</span>
+            <div><div class="text-sm">${l.from} → <strong>${l.to}</strong></div><div class="text-xs text-mute" style="margin-top:2px">${l.impact}</div></div>
+          </div>`).join('') : '<div class="text-sm text-mute">No obvious lever — you\'re in a healthy range.</div>'}
+        <div class="mono text-xs text-quiet mt-4">${sim.note}</div>`;
+    }, 250);
+  }
+
+  render();
+  runSim();
+</script>
+</body>
+</html>

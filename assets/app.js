@@ -29,6 +29,17 @@
         </nav>
 
         <nav class="sidebar__section">
+          <div class="sidebar__section-label">Command Center</div>
+          <a href="funnel.html"         class="nav-item ${active('funnel')}">${icon('funnel')}<span class="nav-item__label">Funnel Command</span></a>
+          <a href="inbox.html"          class="nav-item ${active('inbox')}">${icon('inbox')}<span class="nav-item__label">Inbox &amp; Qualify</span>${c(counts.inbox)}</a>
+          <a href="unit-economics.html" class="nav-item ${active('unit')}">${icon('coins')}<span class="nav-item__label">Unit Economics</span></a>
+          <span class="nav-item nav-item--soon">${icon('layers')}<span class="nav-item__label">Campaigns</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('calendar')}<span class="nav-item__label">Booking</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('coins')}<span class="nav-item__label">Close &amp; Revenue</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('check')}<span class="nav-item__label">Onboarding</span><span class="nav-soon">soon</span></span>
+        </nav>
+
+        <nav class="sidebar__section">
           <div class="sidebar__section-label">Distribution</div>
           <a href="ads.html"            class="nav-item ${active('ads')}">${icon('layers')}<span class="nav-item__label">Creatives &amp; pages</span></a>
         </nav>
@@ -145,7 +156,10 @@
       target:   `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
       calc:     `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/></svg>`,
       plug:     `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></svg>`,
-      meta:     `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 4C3.9 4 2 6.4 2 9.5c0 2.9 1.6 5.5 3.8 5.5 1.4 0 2.4-1 3.4-2.6.5-.8 1.2-2.1 1.7-3 .4.7 1 1.9 1.5 2.7C15.6 14.5 16.8 15 18 15c2.2 0 4-2.4 4-5.5C22 6.4 20.1 4 17.5 4c-1.6 0-2.8 1-3.9 2.7-.4.6-.8 1.4-1.2 2.1-.4-.7-.8-1.4-1.1-2C10.1 5 8.9 4 7.3 4h-.8zm.3 2.2c.8 0 1.5.6 2.4 2-.6 1-1.2 2.2-1.6 2.9-.8 1.4-1.2 1.7-1.7 1.7-.8 0-1.6-1.3-1.6-3.2 0-2 .9-3.4 2.1-3.4zm10.6 0c1.2 0 2.1 1.4 2.1 3.4 0 1.9-.8 3.2-1.6 3.2-.5 0-.9-.3-1.6-1.6-.3-.6-.9-1.7-1.5-2.8.9-1.6 1.7-2.2 2.6-2.2z"/></svg>`
+      meta:     `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 4C3.9 4 2 6.4 2 9.5c0 2.9 1.6 5.5 3.8 5.5 1.4 0 2.4-1 3.4-2.6.5-.8 1.2-2.1 1.7-3 .4.7 1 1.9 1.5 2.7C15.6 14.5 16.8 15 18 15c2.2 0 4-2.4 4-5.5C22 6.4 20.1 4 17.5 4c-1.6 0-2.8 1-3.9 2.7-.4.6-.8 1.4-1.2 2.1-.4-.7-.8-1.4-1.1-2C10.1 5 8.9 4 7.3 4h-.8zm.3 2.2c.8 0 1.5.6 2.4 2-.6 1-1.2 2.2-1.6 2.9-.8 1.4-1.2 1.7-1.7 1.7-.8 0-1.6-1.3-1.6-3.2 0-2 .9-3.4 2.1-3.4zm10.6 0c1.2 0 2.1 1.4 2.1 3.4 0 1.9-.8 3.2-1.6 3.2-.5 0-.9-.3-1.6-1.6-.3-.6-.9-1.7-1.5-2.8.9-1.6 1.7-2.2 2.6-2.2z"/></svg>`,
+      funnel:   `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v7l-4 2v-9z"/></svg>`,
+      inbox:    `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+      coins:    `<svg width="${s}" height="${s}" class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>`
     };
     return lib[name] || '';
   }
@@ -189,6 +203,9 @@
     { group: "Analytics", label: "Ads performance",       href: "ads-performance.html",icon: "chart",    shortcut: "G P" },
     { group: "Analytics", label: "Targeting & audiences", href: "targeting.html",      icon: "target",   shortcut: "G T" },
     { group: "Analytics", label: "Math console",          href: "math-console.html",   icon: "calc",     shortcut: "G M" },
+    { group: "Command Center", label: "Funnel Command",   href: "funnel.html",         icon: "funnel",   shortcut: "G F" },
+    { group: "Command Center", label: "Inbox & Qualify",  href: "inbox.html",          icon: "inbox",    shortcut: "G I" },
+    { group: "Command Center", label: "Unit Economics",   href: "unit-economics.html", icon: "coins",    shortcut: "G U" },
     { group: "Navigate",  label: "Creatives & pages",     href: "ads.html",            icon: "layers",   shortcut: "G A" },
     { group: "Navigate",  label: "Conversations",         href: "conversations.html",  icon: "chat",     shortcut: "G C" },
     { group: "Navigate",  label: "Leads to qualify",      href: "leads.html",          icon: "check",    shortcut: "G L" },

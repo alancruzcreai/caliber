@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="caliber-page" content="funnel|Funnel Command" />
+<title>Caliber · Funnel Command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .funnel-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); overflow: hidden; margin-bottom: var(--s-8); }
+  .fk { padding: var(--s-6); border-right: 1px solid var(--line); }
+  .fk:last-child { border-right: none; }
+  .fk__label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-quiet); margin-bottom: var(--s-3); }
+  .fk__value { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 400; letter-spacing: -0.03em; line-height: 1; }
+  .fk__value em { color: var(--gold); font-style: normal; }
+  .fk__sub { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-mute); margin-top: var(--s-3); }
+  @media (max-width: 1024px) { .funnel-kpis { grid-template-columns: 1fr 1fr; } .fk:nth-child(2){border-right:none} .fk:nth-child(1),.fk:nth-child(2){border-bottom:1px solid var(--line)} }
+  @media (max-width: 768px) {
+    .funnel-kpis { grid-template-columns: 1fr 1fr; }
+    .fstage { grid-template-columns: 36px 1fr; gap: var(--s-3); }
+    .fstage__metric { grid-column: 2; padding-top: var(--s-3); border-top: 1px solid var(--line-soft); }
+    .fstage__conv { grid-column: 2; align-items: flex-start; text-align: left; }
+    .insight-banner { grid-template-columns: 1fr; }
+    .insight-banner__actions { flex-direction: row; flex-wrap: wrap; }
+    .insight-action { white-space: normal; }
+  }
+  @media (max-width: 480px) { .funnel-kpis { grid-template-columns: 1fr; } .fk { border-right: none; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— COMMAND CENTER · FUNNEL</div>
+      <h1 class="page-header__title">Where the <em>money</em> moves.</h1>
+      <p class="page-header__sub">
+        Cold audience to retention, in eight stages. Each step shows its key metric vs goal
+        and the conversion to the next. The leak of the period is flagged in red.
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <button class="filter-chip">7d</button>
+      <button class="filter-chip filter-chip--active">30d</button>
+      <button class="filter-chip">Campaign</button>
+    </div>
+  </div>
+
+  <!-- AI daily insight -->
+  <section class="insight-banner reveal reveal-1" id="insightBanner">
+    <div class="insight-banner__icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M3 12h3M18 12h3M5.5 18.5l2.1-2.1M16.4 7.6l2.1-2.1"/></svg>
+    </div>
+    <div style="position:relative">
+      <div class="insight-banner__label">— Daily insight · AI</div>
+      <div class="insight-banner__headline" id="insightHeadline">Analyzing the funnel…</div>
+      <div class="insight-banner__detail" id="insightDetail"></div>
+    </div>
+    <div class="insight-banner__actions" id="insightActions"></div>
+  </section>
+
+  <!-- Top KPIs -->
+  <section class="funnel-kpis reveal reveal-1" id="funnelKpis"></section>
+
+  <!-- The 8-stage funnel -->
+  <div class="divider-label">
+    <span class="divider-label__text">— Cold → Client · 8 stages</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section style="display:flex;flex-direction:column" id="funnelStages"></section>
+
+  <div style="height:var(--s-16)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/ai.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  const G = window.CALIBER_DATA.growth;
+  const usd = (n) => '$' + (+n).toLocaleString('en-US', { maximumFractionDigits: (+n < 100 ? 2 : 0) });
+  const fmtMetric = (f) => f.format === 'usd' ? usd(f.value) : f.value + '%';
+  const fmtGoal   = (f) => f.format === 'usd' ? usd(f.goal)  : f.goal + '%';
+  const compact = (n) => n >= 1000 ? (n/1000).toFixed(n>=10000?0:1)+'K' : String(n);
+
+  // Top KPIs
+  const clients = G.target.clientsClosed, ticket = G.target.ticket;
+  const revenue = G.revenue, spend = G.spend;
+  document.getElementById('funnelKpis').innerHTML = [
+    { label: "Ad spend · 30d", value: usd(spend), sub: "across all stages" },
+    { label: "Clients closed",  value: `<em>${clients}</em>`, sub: `goal was ${G.target.clientsGoal}` },
+    { label: "Revenue",         value: '$' + (revenue/1000).toFixed(1) + 'K', sub: `${clients} × ${usd(ticket)}` },
+    { label: "Blended ROAS",    value: (revenue/spend).toFixed(1) + '×', sub: "return on ad spend" }
+  ].map(k => `
+    <div class="fk">
+      <div class="fk__label">${k.label}</div>
+      <div class="fk__value">${k.value}</div>
+      <div class="fk__sub">${k.sub}</div>
+    </div>`).join('');
+
+  // Funnel stages
+  const maxCount = Math.max(...G.funnel.filter(f => f.count).map(f => f.count), 1);
+  document.getElementById('funnelStages').innerHTML = G.funnel.map((f, i) => {
+    const lowerBetter = f.format === 'usd';
+    const onGoal = lowerBetter ? f.value <= f.goal : f.value >= f.goal;
+    const barPct = lowerBetter
+      ? Math.min(100, (f.goal / f.value) * 100)
+      : Math.min(100, (f.value / f.goal) * 100);
+    const cls = f.bottleneck ? 'fstage--bottleneck' : f.emphasis === 'money' ? 'fstage--money' : f.emphasis === 'close' ? 'fstage--close' : '';
+    const tag = f.bottleneck ? '<span class="emphasis-tag emphasis-tag--bottleneck">Bottleneck</span>'
+      : f.emphasis === 'money' ? '<span class="emphasis-tag emphasis-tag--money">Money decided here</span>'
+      : f.emphasis === 'close' ? '<span class="emphasis-tag emphasis-tag--close">Close</span>' : '';
+    const arrow = i < G.funnel.length - 1
+      ? `<div class="fstage-arrow"><span>↓ ${f.toNext}% to next</span></div>` : '';
+    return `
+      <div class="fstage ${cls} reveal reveal-${Math.min(i+1,6)}">
+        <div class="fstage__num">${f.stage}</div>
+        <div class="fstage__main">
+          <div class="fstage__label">${f.label} ${tag}</div>
+          <div class="fstage__what">${f.what}</div>
+          ${f.count != null ? `<div class="fstage__count">${compact(f.count)} ${f.countLabel}</div>` : ''}
+        </div>
+        <div class="fstage__metric">
+          <div class="fstage__metric-label">${f.metric}</div>
+          <div class="fstage__metric-val">${fmtMetric(f)}
+            <span class="fstage__goal ${onGoal ? 'fstage__goal--ok' : 'fstage__goal--off'}">${onGoal ? '✓' : '✕'} goal ${fmtGoal(f)}</span>
+          </div>
+          <div class="fstage__bar"><div class="fstage__bar-fill" style="width:${barPct}%"></div></div>
+        </div>
+        <div class="fstage__conv">
+          ${i < G.funnel.length - 1 ? `<div class="fstage__conv-val">${f.toNext}%</div><div class="fstage__conv-lbl">to next stage</div>` : '<div class="fstage__conv-lbl">end of funnel</div>'}
+        </div>
+      </div>
+      ${arrow}`;
+  }).join('');
+
+  // AI daily insight
+  (async function () {
+    const insight = await window.aiGetDailyInsight(G.funnel);
+    document.getElementById('insightHeadline').textContent = insight.headline;
+    document.getElementById('insightDetail').textContent = insight.detail;
+    document.getElementById('insightActions').innerHTML = insight.actions
+      .map(a => `<button class="insight-action" onclick="calToast('Action queued — needs human approval')">→ ${a}</button>`).join('');
+  })();
+</script>
+</body>
+</html>
