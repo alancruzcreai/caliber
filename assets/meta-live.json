@@ -5,21 +5,21 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-07 21:52"
+    "syncedAt": "2026-06-08 04:50"
   },
   "windows": {
     "last_7d": {
-      "spend": 835.47,
-      "impressions": 8729,
-      "clicks": 378,
-      "cpm": 95.711995,
-      "cpc": 2.210238,
-      "ctr": 4.330393,
-      "reach": 4693,
-      "frequency": 1.860004,
+      "spend": 824.87,
+      "impressions": 8437,
+      "clicks": 372,
+      "cpm": 97.768164,
+      "cpc": 2.217392,
+      "ctr": 4.40915,
+      "reach": 4439,
+      "frequency": 1.900653,
       "hasData": true,
-      "from": "2026-05-31",
-      "to": "2026-06-06"
+      "from": "2026-06-01",
+      "to": "2026-06-07"
     },
     "last_30d": {
       "spend": 835.47,
@@ -31,8 +31,8 @@
       "reach": 4693,
       "frequency": 1.860004,
       "hasData": true,
-      "from": "2026-05-08",
-      "to": "2026-06-06"
+      "from": "2026-05-09",
+      "to": "2026-06-07"
     },
     "maximum": {
       "spend": 835.47,
