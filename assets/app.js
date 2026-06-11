@@ -33,6 +33,7 @@
           <a href="funnel.html"         class="nav-item ${active('funnel')}">${icon('funnel')}<span class="nav-item__label">Funnel Command</span></a>
           <a href="inbox.html"          class="nav-item ${active('inbox')}">${icon('inbox')}<span class="nav-item__label">Inbox &amp; Qualify</span>${c(counts.inbox)}</a>
           <a href="unit-economics.html" class="nav-item ${active('unit')}">${icon('coins')}<span class="nav-item__label">Unit Economics</span></a>
+          <a href="agent.html"          class="nav-item ${active('agent')}">${icon('ai')}<span class="nav-item__label">AI Agent</span><span class="nav-soon" style="background:var(--gold-tint);color:var(--gold-deep);border-color:var(--gold-soft)">demo</span></a>
           <span class="nav-item nav-item--soon">${icon('layers')}<span class="nav-item__label">Campaigns</span><span class="nav-soon">soon</span></span>
           <span class="nav-item nav-item--soon">${icon('calendar')}<span class="nav-item__label">Booking</span><span class="nav-soon">soon</span></span>
           <span class="nav-item nav-item--soon">${icon('coins')}<span class="nav-item__label">Close &amp; Revenue</span><span class="nav-soon">soon</span></span>
@@ -206,6 +207,7 @@
     { group: "Command Center", label: "Funnel Command",   href: "funnel.html",         icon: "funnel",   shortcut: "G F" },
     { group: "Command Center", label: "Inbox & Qualify",  href: "inbox.html",          icon: "inbox",    shortcut: "G I" },
     { group: "Command Center", label: "Unit Economics",   href: "unit-economics.html", icon: "coins",    shortcut: "G U" },
+    { group: "Command Center", label: "AI Agent (demo)",  href: "agent.html",          icon: "ai" },
     { group: "Navigate",  label: "Creatives & pages",     href: "ads.html",            icon: "layers",   shortcut: "G A" },
     { group: "Navigate",  label: "Conversations",         href: "conversations.html",  icon: "chat",     shortcut: "G C" },
     { group: "Navigate",  label: "Leads to qualify",      href: "leads.html",          icon: "check",    shortcut: "G L" },

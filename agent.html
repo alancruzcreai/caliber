@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="caliber-page" content="agent|AI Agent demo" />
+<title>Caliber · AI Agent (Instagram DM)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* ===== Demo stage (Caliber chrome around the phone) ===== */
+  .agent-stage { display: grid; grid-template-columns: 1fr 380px; gap: var(--s-8); align-items: start; }
+  @media (max-width: 1080px) { .agent-stage { grid-template-columns: 1fr; } }
+
+  /* ===== The phone ===== */
+  .phone {
+    width: 390px; max-width: 100%; margin: 0 auto;
+    background: #fff; border-radius: 38px; overflow: hidden;
+    box-shadow: 0 30px 70px rgba(26,24,20,0.22), 0 0 0 10px #11131a, 0 0 0 11px #2a2d36;
+    display: flex; flex-direction: column; height: 800px; max-height: 84vh;
+    position: relative;
+  }
+  /* IG uses a system font; we keep DM Sans for cohesion but tighten it */
+  .ig { font-family: 'DM Sans', system-ui, sans-serif; color: #000; }
+
+  /* IG DM header */
+  .ig-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 12px 10px; border-bottom: 0.5px solid #dbdbdb; background: #fff;
+  }
+  .ig-back { font-size: 24px; line-height: 1; color: #000; background: none; border: none; padding: 0 2px; cursor: pointer; }
+  .ig-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,#B8915A,#8F6F40); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:15px; flex-shrink:0; }
+  .ig-id { flex: 1; min-width: 0; line-height: 1.15; }
+  .ig-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 4px; }
+  .ig-verified { color: #3897f0; }
+  .ig-sub { font-size: 12px; color: #8e8e8e; }
+  .ig-head-actions { display: flex; gap: 18px; color: #000; }
+  .ig-head-actions svg { width: 24px; height: 24px; }
+
+  /* messages area */
+  .ig-body { flex: 1; overflow-y: auto; padding: 14px 12px 6px; display: flex; flex-direction: column; gap: 3px; background: #fff; }
+  .ig-profile-card { text-align: center; padding: 20px 0 24px; }
+  .ig-profile-card .ig-avatar { width: 84px; height: 84px; font-size: 30px; margin: 0 auto 10px; }
+  .ig-profile-card__name { font-weight: 600; font-size: 19px; }
+  .ig-profile-card__handle { font-size: 13px; color: #8e8e8e; margin-top: 2px; }
+  .ig-profile-card__meta { font-size: 12px; color: #8e8e8e; margin-top: 8px; }
+  .ig-profile-card__btn { margin-top: 14px; border: 1px solid #dbdbdb; border-radius: 8px; padding: 7px 16px; font-weight: 600; font-size: 13px; background:#fff; cursor:pointer; }
+
+  .ig-row { display: flex; max-width: 78%; }
+  .ig-row--in { align-self: flex-start; }
+  .ig-row--out { align-self: flex-end; }
+  .ig-bubble { padding: 9px 14px; border-radius: 22px; font-size: 15px; line-height: 1.35; word-wrap: break-word; }
+  .ig-row--in .ig-bubble { background: #efefef; color: #000; border-bottom-left-radius: 5px; }
+  .ig-row--out .ig-bubble {
+    color: #fff; border-bottom-right-radius: 5px;
+    background: linear-gradient(135deg, #5B51E8 0%, #A033C9 45%, #E0457B 75%, #F65E3B 100%);
+  }
+  .ig-meta { font-size: 11px; color: #8e8e8e; align-self: center; padding: 6px 4px 10px; }
+  .ig-seen { font-size: 11px; color: #8e8e8e; align-self: flex-end; padding: 2px 6px 8px; }
+
+  /* typing */
+  .ig-typing { align-self: flex-start; background: #efefef; border-radius: 22px; border-bottom-left-radius: 5px; padding: 12px 16px; display: inline-flex; gap: 4px; }
+  .ig-typing span { width: 7px; height: 7px; border-radius: 50%; background: #b0b0b0; animation: igb 1.2s infinite ease-in-out; }
+  .ig-typing span:nth-child(2){ animation-delay: .15s; } .ig-typing span:nth-child(3){ animation-delay: .3s; }
+  @keyframes igb { 0%,60%,100%{ transform: translateY(0); opacity:.5 } 30%{ transform: translateY(-5px); opacity:1 } }
+
+  /* input bar */
+  .ig-input { display: flex; align-items: center; gap: 10px; padding: 10px 12px 14px; border-top: 0.5px solid #efefef; background:#fff; }
+  .ig-input__camera { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,#5B51E8,#E0457B); display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+  .ig-input__camera svg { width: 20px; height: 20px; color:#fff; }
+  .ig-input__field { flex: 1; display: flex; align-items: center; gap: 8px; border: 1px solid #dbdbdb; border-radius: 22px; padding: 8px 14px; min-width: 0; }
+  .ig-input__field input { flex: 1; border: none; outline: none; font-size: 15px; font-family: inherit; background: transparent; min-width: 0; }
+  .ig-input__icons { display: flex; gap: 14px; color: #000; }
+  .ig-input__icons svg { width: 22px; height: 22px; }
+  .ig-send { color: #3897f0; font-weight: 600; font-size: 15px; background: none; border: none; cursor: pointer; padding: 0 4px; }
+
+  /* ===== Side control panel (Caliber, not part of the phone) ===== */
+  .ctrl .card { margin-bottom: var(--s-5); }
+  .stage-track { display: flex; flex-direction: column; gap: 6px; }
+  .stage-step { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--text-sm); color: var(--ink-mute); }
+  .stage-step--on { background: var(--ink); color: var(--surface); }
+  .stage-step__n { font-family: var(--font-mono); font-size: 11px; width: 18px; }
+  .keybox { display:flex; flex-direction:column; gap:8px; }
+  .conn-pill { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:var(--text-xs); padding:3px 9px; border-radius:var(--r-full); }
+  .conn-pill--demo { background: var(--gold-tint); color: var(--gold-deep); }
+  .conn-pill--live { background: var(--success-tint); color: var(--success); }
+</style>
+</head>
+<body>
+<div id="page-content">
+<main class="content">
+
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— COMMAND CENTER · AI AGENT DEMO</div>
+      <h1 class="page-header__title">Talk to the <em>agent.</em></h1>
+      <p class="page-header__sub">
+        This is the assistant that lives in Sebastian's Instagram &amp; WhatsApp DMs — trained on the
+        NEPQ method. Message it like a real lead would. Use it to find UX edge cases before launch.
+      </p>
+    </div>
+    <div class="flex gap-2 items-center">
+      <span class="conn-pill conn-pill--demo" id="connPill">● Demo mode</span>
+    </div>
+  </div>
+
+  <div class="agent-stage reveal reveal-1">
+
+    <!-- PHONE -->
+    <div>
+      <div class="phone ig">
+        <div class="ig-head">
+          <button class="ig-back" aria-label="Back">‹</button>
+          <div class="ig-avatar">SL</div>
+          <div class="ig-id">
+            <div class="ig-name">sebastian.landa <svg class="ig-verified" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l2.4 2.1 3.2-.3 1.3 2.9 2.9 1.3-.3 3.2L23.5 16 21.4 18.4l.3 3.2-2.9 1.3-1.3 2.9-3.2-.3L12 27.6 9.6 25.5l-3.2.3-1.3-2.9-2.9-1.3.3-3.2L.5 16l2.1-2.4-.3-3.2 2.9-1.3L6.5 6l3.2.3z" transform="scale(0.82) translate(2.6,1)"/><path d="M10.5 14.2l-2-2-1.3 1.3 3.3 3.3 5.6-5.6-1.3-1.3z" fill="#fff"/></svg></div>
+            <div class="ig-sub">Active now · typically replies instantly</div>
+          </div>
+          <div class="ig-head-actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.8.6-.8 1.1v.5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/></svg>
+          </div>
+        </div>
+
+        <div class="ig-body" id="igBody">
+          <div class="ig-profile-card">
+            <div class="ig-avatar">SL</div>
+            <div class="ig-profile-card__name">Sebastian Landa <svg class="ig-verified" width="15" height="15" viewBox="0 0 24 24" fill="#3897f0" style="vertical-align:-2px"><circle cx="12" cy="12" r="11"/><path d="M10.5 14.2l-2-2-1.3 1.3 3.3 3.3 5.6-5.6-1.3-1.3z" fill="#fff"/></svg></div>
+            <div class="ig-profile-card__handle">sebastian.landa · The High Standard Traveler</div>
+            <div class="ig-profile-card__meta">Instagram · 12.4K followers · You don't follow each other</div>
+            <button class="ig-profile-card__btn">View profile</button>
+          </div>
+          <!-- messages injected here -->
+        </div>
+
+        <div class="ig-input">
+          <span class="ig-input__camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+          <div class="ig-input__field">
+            <input id="igInput" type="text" placeholder="Message..." autocomplete="off" />
+            <div class="ig-input__icons">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+          </div>
+          <button class="ig-send" id="igSend">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROL PANEL -->
+    <aside class="ctrl">
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">NEPQ stage</h2><span class="tag tag--ghost" id="stageTag">live</span></div>
+        <div class="card__body">
+          <div class="stage-track" id="stageTrack"></div>
+          <div class="mono text-xs text-quiet mt-4" id="agentNote">The agent moves through these as the chat unfolds.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Connect real AI</h2></div>
+        <div class="card__body">
+          <p class="text-sm text-mute mb-4">Paste an Anthropic API key to make the agent respond for real (Claude). It stays in <strong>your browser only</strong> — never saved to the repo. Without it, the chat runs a scripted demo.</p>
+          <div class="keybox">
+            <input class="input" id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off" />
+            <div class="flex gap-2">
+              <button class="btn btn--primary btn--sm" id="saveKey">Activate</button>
+              <button class="btn btn--ghost btn--sm" id="clearKey">Clear</button>
+              <button class="btn btn--ghost btn--sm" id="resetChat" style="margin-left:auto">Reset chat</button>
+            </div>
+          </div>
+          <div class="mono text-xs text-quiet mt-4">// AI: Claude (browser-direct). For mass production this moves to a server-side proxy. Demo only.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Try these (edge cases)</h2></div>
+        <div class="card__body" style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn--ghost btn--sm" onclick="quick('ALIGNED')" style="justify-content:flex-start">Start: "ALIGNED"</button>
+          <button class="btn btn--ghost btn--sm" onclick="quick('how much is it?')" style="justify-content:flex-start">Price on turn 1</button>
+          <button class="btn btn--ghost btn--sm" onclick="quick('are you a bot?')" style="justify-content:flex-start">"Are you a bot?"</button>
+          <button class="btn btn--ghost btn--sm" onclick="quick('hola, vi el anuncio')" style="justify-content:flex-start">Spanish opener</button>
+          <button class="btn btn--ghost btn--sm" onclick="quick('not sure this is for me')" style="justify-content:flex-start">Skeptical</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+  <div style="height:var(--s-12)"></div>
+</main>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/agent-brain.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  const MODEL = 'claude-sonnet-4-6';
+  const body = document.getElementById('igBody');
+  const input = document.getElementById('igInput');
+  const KEY_LS = 'caliber_anthropic_key';
+
+  // conversation history (roles: user/assistant)
+  let history = [];
+  let busy = false;
+
+  // ── key management ──
+  function getKey() { return localStorage.getItem(KEY_LS) || ''; }
+  function refreshConn() {
+    const has = !!getKey();
+    const pill = document.getElementById('connPill');
+    pill.className = 'conn-pill ' + (has ? 'conn-pill--live' : 'conn-pill--demo');
+    pill.textContent = has ? '● Live · Claude' : '● Demo mode';
+    document.getElementById('stageTag').textContent = has ? 'live' : 'demo';
+    document.getElementById('apiKey').value = has ? '••••••••••••••••' : '';
+  }
+  document.getElementById('saveKey').addEventListener('click', () => {
+    const v = document.getElementById('apiKey').value.trim();
+    if (v && v.startsWith('sk-ant')) { localStorage.setItem(KEY_LS, v); refreshConn(); calToast('Live AI activated · key saved in this browser'); }
+    else calToast('Paste a valid key (starts with sk-ant-)');
+  });
+  document.getElementById('clearKey').addEventListener('click', () => { localStorage.removeItem(KEY_LS); refreshConn(); calToast('Key cleared — back to demo mode'); });
+  document.getElementById('resetChat').addEventListener('click', resetChat);
+
+  // ── stage panel ──
+  const STAGES = [
+    { n: 1, label: "Connection" },
+    { n: 2, label: "Engagement" },
+    { n: 3, label: "Transition" },
+    { n: 4, label: "Presentation" },
+    { n: 5, label: "Commitment" }
+  ];
+  function renderStage() {
+    const t = history.filter(m => m.role === 'assistant').length;
+    const cur = window.AGENT_STAGE(t).n;
+    document.getElementById('stageTrack').innerHTML = STAGES.map(s =>
+      `<div class="stage-step ${s.n === cur ? 'stage-step--on' : ''}"><span class="stage-step__n">${s.n}</span>${s.label}</div>`).join('');
+    document.getElementById('agentNote').textContent = window.AGENT_STAGE(t).label;
+  }
+
+  // ── render messages ──
+  function bubble(role, text) {
+    const row = document.createElement('div');
+    row.className = 'ig-row ig-row--' + (role === 'assistant' ? 'in' : 'out');
+    row.innerHTML = `<div class="ig-bubble"></div>`;
+    row.querySelector('.ig-bubble').textContent = text;
+    body.appendChild(row);
+    body.scrollTop = body.scrollHeight;
+    return row;
+  }
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'ig-typing'; t.id = 'typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t); body.scrollTop = body.scrollHeight;
+  }
+  function hideTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+  function resetChat() {
+    history = [];
+    body.querySelectorAll('.ig-row, .ig-typing, .ig-seen').forEach(e => e.remove());
+    renderStage();
+    input.focus();
+  }
+
+  // ── send flow ──
+  async function send(text) {
+    if (!text.trim() || busy) return;
+    busy = true;
+    bubble('user', text);
+    history.push({ role: 'user', content: text });
+    input.value = '';
+    renderStage();
+
+    showTyping();
+    let reply;
+    const key = getKey();
+    try {
+      if (key) reply = await callClaude(key, history);
+      else { await new Promise(r => setTimeout(r, 900 + Math.random()*700)); reply = window.AGENT_DEMO_REPLY(history); }
+    } catch (e) {
+      reply = window.AGENT_DEMO_REPLY(history);
+      console.warn('AI error → demo fallback:', e.message);
+    }
+    hideTyping();
+    bubble('assistant', reply);
+    history.push({ role: 'assistant', content: reply });
+    // "Seen" + delivered affordance
+    const seen = document.createElement('div'); seen.className = 'ig-seen'; seen.textContent = 'Delivered';
+    body.appendChild(seen); body.scrollTop = body.scrollHeight;
+    renderStage();
+    busy = false;
+    input.focus();
+  }
+
+  // AI: Claude API — browser-direct (demo). Key from localStorage.
+  async function callClaude(key, hist) {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 200,
+        system: window.AGENT_SYSTEM_PROMPT,
+        messages: hist.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    return (data.content && data.content[0] && data.content[0].text || '').trim() || window.AGENT_DEMO_REPLY(hist);
+  }
+
+  document.getElementById('igSend').addEventListener('click', () => send(input.value));
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(input.value); });
+  window.quick = (t) => { send(t); };
+
+  refreshConn();
+  renderStage();
+  input.focus();
+})();
+</script>
+</body>
+</html>
