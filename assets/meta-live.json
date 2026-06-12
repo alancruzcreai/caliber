@@ -1,14 +1,15 @@
 {
   "account": {
     "id": "act_120218744349790215",
-    "name": "2213074872440477",
+    "name": "act_120218744349790215",
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-12 04:09"
+    "syncedAt": "2026-06-12 08:55"
   },
   "windows": {
     "last_7d": {
+      "error": "Meta API 10: (#10) Application does not have permission for this action (act_120218744349790215/insights)",
       "spend": 0,
       "impressions": 0,
       "clicks": 0,
@@ -16,10 +17,7 @@
       "cpc": 0,
       "ctr": 0,
       "reach": 0,
-      "frequency": 0,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "hasData": false
     },
     "last_30d": {
       "spend": 835.47,
@@ -109,29 +107,7 @@
         "ctr": 5.327651
       }
     ],
-    "gender": [
-      {
-        "key": "female",
-        "spend": 471.38,
-        "impressions": 4686,
-        "clicks": 220,
-        "ctr": 4.694836
-      },
-      {
-        "key": "male",
-        "spend": 359.28,
-        "impressions": 3996,
-        "clicks": 156,
-        "ctr": 3.903904
-      },
-      {
-        "key": "unknown",
-        "spend": 4.81,
-        "impressions": 47,
-        "clicks": 2,
-        "ctr": 4.255319
-      }
-    ],
+    "gender": [],
     "country": [
       {
         "key": "ES",
