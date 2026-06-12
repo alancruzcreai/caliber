@@ -17,6 +17,14 @@
 
 (function () {
 
+  // ── Real-AI proxy endpoint ──────────────────────────────────
+  // When set to the Cloudflare Worker URL, EVERYONE who opens the
+  // link talks to the real Claude agent with zero setup (the key
+  // lives only in the worker, never here). Leave '' to fall back to
+  // a per-browser key, then to the scripted demo. The URL is public
+  // and safe to commit — it is NOT a credential.
+  window.AGENT_API_URL = '';
+
   window.AGENT_SYSTEM_PROMPT = `
 You are the front-line conversational assistant for **Sebastian Landa** in the Instagram and WhatsApp DMs of **The High Standard Traveler Program (HSTP)** — a premium 10-week health & performance system for high-net-worth travelers (yacht crew, founders, high-performing remote workers, frequent flyers).
 

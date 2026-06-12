@@ -161,18 +161,20 @@
       </div>
 
       <div class="card">
-        <div class="card__header"><h2 class="card__title">Connect real AI</h2></div>
+        <div class="card__header"><h2 class="card__title">Real AI status</h2><span class="tag tag--ghost" id="aiModeTag">demo</span></div>
         <div class="card__body">
-          <p class="text-sm text-mute mb-4">Paste an Anthropic API key to make the agent respond for real (Claude). It stays in <strong>your browser only</strong> — never saved to the repo. Without it, the chat runs a scripted demo.</p>
-          <div class="keybox">
-            <input class="input" id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off" />
+          <p class="text-sm text-mute mb-4" id="connDesc">…</p>
+          <div class="keybox" id="keyBox">
+            <input class="input" id="apiKey" type="password" placeholder="sk-ant-... (optional)" autocomplete="off" />
             <div class="flex gap-2">
-              <button class="btn btn--primary btn--sm" id="saveKey">Activate</button>
+              <button class="btn btn--primary btn--sm" id="saveKey">Use my key here</button>
               <button class="btn btn--ghost btn--sm" id="clearKey">Clear</button>
-              <button class="btn btn--ghost btn--sm" id="resetChat" style="margin-left:auto">Reset chat</button>
             </div>
           </div>
-          <div class="mono text-xs text-quiet mt-4">// AI: Claude (browser-direct). For mass production this moves to a server-side proxy. Demo only.</div>
+          <div class="flex gap-2 mt-4">
+            <button class="btn btn--ghost btn--sm" id="resetChat" style="margin-left:auto">Reset chat</button>
+          </div>
+          <div class="mono text-xs text-quiet mt-4" id="connTech">// AI</div>
         </div>
       </div>
 
@@ -202,6 +204,7 @@
   const body = document.getElementById('igBody');
   const input = document.getElementById('igInput');
   const KEY_LS = 'caliber_anthropic_key';
+  const PROXY = (window.AGENT_API_URL || '').trim();  // real AI for everyone, no key needed
 
   // conversation history (roles: user/assistant)
   let history = [];
@@ -210,12 +213,39 @@
   // ── key management ──
   function getKey() { return localStorage.getItem(KEY_LS) || ''; }
   function refreshConn() {
-    const has = !!getKey();
     const pill = document.getElementById('connPill');
-    pill.className = 'conn-pill ' + (has ? 'conn-pill--live' : 'conn-pill--demo');
-    pill.textContent = has ? '● Live · Claude' : '● Demo mode';
-    document.getElementById('stageTag').textContent = has ? 'live' : 'demo';
-    document.getElementById('apiKey').value = has ? '••••••••••••••••' : '';
+    const tag = document.getElementById('aiModeTag');
+    const stageTag = document.getElementById('stageTag');
+    const desc = document.getElementById('connDesc');
+    const tech = document.getElementById('connTech');
+    const keyBox = document.getElementById('keyBox');
+    const hasKey = !!getKey();
+
+    if (PROXY) {
+      // Real AI is live for EVERYONE who opens the link — no setup.
+      pill.className = 'conn-pill conn-pill--live';
+      pill.textContent = '● Live · Claude';
+      tag.textContent = 'live'; stageTag.textContent = 'live';
+      desc.innerHTML = '<strong>Real AI is live.</strong> Anyone who opens this link is talking to the actual Claude-powered agent — trained on the NEPQ method and the full HSTP program. No key, no setup.';
+      tech.textContent = '// AI: Claude via secure proxy · key stays server-side';
+      keyBox.style.display = 'none';
+    } else if (hasKey) {
+      pill.className = 'conn-pill conn-pill--live';
+      pill.textContent = '● Live · this browser';
+      tag.textContent = 'live'; stageTag.textContent = 'live';
+      desc.innerHTML = 'Live in <strong>this browser only</strong> (your key). To make it live for the client and the whole team through the link, deploy the proxy — see SETUP-AI-AGENT.md.';
+      tech.textContent = '// AI: Claude browser-direct · key in this browser only';
+      keyBox.style.display = '';
+      document.getElementById('apiKey').value = '••••••••••••••••';
+    } else {
+      pill.className = 'conn-pill conn-pill--demo';
+      pill.textContent = '● Demo mode';
+      tag.textContent = 'demo'; stageTag.textContent = 'demo';
+      desc.innerHTML = 'Running a <strong>scripted demo</strong> (canned lines — not the real AI). To talk to the real agent for everyone, deploy the proxy (SETUP-AI-AGENT.md). Or paste your own key to test it just here.';
+      tech.textContent = '// AI: scripted demo · no model connected';
+      keyBox.style.display = '';
+      document.getElementById('apiKey').value = '';
+    }
   }
   document.getElementById('saveKey').addEventListener('click', () => {
     const v = document.getElementById('apiKey').value.trim();
@@ -279,7 +309,8 @@
     let reply;
     const key = getKey();
     try {
-      if (key) reply = await callClaude(key, history);
+      if (PROXY) reply = await callProxy(history);          // real AI for everyone
+      else if (key) reply = await callClaude(key, history); // your own key, this browser
       else { await new Promise(r => setTimeout(r, 900 + Math.random()*700)); reply = window.AGENT_DEMO_REPLY(history); }
     } catch (e) {
       reply = window.AGENT_DEMO_REPLY(history);
@@ -296,7 +327,25 @@
     input.focus();
   }
 
-  // AI: Claude API — browser-direct (demo). Key from localStorage.
+  // AI: real agent via the secure proxy (key lives in the worker).
+  // This is what the client and the whole team hit through the link.
+  async function callProxy(hist) {
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        system: window.AGENT_SYSTEM_PROMPT,
+        messages: hist.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    return (data.text || '').trim() || window.AGENT_DEMO_REPLY(hist);
+  }
+
+  // AI: Claude API — browser-direct, using a key the user pastes
+  // locally (dev/testing only; never leaves this browser).
   async function callClaude(key, hist) {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -308,7 +357,7 @@
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 200,
+        max_tokens: 400,
         system: window.AGENT_SYSTEM_PROMPT,
         messages: hist.map(m => ({ role: m.role, content: m.content }))
       })
