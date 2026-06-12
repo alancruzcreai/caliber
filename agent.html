@@ -247,10 +247,20 @@
       document.getElementById('apiKey').value = '';
     }
   }
-  document.getElementById('saveKey').addEventListener('click', () => {
+  document.getElementById('saveKey').addEventListener('click', async () => {
     const v = document.getElementById('apiKey').value.trim();
-    if (v && v.startsWith('sk-ant')) { localStorage.setItem(KEY_LS, v); refreshConn(); calToast('Live AI activated · key saved in this browser'); }
-    else calToast('Paste a valid key (starts with sk-ant-)');
+    if (!v || !v.startsWith('sk-ant')) { calToast('Paste a valid key (starts with sk-ant-)'); return; }
+    localStorage.setItem(KEY_LS, v); refreshConn();
+    calToast('Testing your key with Claude…');
+    try {
+      await callClaude(v, [{ role: 'user', content: 'Reply with the single word OK.' }]);
+      resetChat();
+      sysNote('✅ Live AI connected — you are now talking to the real Claude agent (NEPQ + HSTP). Send a message to begin.');
+      calToast('Live AI connected');
+    } catch (e) {
+      sysNote('⚠ Your key could not call Claude → ' + e.message + '. The chat keeps running the scripted demo until this is fixed (usually: the key needs API credits in console.anthropic.com).');
+      calToast('Key error: ' + e.message);
+    }
   });
   document.getElementById('clearKey').addEventListener('click', () => { localStorage.removeItem(KEY_LS); refreshConn(); calToast('Key cleared — back to demo mode'); });
   document.getElementById('resetChat').addEventListener('click', resetChat);
@@ -291,9 +301,23 @@
 
   function resetChat() {
     history = [];
-    body.querySelectorAll('.ig-row, .ig-typing, .ig-seen').forEach(e => e.remove());
+    body.querySelectorAll('.ig-row, .ig-typing, .ig-seen, .ig-sys').forEach(e => e.remove());
     renderStage();
     input.focus();
+  }
+
+  // A centered system note (NOT part of the conversation history)
+  function sysNote(text) {
+    const n = document.createElement('div');
+    n.className = 'ig-sys';
+    n.textContent = text;
+    n.style.cssText = 'text-align:center;font-size:12px;color:#8a8580;background:rgba(0,0,0,.045);border-radius:10px;padding:8px 12px;margin:10px auto;max-width:88%;line-height:1.45';
+    body.appendChild(n); body.scrollTop = body.scrollHeight;
+  }
+  // Pull the real API error message out of a response body
+  function apiErr(status, data) {
+    const m = data && data.error && (data.error.message || data.error);
+    return status + (m ? ' · ' + m : '');
   }
 
   // ── send flow ──
@@ -313,8 +337,14 @@
       else if (key) reply = await callClaude(key, history); // your own key, this browser
       else { await new Promise(r => setTimeout(r, 900 + Math.random()*700)); reply = window.AGENT_DEMO_REPLY(history); }
     } catch (e) {
+      console.warn('AI error:', e.message);
+      hideTyping();
+      if (PROXY || key) {
+        // A key/proxy IS configured but the real call failed — make it VISIBLE
+        // instead of silently sounding "robotic" via the demo.
+        sysNote('⚠ Real AI error → ' + e.message + '. Check the key/credits (or proxy). Showing a scripted reply meanwhile.');
+      }
       reply = window.AGENT_DEMO_REPLY(history);
-      console.warn('AI error → demo fallback:', e.message);
     }
     hideTyping();
     bubble('assistant', reply);
@@ -338,10 +368,10 @@
         messages: hist.map(m => ({ role: m.role, content: m.content }))
       })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    return (data.text || '').trim() || window.AGENT_DEMO_REPLY(hist);
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(apiErr(res.status, data));
+    if (data && data.error) throw new Error(data.error);
+    return (data && data.text || '').trim() || window.AGENT_DEMO_REPLY(hist);
   }
 
   // AI: Claude API — browser-direct, using a key the user pastes
@@ -362,9 +392,9 @@
         messages: hist.map(m => ({ role: m.role, content: m.content }))
       })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    return (data.content && data.content[0] && data.content[0].text || '').trim() || window.AGENT_DEMO_REPLY(hist);
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(apiErr(res.status, data));
+    return (data && data.content && data.content[0] && data.content[0].text || '').trim() || window.AGENT_DEMO_REPLY(hist);
   }
 
   document.getElementById('igSend').addEventListener('click', () => send(input.value));
