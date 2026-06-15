@@ -25,6 +25,7 @@
 // at the dashboard later.
 const ALLOWED_ORIGINS = [
   'https://alancruzcreai.github.io',
+  'https://caliber.dragonconsultations.com',
   'http://localhost:8769',
   'http://127.0.0.1:8769',
 ];
