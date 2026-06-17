@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 1,
-    "syncedAt": "2026-06-16 21:58"
+    "syncedAt": "2026-06-17 04:52"
   },
   "windows": {
     "last_7d": {
@@ -31,8 +31,8 @@
       "reach": 4693,
       "frequency": 1.860004,
       "hasData": true,
-      "from": "2026-05-17",
-      "to": "2026-06-15"
+      "from": "2026-05-18",
+      "to": "2026-06-16"
     },
     "maximum": {
       "spend": 835.47,
