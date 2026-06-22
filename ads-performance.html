@@ -82,15 +82,14 @@
         <thead>
           <tr>
             <th>Campaign</th>
-            <th>Platform</th>
+            <th>Status</th>
             <th>Spend</th>
-            <th>CPM</th>
-            <th>CPC</th>
-            <th>CTR</th>
-            <th>Cost / qualified</th>
-            <th>CAC</th>
-            <th>ROAS</th>
-            <th></th>
+            <th>Reach</th>
+            <th>Impressions</th>
+            <th>Frequency</th>
+            <th>CTR · view→chat</th>
+            <th>Chats</th>
+            <th>CPL</th>
           </tr>
         </thead>
         <tbody id="campaignRows"></tbody>
@@ -147,11 +146,16 @@
 
   // ── KPIs (only metrics Meta actually provides) ──
   function renderKpis(w, label) {
+    const freq = (+w.frequency || 0).toFixed(2);
     const kpis = [
-      { label: `Spend${label}`,      value: F.usdK(w.spend),     sub: w.from ? `${w.from} → ${w.to}` : 'no data' },
-      { label: 'Impressions',        value: F.compact(w.impressions), sub: F.compact(w.reach) + ' people' },
-      { label: 'Clicks',             value: F.compact(w.clicks),  sub: 'CPC ' + F.usd(w.cpc) },
-      { label: 'CTR',                value: F.pct(w.ctr),         sub: 'CPM ' + F.usd(w.cpm) }
+      { label: `Spend${label}`,    value: F.usdK(w.spend),          sub: w.from ? `${w.from} → ${w.to}` : 'no data' },
+      { label: 'Reach',            value: F.compact(w.reach),       sub: 'people reached' },
+      { label: 'Impressions',      value: F.compact(w.impressions), sub: 'total views' },
+      { label: 'Frequency',        value: freq + '×',               sub: 'views per person' },
+      { label: 'Chats started',    value: F.compact(w.chats || 0),  sub: 'conversations w/ Sebas' },
+      { label: 'CTR · view→chat',  value: F.pct(w.ctrChat || 0),    sub: 'viewers who message' },
+      { label: 'CPL',              value: w.cpl != null ? F.usd(w.cpl) : '—', sub: 'cost per chat / lead' },
+      { label: 'CPM',              value: F.usd(w.cpm),             sub: 'per 1,000 views' }
     ];
     document.getElementById('adsKpis').innerHTML = kpis.map(k => `
       <div class="kpi">
@@ -165,16 +169,16 @@
   // ── Funnel: real (impressions→clicks) + tracker-pending stages ──
   function renderFunnel(w) {
     const realRows = [
-      { label: 'Impressions', value: w.impressions, cost: 'CPM ' + F.usd(w.cpm), color: '#0866FF', meta: true },
-      { label: 'Link clicks', value: w.clicks, cost: F.usd(w.cpc) + ' / click', color: '#B8915A', meta: true },
+      { label: 'Impressions', value: w.impressions, costVal: F.usd(w.cpm), costLbl: 'CPM', color: '#0866FF' },
+      { label: 'Conversations (chats)', value: w.chats || 0, costVal: (w.cpl != null ? F.usd(w.cpl) : '—'), costLbl: 'CPL', color: '#B8915A' },
     ];
-    const pending = ['Conversations (DM)', 'Calls booked', 'Qualified leads', 'Clients closed'];
+    const pending = ['Calls booked', 'Qualified leads', 'Clients closed'];
     const maxVal = Math.max(realRows[0].value, 1);
     let html = realRows.map((f, i) => {
       const widthPct = Math.max(10, (f.value / maxVal) * 100);
-      const conv = i > 0 ? ((f.value / realRows[i - 1].value) * 100).toFixed(1) : null;
+      const conv = i > 0 && realRows[i - 1].value ? ((f.value / realRows[i - 1].value) * 100).toFixed(2) : null;
       return `
-        ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% continue</div>` : ''}
+        ${i > 0 ? `<div class="funnel-row__drop">↓ ${conv}% view → chat</div>` : ''}
         <div class="funnel-row">
           <div class="funnel-row__label">
             <div class="funnel-row__stage">${f.label}
@@ -186,8 +190,8 @@
             <div class="funnel-row__bar" style="width:${widthPct}%;background:${f.color}">${F.compact(f.value)}</div>
           </div>
           <div class="funnel-row__cost">
-            <div class="funnel-row__cost-val">${f.cost.split(' ')[0] === 'CPM' ? F.usd(w.cpm) : F.usd(w.cpc)}</div>
-            <div class="funnel-row__cost-lbl">${f.cost.includes('CPM') ? 'CPM' : 'per click'}</div>
+            <div class="funnel-row__cost-val">${f.costVal}</div>
+            <div class="funnel-row__cost-lbl">${f.costLbl}</div>
           </div>
         </div>`;
     }).join('');
@@ -266,17 +270,16 @@
       </td>
       <td>${statusTag(c.status)}</td>
       <td class="metric">${F.usd(c.spend)}</td>
-      <td class="metric">${F.usd(c.cpm)}</td>
-      <td class="metric ${cls(c.cpc, 3, 6)}">${F.usd(c.cpc)}</td>
-      <td class="metric ${cls(c.ctr, 2.5, 1.2, false)}">${F.pct(c.ctr)}</td>
-      <td class="metric text-quiet">—</td>
-      <td class="metric text-quiet">—</td>
-      <td class="metric text-quiet">—</td>
-      <td><button class="btn btn--ghost btn--sm" onclick="calToast('Per-campaign detail — coming soon')">View</button></td>
+      <td class="metric">${F.compact(c.reach)}</td>
+      <td class="metric">${F.compact(c.impressions)}</td>
+      <td class="metric">${(+c.frequency || 0).toFixed(2)}×</td>
+      <td class="metric">${F.pct(c.ctrChat || 0)}</td>
+      <td class="metric">${F.compact(c.chats || 0)}</td>
+      <td class="metric ${c.cpl != null ? '' : 'text-quiet'}">${c.cpl != null ? F.usd(c.cpl) : '—'}</td>
     </tr>
   `).join('') + `
-    <tr><td colspan="10" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">
-      Cost/qualified, CAC and ROAS are calculated once you connect the conversion tracker (Calendly/Stripe). Everything else is live Meta data.
+    <tr><td colspan="9" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">
+      Reach, impressions, frequency, CTR→chat and CPL are live Meta data. Calls booked, qualified leads &amp; closed clients appear once the conversion tracker (Calendly/Stripe) is connected.
     </td></tr>`;
 
   // ── Insights generated from REAL data ──

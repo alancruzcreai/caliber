@@ -51,6 +51,26 @@ async function graph(endpoint, params = {}) {
 
 const num = (v) => (v == null ? 0 : parseFloat(v));
 
+// Messaging conversations started ("chats with Sebastian" = leads) from an
+// insights `actions` array. Mauricio's HSTP campaigns optimize for messaging,
+// so the real "lead" is a started conversation, not a link click.
+function chatsFromActions(actions) {
+  if (!Array.isArray(actions)) return 0;
+  const exact = actions.find(a => a && a.action_type === 'onsite_conversion.messaging_conversation_started_7d');
+  if (exact) return num(exact.value);
+  const any = actions.find(a => a && typeof a.action_type === 'string' && a.action_type.indexOf('messaging_conversation_started') !== -1);
+  return any ? num(any.value) : 0;
+}
+
+// Derived messaging metrics for any insights row
+function chatMetrics(spend, impressions, chats) {
+  return {
+    chats,
+    ctrChat: impressions ? +(chats / impressions * 100).toFixed(2) : 0,  // view → chat %
+    cpl: chats ? +(spend / chats).toFixed(2) : null,                      // cost per lead/chat
+  };
+}
+
 // campaign.id IN [...] filter as Meta expects it
 const campaignFilter = (ids) =>
   JSON.stringify([{ field: 'campaign.id', operator: 'IN', value: ids }]);
@@ -58,25 +78,27 @@ const campaignFilter = (ids) =>
 // Aggregated insights for a window, restricted to the given campaign ids
 async function windowInsights(datePreset, ids) {
   if (!ids.length) {
-    return { spend: 0, impressions: 0, clicks: 0, cpm: 0, cpc: 0, ctr: 0, reach: 0, frequency: 0, hasData: false, from: null, to: null };
+    return { spend: 0, impressions: 0, clicks: 0, cpm: 0, cpc: 0, ctr: 0, reach: 0, frequency: 0, chats: 0, ctrChat: 0, cpl: null, hasData: false, from: null, to: null };
   }
   try {
     const r = await graph(`${ACCOUNT}/insights`, {
-      fields: 'spend,impressions,clicks,cpm,cpc,ctr,reach,frequency',
+      fields: 'spend,impressions,clicks,cpm,cpc,ctr,reach,frequency,actions',
       date_preset: datePreset,
       filtering: campaignFilter(ids),
       level: 'account',
     });
     const d = (r.data && r.data[0]) || {};
+    const spend = num(d.spend), impressions = num(d.impressions);
     return {
-      spend: num(d.spend), impressions: num(d.impressions), clicks: num(d.clicks),
+      spend, impressions, clicks: num(d.clicks),
       cpm: num(d.cpm), cpc: num(d.cpc), ctr: num(d.ctr),
       reach: num(d.reach), frequency: num(d.frequency),
+      ...chatMetrics(spend, impressions, chatsFromActions(d.actions)),
       hasData: !!(r.data && r.data.length),
       from: d.date_start || null, to: d.date_stop || null,
     };
   } catch (e) {
-    return { error: e.message, spend: 0, impressions: 0, clicks: 0, cpm: 0, cpc: 0, ctr: 0, reach: 0, hasData: false };
+    return { error: e.message, spend: 0, impressions: 0, clicks: 0, cpm: 0, cpc: 0, ctr: 0, reach: 0, frequency: 0, chats: 0, ctrChat: 0, cpl: null, hasData: false };
   }
 }
 
@@ -119,16 +141,19 @@ async function breakdown(by, ids, preset = 'maximum') {
   let allCampaigns = [];
   try {
     const r = await graph(`${ACCOUNT}/campaigns`, {
-      fields: 'name,status,effective_status,objective,insights.date_preset(maximum){spend,impressions,clicks,cpm,cpc,ctr,reach}',
+      fields: 'name,status,effective_status,objective,insights.date_preset(maximum){spend,impressions,clicks,cpm,cpc,ctr,reach,frequency,actions}',
       limit: '200',
     });
     allCampaigns = (r.data || []).map((c) => {
       const i = (c.insights && c.insights.data && c.insights.data[0]) || {};
+      const spend = num(i.spend), impressions = num(i.impressions);
       return {
         id: c.id, name: c.name, status: c.status, effective_status: c.effective_status,
         objective: c.objective || '',
-        spend: num(i.spend), impressions: num(i.impressions), clicks: num(i.clicks),
-        cpm: num(i.cpm), cpc: num(i.cpc), ctr: num(i.ctr), reach: num(i.reach),
+        spend, impressions, clicks: num(i.clicks),
+        cpm: num(i.cpm), cpc: num(i.cpc), ctr: num(i.ctr),
+        reach: num(i.reach), frequency: num(i.frequency),
+        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
       };
     });
   } catch (e) {
