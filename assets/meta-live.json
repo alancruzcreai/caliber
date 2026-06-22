@@ -3,9 +3,9 @@
     "id": "act_1656033801684436",
     "name": "Dragon Consultations",
     "connected": true,
-    "scope": "allowlist",
+    "scope": "active_only",
     "activeCount": 1,
-    "syncedAt": "2026-06-22 16:35"
+    "syncedAt": "2026-06-22 16:36"
   },
   "windows": {
     "last_7d": {
