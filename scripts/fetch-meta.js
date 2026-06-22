@@ -124,6 +124,54 @@ async function breakdown(by, ids, preset = 'maximum') {
   }
 }
 
+// Ad SETS under the given campaigns, with all-time insights
+async function adsetsForCampaigns(ids) {
+  if (!ids.length) return [];
+  try {
+    const r = await graph(`${ACCOUNT}/adsets`, {
+      fields: 'name,status,effective_status,campaign{name},insights.date_preset(maximum){spend,impressions,reach,frequency,clicks,actions}',
+      filtering: JSON.stringify([{ field: 'campaign.id', operator: 'IN', value: ids }]),
+      limit: '200',
+    });
+    return (r.data || []).map((s) => {
+      const i = (s.insights && s.insights.data && s.insights.data[0]) || {};
+      const spend = num(i.spend), impressions = num(i.impressions);
+      return {
+        id: s.id, name: s.name, status: s.status, effective_status: s.effective_status,
+        campaign: (s.campaign && s.campaign.name) || '',
+        spend, impressions, clicks: num(i.clicks),
+        reach: num(i.reach), frequency: num(i.frequency),
+        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
+      };
+    });
+  } catch (e) { console.error('  ✗ adsets:', e.message); return []; }
+}
+
+// ADS (the leaf — same rows you see in Meta's "Anuncios" view) under the campaigns
+async function adsForCampaigns(ids) {
+  if (!ids.length) return [];
+  try {
+    const r = await graph(`${ACCOUNT}/ads`, {
+      fields: 'name,status,effective_status,adset{name},campaign{name},insights.date_preset(maximum){spend,impressions,reach,frequency,clicks,cpm,cpc,ctr,actions}',
+      filtering: JSON.stringify([{ field: 'campaign.id', operator: 'IN', value: ids }]),
+      limit: '500',
+    });
+    return (r.data || []).map((a) => {
+      const i = (a.insights && a.insights.data && a.insights.data[0]) || {};
+      const spend = num(i.spend), impressions = num(i.impressions);
+      return {
+        id: a.id, name: a.name, status: a.status, effective_status: a.effective_status,
+        adset: (a.adset && a.adset.name) || '',
+        campaign: (a.campaign && a.campaign.name) || '',
+        spend, impressions, clicks: num(i.clicks),
+        cpm: num(i.cpm), cpc: num(i.cpc), ctr: num(i.ctr),
+        reach: num(i.reach), frequency: num(i.frequency),
+        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
+      };
+    });
+  } catch (e) { console.error('  ✗ ads:', e.message); return []; }
+}
+
 (async () => {
   console.log(`→ Sync Meta · cuenta ${ACCOUNT}`);
 
@@ -173,8 +221,8 @@ async function breakdown(by, ids, preset = 'maximum') {
   const ids = selected.map(c => c.id);
   console.log(`  campañas seleccionadas: ${ids.length}`);
 
-  // Windows + breakdowns restricted to selected campaigns
-  const [w7, w30, wMax, bdAge, bdGender, bdCountry, bdPlacement] = await Promise.all([
+  // Windows + breakdowns + ad sets + ads, all restricted to selected campaigns
+  const [w7, w30, wMax, bdAge, bdGender, bdCountry, bdPlacement, adsets, ads] = await Promise.all([
     windowInsights('last_7d', ids),
     windowInsights('last_30d', ids),
     windowInsights('maximum', ids),
@@ -182,7 +230,12 @@ async function breakdown(by, ids, preset = 'maximum') {
     breakdown('gender', ids),
     breakdown('country', ids),
     breakdown('publisher_platform', ids),
+    adsetsForCampaigns(ids),
+    adsForCampaigns(ids),
   ]);
+
+  console.log(`  conjuntos: ${adsets.length} · anuncios: ${ads.length}`);
+  ads.forEach(a => console.log(`    · [${a.effective_status || a.status}] ${(a.name || '').slice(0, 44)} — $${a.spend} · impr ${a.impressions} · reach ${a.reach} · chats ${a.chats}`));
 
   const out = {
     account: {
@@ -195,11 +248,13 @@ async function breakdown(by, ids, preset = 'maximum') {
     },
     windows: { last_7d: w7, last_30d: w30, maximum: wMax },
     campaigns: selected,    // only the selected (active) campaigns
+    adsets,                 // ad sets under the selected campaigns
+    ads,                    // ads (same rows as Meta's "Anuncios" view)
     breakdowns: { age: bdAge, gender: bdGender, country: bdCountry, placement: bdPlacement },
   };
 
   fs.writeFileSync(OUT, JSON.stringify(out, null, 2));
-  console.log(`✓ meta-live.json escrito · ${ids.length} campaña(s) activa(s) · spend(max) $${wMax.spend}`);
+  console.log(`✓ meta-live.json escrito · ${ids.length} campaña(s) · ${ads.length} anuncio(s) · spend(max) $${wMax.spend}`);
 })().catch((e) => {
   console.error('✗ Falló el sync:', e.message);
   process.exit(1);

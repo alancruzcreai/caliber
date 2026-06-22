@@ -97,6 +97,34 @@
     </div>
   </section>
 
+  <!-- Ads running (mirrors Meta's "Anuncios" view · 1 row per ad) -->
+  <div class="divider-label">
+    <span class="divider-label__text">— 03b / Ads running · same rows as Meta</span>
+    <span class="divider-label__line"></span>
+  </div>
+
+  <section class="card reveal reveal-4">
+    <div class="card__body" style="padding:0;overflow-x:auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ad</th>
+            <th>Ad set</th>
+            <th>Status</th>
+            <th>Spend</th>
+            <th>Reach</th>
+            <th>Impressions</th>
+            <th>Frequency</th>
+            <th>CTR · view→chat</th>
+            <th>Chats</th>
+            <th>CPL</th>
+          </tr>
+        </thead>
+        <tbody id="adRows"></tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- Insights -->
   <div class="divider-label">
     <span class="divider-label__text">— 04 / What the math says</span>
@@ -118,7 +146,7 @@
 
   // Not connected → empty states everywhere
   if (!M) {
-    ['adsKpis','funnel','spendChart','campaignRows','insights'].forEach(id => {
+    ['adsKpis','funnel','spendChart','campaignRows','adRows','insights'].forEach(id => {
       const el = document.getElementById(id);
       if (el) window.renderNotConnected(el);
     });
@@ -281,6 +309,33 @@
     <tr><td colspan="9" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">
       Reach, impressions, frequency, CTR→chat and CPL are live Meta data. Calls booked, qualified leads &amp; closed clients appear once the conversion tracker (Calendly/Stripe) is connected.
     </td></tr>`;
+
+  // ── Ads table (mirrors Meta's "Anuncios" view · 1 row per ad) ──
+  const adStatus = (s) => {
+    const e = (s || '').toUpperCase();
+    if (e === 'ACTIVE') return '<span class="tag tag--success">Active</span>';
+    if (e.indexOf('REVIEW') !== -1 || e === 'IN_PROCESS' || e === 'PENDING') return '<span class="tag tag--ghost">In review</span>';
+    if (e === 'DISAPPROVED' || e === 'WITH_ISSUES') return '<span class="tag tag--bad">Issue</span>';
+    if (e.indexOf('PAUSED') !== -1) return '<span class="tag tag--ghost">Paused</span>';
+    return `<span class="tag tag--ghost">${e ? e.replace(/_/g, ' ').toLowerCase() : '—'}</span>`;
+  };
+  const adsList = (M.ads || []).slice().sort((a, b) => (b.spend - a.spend) || String(a.name).localeCompare(String(b.name)));
+  const adRowsEl = document.getElementById('adRows');
+  if (adRowsEl) {
+    adRowsEl.innerHTML = adsList.length ? adsList.map(a => `
+      <tr>
+        <td><strong style="font-weight:500">${(a.name || '').length > 40 ? a.name.slice(0, 40) + '…' : (a.name || '—')}</strong></td>
+        <td class="text-quiet" style="font-size:var(--text-xs)">${a.adset || '—'}</td>
+        <td>${adStatus(a.effective_status || a.status)}</td>
+        <td class="metric">${F.usd(a.spend)}</td>
+        <td class="metric">${F.compact(a.reach)}</td>
+        <td class="metric">${F.compact(a.impressions)}</td>
+        <td class="metric">${(+a.frequency || 0).toFixed(2)}×</td>
+        <td class="metric">${F.pct(a.ctrChat || 0)}</td>
+        <td class="metric">${F.compact(a.chats || 0)}</td>
+        <td class="metric ${a.cpl != null ? '' : 'text-quiet'}">${a.cpl != null ? F.usd(a.cpl) : '—'}</td>
+      </tr>`).join('') : `<tr><td colspan="10" style="text-align:center;padding:var(--s-4);color:var(--ink-quiet);font-size:var(--text-xs)">No ads returned for the active campaign(s) yet.</td></tr>`;
+  }
 
   // ── Insights generated from REAL data ──
   const ins = [];
