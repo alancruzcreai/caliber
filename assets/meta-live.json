@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "active_only",
     "activeCount": 1,
-    "syncedAt": "2026-06-24 08:25"
+    "syncedAt": "2026-06-24 13:43"
   },
   "windows": {
     "last_7d": {
@@ -41,20 +41,20 @@
       "to": null
     },
     "maximum": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "spend": 50.83,
+      "impressions": 2568,
+      "clicks": 164,
+      "cpm": 19.793614,
+      "cpc": 0.309939,
+      "ctr": 6.386293,
+      "reach": 2327,
+      "frequency": 1.103567,
+      "chats": 3,
+      "ctrChat": 0.12,
+      "cpl": 16.94,
+      "hasData": true,
+      "from": "2026-06-24",
+      "to": "2026-06-24"
     }
   },
   "campaigns": [
@@ -64,17 +64,17 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "objective": "OUTCOME_ENGAGEMENT",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
+      "spend": 50.83,
+      "impressions": 2568,
+      "clicks": 164,
+      "cpm": 19.793614,
+      "cpc": 0.309939,
+      "ctr": 6.386293,
+      "reach": 2327,
+      "frequency": 1.103567,
+      "chats": 3,
+      "ctrChat": 0.12,
+      "cpl": 16.94
     }
   ],
   "adsets": [
@@ -84,17 +84,36 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
+      "spend": 50.83,
+      "impressions": 2568,
+      "clicks": 164,
+      "reach": 2327,
+      "frequency": 1.103567,
+      "chats": 3,
+      "ctrChat": 0.12,
+      "cpl": 16.94
     }
   ],
   "ads": [
+    {
+      "id": "120248914266640505",
+      "name": "HSTP T1 · Á4.C1 · IA · v2sched",
+      "status": "PAUSED",
+      "effective_status": "WITH_ISSUES",
+      "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
+      "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
+      "spend": 0.05,
+      "impressions": 6,
+      "clicks": 0,
+      "cpm": 8.333333,
+      "cpc": 0,
+      "ctr": 0,
+      "reach": 6,
+      "frequency": 1,
+      "chats": 0,
+      "ctrChat": 0,
+      "cpl": null
+    },
     {
       "id": "120248914266630505",
       "name": "HSTP T1 · Á3.C2 · IA · v2sched",
@@ -102,14 +121,14 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
       "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
+      "spend": 4.27,
+      "impressions": 286,
+      "clicks": 2,
+      "cpm": 14.93007,
+      "cpc": 2.135,
+      "ctr": 0.699301,
+      "reach": 281,
+      "frequency": 1.017794,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
@@ -121,14 +140,14 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
       "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
+      "spend": 5.3,
+      "impressions": 266,
+      "clicks": 20,
+      "cpm": 19.924812,
+      "cpc": 0.265,
+      "ctr": 7.518797,
+      "reach": 233,
+      "frequency": 1.141631,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
@@ -140,14 +159,14 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
       "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
+      "spend": 0.74,
+      "impressions": 56,
+      "clicks": 2,
+      "cpm": 13.214286,
+      "cpc": 0.37,
+      "ctr": 3.571429,
+      "reach": 53,
+      "frequency": 1.056604,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
@@ -172,48 +191,117 @@
       "cpl": null
     },
     {
-      "id": "120248914266640505",
-      "name": "HSTP T1 · Á4.C1 · IA · v2sched",
-      "status": "ACTIVE",
-      "effective_status": "ACTIVE",
-      "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
-      "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
-    },
-    {
       "id": "120248914266610505",
       "name": "HSTP T1 · Á1.C1 · REAL · v2sched",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
       "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
+      "spend": 40.47,
+      "impressions": 1954,
+      "clicks": 140,
+      "cpm": 20.711361,
+      "cpc": 0.289071,
+      "ctr": 7.16479,
+      "reach": 1818,
+      "frequency": 1.074807,
+      "chats": 3,
+      "ctrChat": 0.15,
+      "cpl": 13.49
     }
   ],
   "breakdowns": {
-    "age": [],
-    "gender": [],
-    "country": [],
-    "placement": []
+    "age": [
+      {
+        "key": "18-24",
+        "spend": 7.29,
+        "impressions": 487,
+        "clicks": 7,
+        "ctr": 1.437372
+      },
+      {
+        "key": "25-34",
+        "spend": 5.97,
+        "impressions": 317,
+        "clicks": 16,
+        "ctr": 5.047319
+      },
+      {
+        "key": "35-44",
+        "spend": 3.57,
+        "impressions": 168,
+        "clicks": 14,
+        "ctr": 8.333333
+      },
+      {
+        "key": "45-54",
+        "spend": 5.99,
+        "impressions": 331,
+        "clicks": 21,
+        "ctr": 6.344411
+      },
+      {
+        "key": "55-64",
+        "spend": 11.76,
+        "impressions": 590,
+        "clicks": 53,
+        "ctr": 8.983051
+      },
+      {
+        "key": "65+",
+        "spend": 16.25,
+        "impressions": 675,
+        "clicks": 53,
+        "ctr": 7.851852
+      }
+    ],
+    "gender": [
+      {
+        "key": "female",
+        "spend": 6.57,
+        "impressions": 444,
+        "clicks": 8,
+        "ctr": 1.801802
+      },
+      {
+        "key": "male",
+        "spend": 43.87,
+        "impressions": 2109,
+        "clicks": 155,
+        "ctr": 7.349455
+      },
+      {
+        "key": "unknown",
+        "spend": 0.39,
+        "impressions": 15,
+        "clicks": 1,
+        "ctr": 6.666667
+      }
+    ],
+    "country": [
+      {
+        "key": "MX",
+        "spend": 51.248901,
+        "impressions": 2568,
+        "clicks": 164,
+        "ctr": 6.386293
+      }
+    ],
+    "placement": [
+      {
+        "key": "facebook",
+        "spend": 39.989672,
+        "impressions": 1868,
+        "clicks": 153,
+        "ctr": 8.190578
+      },
+      {
+        "key": "instagram",
+        "spend": 10.840328,
+        "impressions": 700,
+        "clicks": 11,
+        "ctr": 1.571429
+      }
+    ]
   }
 }
