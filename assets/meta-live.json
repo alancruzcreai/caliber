@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "active_only",
     "activeCount": 1,
-    "syncedAt": "2026-06-24 03:25"
+    "syncedAt": "2026-06-24 08:25"
   },
   "windows": {
     "last_7d": {
@@ -96,6 +96,25 @@
   ],
   "ads": [
     {
+      "id": "120248914266630505",
+      "name": "HSTP T1 · Á3.C2 · IA · v2sched",
+      "status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
+      "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
+      "spend": 0,
+      "impressions": 0,
+      "clicks": 0,
+      "cpm": 0,
+      "cpc": 0,
+      "ctr": 0,
+      "reach": 0,
+      "frequency": 0,
+      "chats": 0,
+      "ctrChat": 0,
+      "cpl": null
+    },
+    {
       "id": "120248914267030505",
       "name": "HSTP T1 · Á3.C2 · REAL · v2sched",
       "status": "ACTIVE",
@@ -174,25 +193,6 @@
     {
       "id": "120248914266610505",
       "name": "HSTP T1 · Á1.C1 · REAL · v2sched",
-      "status": "ACTIVE",
-      "effective_status": "ACTIVE",
-      "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
-      "campaign": "HSTP · Tanda 1 · Barcelona (Ads  --> whatsapp)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
-    },
-    {
-      "id": "120248914266630505",
-      "name": "HSTP T1 · Á3.C2 · IA · v2sched",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "adset": "HSTP · T1 · BCN centro 6km · Conv→WA · prog martes",
