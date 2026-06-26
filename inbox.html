@@ -3,198 +3,198 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="caliber-page" content="inbox|Inbox & Qualify" />
-<title>Caliber · Inbox & Qualify</title>
+<meta name="caliber-page" content="inbox|Ad conversations" />
+<title>Caliber · Ad conversations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .inbox-list__title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 400; letter-spacing: -0.02em; margin: 0 0 var(--s-3); }
-  .inbox-list__title em { font-style: normal; color: var(--gold); }
-  .ilead__channel { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; color: var(--ink-quiet); text-transform: uppercase; }
-  .kw-chip { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; background: var(--info-tint); color: var(--info); padding: 1px 5px; border-radius: var(--r-sm); }
-  .triage__rec { margin-top: var(--s-5); padding: var(--s-4); border-radius: var(--r-md); font-size: var(--text-sm); line-height: 1.5; }
-  .triage__rec--hot { background: var(--success-tint); color: var(--success); }
-  .triage__rec--warm { background: var(--gold-tint); color: var(--gold-deep); }
-  .triage__rec--cold { background: var(--surface-2); color: var(--ink-mute); }
-  .compose { display: flex; gap: var(--s-2); align-items: flex-end; }
-  .compose textarea { flex: 1; resize: none; min-height: 42px; }
-  /* mobile: show chat only */
-  @media (max-width: 1024px) { .inbox-shell { grid-template-columns: 320px 1fr; } .triage { display: none; } }
-  @media (max-width: 768px)  {
-    .inbox-shell { grid-template-columns: 1fr; height: auto; }
-    .inbox-list { display: none; }
-    .inbox-main { min-height: calc(100vh - 61px); }
-    .inbox-main__head { flex-wrap: wrap; }
-  }
+  .empty-feed { border:1px dashed var(--line-strong); border-radius:var(--radius); padding:var(--s-8) var(--s-5); text-align:center; }
+  .empty-feed__num { font-family:var(--font-display); font-size:48px; line-height:1; color:var(--ink); }
+  .coach-out { white-space:pre-wrap; font-size:var(--text-sm); line-height:1.6; background:var(--surface-1); border:1px solid var(--line); border-radius:var(--radius); padding:var(--s-4); min-height:90px; }
+  .coach-out strong { color:var(--gold-deep); }
+  textarea.input { width:100%; min-height:96px; resize:vertical; font-family:inherit; line-height:1.5; }
+  .wa { display:inline-flex; align-items:center; gap:8px; font-weight:600; color:#1f8a4c; }
 </style>
 </head>
 <body>
 <div id="page-content">
-<div class="content content--flush">
-<div class="inbox-shell">
+<main class="content">
 
-  <!-- LEFT: lead list -->
-  <aside class="inbox-list reveal">
-    <div class="inbox-list__head">
-      <h2 class="inbox-list__title">In<em>box</em></h2>
-      <div class="flex gap-2" style="flex-wrap:wrap">
-        <span class="mono text-xs text-quiet" id="leadCount"></span>
-        <button class="filter-chip filter-chip--active" data-f="all">All</button>
-        <button class="filter-chip" data-f="hot">Hot</button>
-        <button class="filter-chip" data-f="warm">Warm</button>
-        <button class="filter-chip" data-f="cold">Cold</button>
-      </div>
-      <div class="mono text-xs text-quiet" style="margin-top:var(--s-2)">via GoHighLevel · WhatsApp + IG DM</div>
+  <div class="page-header reveal">
+    <div>
+      <div class="page-header__num">— CONVERSATIONS · FROM ADS ONLY</div>
+      <h1 class="page-header__title">The leads your ads <em>actually send.</em></h1>
+      <p class="page-header__sub">
+        Only the chats that come in through the <strong>“Send message”</strong> button on the current campaign’s Instagram &amp; Facebook ads —
+        not Sebastian’s whole inbox. Each one is where the AI reads the lead and tells Sebastian how to close.
+      </p>
     </div>
-    <div class="inbox-list__body" id="leadList"></div>
-  </aside>
+  </div>
 
-  <!-- CENTER: conversation -->
-  <section class="inbox-main reveal reveal-1">
-    <header class="inbox-main__head" id="chatHead"></header>
-    <div class="inbox-main__body" id="chatBody"></div>
-    <footer class="inbox-main__footer" id="chatFooter"></footer>
+  <!-- Scope / real count -->
+  <div class="conn-banner reveal reveal-1" id="scopeBanner">
+    <span class="conn-banner__dot"></span>
+    <span class="conn-banner__text">Loading live ad-conversation count…</span>
+  </div>
+
+  <div class="grid-split" style="margin-top:var(--s-8)">
+    <!-- Conversation feed (real) -->
+    <section class="card reveal reveal-2">
+      <header class="card__header">
+        <div>
+          <div class="eyebrow-num">— 01 / Conversations from this campaign</div>
+          <h2 class="card__title mt-2">Ad inbox</h2>
+        </div>
+        <span class="tag tag--ghost" id="feedTag">—</span>
+      </header>
+      <div class="card__body" id="feed"></div>
+    </section>
+
+    <!-- AI Closer -->
+    <section class="card reveal reveal-3">
+      <header class="card__header">
+        <div>
+          <div class="eyebrow-num">— 02 / AI Closer</div>
+          <h2 class="card__title mt-2">Paste the lead’s message →</h2>
+        </div>
+        <span class="conn-pill conn-pill--demo" id="aiPill">● demo</span>
+      </header>
+      <div class="card__body">
+        <p class="text-sm text-mute mb-4">Paste what the lead wrote (from the ad DM). The AI — trained on the NEPQ method + the HSTP program — tells Sebastian exactly what to send next to move toward the Express Call.</p>
+        <textarea class="input" id="leadMsg" placeholder="e.g. &quot;Vi tu anuncio, viajo mucho y siempre pierdo mi rutina cuando estoy a bordo…&quot;"></textarea>
+        <div class="flex gap-2 mt-3">
+          <button class="btn btn--gold btn--sm" id="coachBtn">Suggest how to close</button>
+          <a class="btn btn--ghost btn--sm" href="https://wa.me/528115772388" target="_blank" rel="noopener" style="margin-left:auto">Open Sebastian’s WhatsApp</a>
+        </div>
+        <div class="coach-out mt-4" id="coachOut">The AI’s read + the exact next message will appear here.</div>
+        <div class="mono text-xs text-quiet mt-3">Handoff → Sebastian · <span class="wa">+52 811 577 2388</span></div>
+
+        <!-- enable real AI -->
+        <div class="keybox mt-4" id="keyBox" style="padding-top:var(--s-3);border-top:1px solid var(--line)">
+          <p class="text-xs text-quiet mb-2">To get real, lead-specific suggestions, connect the AI (or deploy the shared proxy):</p>
+          <div class="flex gap-2">
+            <input class="input" id="apiKey" type="password" placeholder="sk-ant-... (optional)" autocomplete="off" style="flex:1" />
+            <button class="btn btn--primary btn--sm" id="saveKey">Use my key</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- How it goes fully automatic -->
+  <div class="divider-label">
+    <span class="divider-label__text">— 03 / To stream these in automatically</span>
+    <span class="divider-label__line"></span>
+  </div>
+  <section class="card reveal reveal-4">
+    <div class="card__body">
+      <p class="text-sm text-mute">
+        Right now Sebastian pastes a message and the AI coaches the close. To have these conversations
+        <strong>appear here on their own</strong>, the Dragon Consultations Instagram/Facebook page connects its Messaging —
+        and Caliber filters to <strong>only</strong> the chats whose <code>referral.ad_id</code> belongs to the current campaign’s ads
+        (that’s how Meta tags a “Send message” ad click), never the rest of the inbox.
+      </p>
+      <div class="mono text-xs text-quiet mt-3" style="padding-top:var(--s-3);border-top:1px dashed var(--line-strong)">
+        Needs (client): Facebook Page access + Instagram/Messenger messaging permission → I wire the filtered feed. No fake messages are ever shown here.
+      </div>
+    </div>
   </section>
 
-  <!-- RIGHT: triage -->
-  <aside class="triage reveal reveal-2" id="triagePanel"></aside>
-
-</div>
-</div>
+  <div style="height:var(--s-16)"></div>
+</main>
 </div>
 
 <script src="assets/data.js"></script>
-<script src="assets/ai.js"></script>
+<script src="assets/agent-brain.js"></script>
 <script src="assets/app.js"></script>
 <script>
-  const LEADS = window.CALIBER_DATA.inbox;
-  let activeId = LEADS[0].id;
-  let filter = 'all';
+(async function () {
+  const F = window.calFmt;
+  const KEY_LS = 'caliber_anthropic_key';
+  const PROXY = (window.AGENT_API_URL || '').trim();
+  const getKey = () => localStorage.getItem(KEY_LS) || '';
 
-  const flagFor = (lang) => lang === 'ES' ? '🇲🇽' : '🇬🇧';
-  const tempClass = (s) => s === 'hot' ? 'hot' : s === 'warm' ? 'warm' : 'cold';
-
-  function renderList() {
-    const shown = LEADS.filter(l => filter === 'all' || l.status === filter);
-    document.getElementById('leadCount').textContent = shown.length + ' leads';
-    document.getElementById('leadList').innerHTML = shown.map(l => `
-      <div class="ilead ${l.id === activeId ? 'ilead--active' : ''}" onclick="selectLead('${l.id}')">
-        <div class="ilead__name"><span class="dot dot--${tempClass(l.status)}"></span>${l.name} <span style="opacity:.6">${flagFor(l.lang)}</span></div>
-        <div class="ilead__time">${l.timeAgo}</div>
-        <div class="ilead__preview">${l.lastMsg}</div>
-        <div class="ilead__meta">
-          <span class="score-pill score-pill--${tempClass(l.status)}">${l.score}</span>
-          <span class="kw-chip">${l.keyword}</span>
-          <span class="ilead__channel">${l.channel}</span>
-          ${l.unread ? `<span class="score-pill score-pill--warm" style="margin-left:auto">${l.unread}</span>` : ''}
-        </div>
-      </div>`).join('');
+  // ── Real ad-conversation count from Meta ──
+  const M = await window.loadMetaLive();
+  const chats = M ? ((M.windows && M.windows.maximum && M.windows.maximum.chats) || 0) : 0;
+  const campName = M && M.campaigns && M.campaigns[0] ? M.campaigns[0].name : '—';
+  const sb = document.querySelector('#scopeBanner .conn-banner__text');
+  if (sb) {
+    sb.innerHTML = M
+      ? `<strong>${F.compact(chats)} conversation(s)</strong> started from this campaign’s ads · ${campName} · last sync ${M.account.syncedAt || '—'}.`
+      : `<strong>Not connected.</strong> Connect Meta to count ad conversations.`;
   }
 
-  function selectLead(id) {
-    activeId = id;
-    renderList();
-    renderChat();
-    renderTriage();
+  // ── Conversation feed (honest: real count, no fabricated threads) ──
+  const feedTag = document.getElementById('feedTag');
+  feedTag.className = chats > 0 ? 'tag tag--success' : 'tag tag--ghost';
+  feedTag.textContent = `${chats} from ads`;
+  document.getElementById('feed').innerHTML = chats > 0
+    ? `<div class="empty-feed"><div class="empty-feed__num">${F.compact(chats)}</div>
+        <p class="text-sm text-mute mt-3">conversations have started from these ads. Paste any of them into the AI Closer →<br>
+        Connect Page Messaging (section 03) to list each thread here automatically.</p></div>`
+    : `<div class="empty-feed"><div class="empty-feed__num">0</div>
+        <p class="text-sm text-mute mt-3">No ad conversations yet — the campaign hasn’t delivered impressions, so no one has clicked “Send message” yet.<br>
+        The moment the ads spend and a lead messages, the count here goes up. Use the AI Closer now for any DM Sebastian already has.</p></div>`;
+
+  // ── AI status pill ──
+  const pill = document.getElementById('aiPill');
+  function refreshPill() {
+    const live = PROXY || getKey();
+    pill.className = 'conn-pill ' + (live ? 'conn-pill--live' : 'conn-pill--demo');
+    pill.textContent = live ? '● Live · Claude' : '● demo';
+    document.getElementById('keyBox').style.display = (PROXY || getKey()) ? 'none' : '';
   }
-  window.selectLead = selectLead;
+  refreshPill();
 
-  function lead() { return LEADS.find(l => l.id === activeId); }
+  document.getElementById('saveKey').addEventListener('click', async () => {
+    const v = document.getElementById('apiKey').value.trim();
+    if (!v || !v.startsWith('sk-ant')) { window.calToast && calToast('Paste a valid key (sk-ant-…)'); return; }
+    localStorage.setItem(KEY_LS, v); refreshPill();
+    window.calToast && calToast('AI connected in this browser');
+  });
 
-  function renderChat() {
-    const l = lead();
-    document.getElementById('chatHead').innerHTML = `
-      <div>
-        <div class="display" style="font-size:var(--text-lg);font-weight:500">${l.name} <span style="opacity:.6">${flagFor(l.lang)}</span></div>
-        <div class="mono text-xs text-quiet">${l.handle} · ${l.vertical} · ${l.channel}</div>
-      </div>
-      <div class="flex gap-2 items-center">
-        <span class="kw-chip">kw: ${l.keyword}</span>
-        <span class="score-pill score-pill--${tempClass(l.status)}">${l.status.toUpperCase()} ${l.score}</span>
-      </div>`;
-
-    document.getElementById('chatBody').innerHTML = `
-      <div class="conv-day-divider" style="text-align:center;margin:var(--s-2) 0"><span class="mono text-xs text-quiet">Keyword "${l.keyword}" detected → flow started</span></div>
-      ${l.thread.map(m => `
-        <div class="conv-msg-group conv-msg-group--${m.who === 'ai' ? 'ai' : 'lead'}" style="display:flex;flex-direction:column;max-width:74%;${m.who === 'ai' ? 'align-self:flex-start' : 'align-self:flex-end;align-items:flex-end'}">
-          <div class="bubble bubble--${m.who === 'ai' ? 'ai' : 'lead'}">${m.text}</div>
-          <div class="bubble__meta">${m.who === 'ai' ? 'Agent · ' : ''}${m.t}</div>
-        </div>`).join('')}
-      <div id="copilotMount"></div>`;
-    document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
-
-    // footer compose
-    document.getElementById('chatFooter').innerHTML = `
-      <div id="copilotBox"></div>
-      <div class="compose">
-        <textarea class="input" id="composer" placeholder="Write a reply… (or use the AI suggestion above)"></textarea>
-        <button class="btn btn--primary" onclick="calToast('Sent (mock) — human-approved')">Send</button>
-      </div>
-      <div class="mono text-xs text-quiet" style="margin-top:6px">Human approves before anything sends. The agent never messages on its own.</div>`;
-
-    loadCopilot();
-  }
-
-  // AI: conversation copilot
-  async function loadCopilot() {
-    const box = document.getElementById('copilotBox');
-    box.innerHTML = `<div class="copilot"><div class="copilot__label">✶ Copilot is drafting…</div></div>`;
-    const r = await window.aiSuggestNextMessage(lead());
-    box.innerHTML = `
-      <div class="copilot">
-        <div class="copilot__label">✶ Suggested reply · Sebastian's voice</div>
-        <div class="copilot__text">"${r.suggestion}"</div>
-        <div class="copilot__why">Why: ${r.why}</div>
-        <div class="copilot__rules">${r.rules.map(rule => `<span class="copilot__rule">${rule}</span>`).join('')}</div>
-        <div class="copilot__actions">
-          <button class="btn btn--gold btn--sm" onclick="useSuggestion(${JSON.stringify(r.suggestion).replace(/"/g,'&quot;')})">Use suggestion</button>
-          <button class="btn btn--ghost btn--sm" onclick="loadCopilot()">Regenerate</button>
-        </div>
-      </div>`;
-  }
-  window.loadCopilot = loadCopilot;
-  window.useSuggestion = function (text) {
-    document.getElementById('composer').value = text;
-    document.getElementById('composer').focus();
-    calToast('Loaded into composer — review, then send');
-  };
-
-  // AI: triage scoring
-  async function renderTriage() {
-    const panel = document.getElementById('triagePanel');
-    panel.innerHTML = `<div class="eyebrow mb-4">— Triage · AI</div><div class="text-mute text-sm">Scoring…</div>`;
-    const t = await window.aiScoreLeadTriage(lead());
-    panel.innerHTML = `
-      <div class="eyebrow mb-4">— Triage · AI</div>
-      <div class="triage__score-wrap">
-        <div class="display" style="font-size:var(--text-4xl);color:${t.temp==='hot'?'var(--ink)':t.temp==='warm'?'var(--gold)':'var(--ink-quiet)'}">${t.score}<span class="mono text-xs text-quiet">/100</span></div>
-        <div class="mono text-xs" style="margin-top:6px;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink-mute)">${t.temp}</div>
-      </div>
-      <div class="ctx-section__label" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-quiet);margin-bottom:var(--s-3)">Score axes</div>
-      <div class="triage__axes">
-        ${t.axes.map(ax => `
-          <div class="triage__axis-row">
-            <div class="triage__axis-head"><span>${ax.key}</span><span class="mono text-quiet">${ax.value}</span></div>
-            <div class="triage__axis-track"><div class="triage__axis-fill" style="width:${ax.value}%;background:${ax.value>=70?'var(--ink)':ax.value>=50?'var(--gold)':'var(--ink-faint)'}"></div></div>
-          </div>`).join('')}
-      </div>
-      <div class="ctx-section__label" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-quiet);margin:var(--s-6) 0 var(--s-2)">Why this score</div>
-      <div class="text-sm" style="line-height:1.5;color:var(--ink-soft)">${t.reason}</div>
-      <div class="triage__rec triage__rec--${t.temp}">${t.recommendation}</div>
-      ${t.temp === 'hot'
-        ? `<button class="btn btn--success w-full mt-4" onclick="calToast('Lead handed to Sebastian — booking offered')">Hand to Sebastian →</button>`
-        : t.temp === 'warm'
-        ? `<button class="btn btn--ghost w-full mt-4" onclick="calToast('Kept in nurture')">Keep nurturing</button>`
-        : `<button class="btn btn--ghost w-full mt-4" onclick="calToast('Sent free resources, archived')">Send resources & archive</button>`}
-      <div class="mono text-xs text-quiet mt-4" style="text-align:center">// INTEGRATION POINT: GoHighLevel (inbound → stages → calendar)</div>`;
+  // ── Coach call (proxy → personal key → guidance) ──
+  async function callCoach(text) {
+    const sys = window.AGENT_COACH_PROMPT;
+    const messages = [{ role: 'user', content: 'Lead messaged (from a Send-Message ad):\n\n' + text }];
+    if (PROXY) {
+      const r = await fetch(PROXY, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ system: sys, messages }) });
+      const d = await r.json().catch(() => null);
+      if (!r.ok) throw new Error((d && d.error) || ('HTTP ' + r.status));
+      if (d && d.error) throw new Error(d.error);
+      return (d.text || '').trim();
+    }
+    const key = getKey();
+    if (key) {
+      const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:600, system: sys, messages }) });
+      const d = await r.json().catch(() => null);
+      if (!r.ok) { const m = d && d.error && (d.error.message || d.error); throw new Error(r.status + (m ? ' · ' + m : '')); }
+      return (d.content && d.content[0] && d.content[0].text || '').trim();
+    }
+    throw new Error('no-ai');
   }
 
-  renderList();
-  renderChat();
-  renderTriage();
+  const out = document.getElementById('coachOut');
+  document.getElementById('coachBtn').addEventListener('click', async () => {
+    const text = document.getElementById('leadMsg').value.trim();
+    if (!text) { out.textContent = 'Paste the lead’s message first.'; return; }
+    out.textContent = 'Thinking…';
+    try {
+      const reply = await callCoach(text);
+      out.innerHTML = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    } catch (e) {
+      if (e.message === 'no-ai') {
+        out.innerHTML = 'Connect the real AI to get a lead-specific suggestion — paste your Anthropic key below (or deploy the shared proxy so the whole team gets it with no setup).';
+      } else {
+        out.innerHTML = '⚠ AI error → ' + e.message + ' (check the key / credits).';
+      }
+    }
+  });
+})();
 </script>
 </body>
 </html>

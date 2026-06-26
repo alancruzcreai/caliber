@@ -21,41 +21,31 @@
         </div>
 
         <nav class="sidebar__section">
-          <div class="sidebar__section-label">Analytics</div>
-          <a href="index.html"            class="nav-item ${active('dashboard')}">${icon('grid')}<span class="nav-item__label">Dashboard</span></a>
+          <div class="sidebar__section-label">Analytics · live Meta data</div>
+          <a href="index.html"            class="nav-item ${active('dashboard')}">${icon('grid')}<span class="nav-item__label">Overview</span></a>
           <a href="ads-performance.html"  class="nav-item ${active('ads-performance')}">${icon('chart')}<span class="nav-item__label">Ads performance</span></a>
           <a href="targeting.html"        class="nav-item ${active('targeting')}">${icon('target')}<span class="nav-item__label">Targeting &amp; audiences</span></a>
           <a href="math-console.html"     class="nav-item ${active('math')}">${icon('calc')}<span class="nav-item__label">Math console</span></a>
         </nav>
 
         <nav class="sidebar__section">
-          <div class="sidebar__section-label">Command Center</div>
-          <a href="funnel.html"         class="nav-item ${active('funnel')}">${icon('funnel')}<span class="nav-item__label">Funnel Command</span></a>
-          <a href="inbox.html"          class="nav-item ${active('inbox')}">${icon('inbox')}<span class="nav-item__label">Inbox &amp; Qualify</span>${c(counts.inbox)}</a>
-          <a href="unit-economics.html" class="nav-item ${active('unit')}">${icon('coins')}<span class="nav-item__label">Unit Economics</span></a>
-          <a href="agent.html"          class="nav-item ${active('agent')}">${icon('ai')}<span class="nav-item__label">AI Agent</span><span class="nav-soon" style="background:var(--gold-tint);color:var(--gold-deep);border-color:var(--gold-soft)">demo</span></a>
-          <span class="nav-item nav-item--soon">${icon('layers')}<span class="nav-item__label">Campaigns</span><span class="nav-soon">soon</span></span>
-          <span class="nav-item nav-item--soon">${icon('calendar')}<span class="nav-item__label">Booking</span><span class="nav-soon">soon</span></span>
-          <span class="nav-item nav-item--soon">${icon('coins')}<span class="nav-item__label">Close &amp; Revenue</span><span class="nav-soon">soon</span></span>
-          <span class="nav-item nav-item--soon">${icon('check')}<span class="nav-item__label">Onboarding</span><span class="nav-soon">soon</span></span>
+          <div class="sidebar__section-label">Conversations</div>
+          <a href="inbox.html"          class="nav-item ${active('inbox')}">${icon('chat')}<span class="nav-item__label">Ad conversations</span></a>
         </nav>
 
         <nav class="sidebar__section">
-          <div class="sidebar__section-label">Distribution</div>
-          <a href="ads.html"            class="nav-item ${active('ads')}">${icon('layers')}<span class="nav-item__label">Creatives &amp; pages</span></a>
-        </nav>
-
-        <nav class="sidebar__section">
-          <div class="sidebar__section-label">For your team · step 2</div>
-          <a href="conversations.html"  class="nav-item ${active('conversations')}">${icon('chat')}<span class="nav-item__label">Conversations</span>${c(counts.conversations)}</a>
-          <a href="leads.html"          class="nav-item ${active('leads')}">${icon('check')}<span class="nav-item__label">Leads to qualify</span>${c(counts.leads)}</a>
-          <a href="agenda.html"         class="nav-item ${active('agenda')}">${icon('calendar')}<span class="nav-item__label">Today's calls</span>${c(counts.agenda)}</a>
+          <div class="sidebar__section-label">Coming soon · not live yet</div>
+          <span class="nav-item nav-item--soon">${icon('funnel')}<span class="nav-item__label">Funnel Command</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('coins')}<span class="nav-item__label">Unit Economics</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('ai')}<span class="nav-item__label">AI Agent</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('layers')}<span class="nav-item__label">Creatives &amp; pages</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('calendar')}<span class="nav-item__label">Booking &amp; close</span><span class="nav-soon">soon</span></span>
+          <span class="nav-item nav-item--soon">${icon('check')}<span class="nav-item__label">Team workspace</span><span class="nav-soon">soon</span></span>
         </nav>
 
         <nav class="sidebar__section">
           <div class="sidebar__section-label">Settings</div>
-          <a href="#" class="nav-item" id="metaConnBtn">${icon('plug')}<span class="nav-item__label">Connect Meta Ads</span></a>
-          <a href="#" class="nav-item">${icon('cog')}<span class="nav-item__label">Settings</span></a>
+          <a href="#" class="nav-item" id="metaConnBtn">${icon('plug')}<span class="nav-item__label">Meta connection</span></a>
         </nav>
 
         <div class="sidebar__footer">
@@ -200,20 +190,11 @@
 
   // ─── Cmd-K palette ─────────────────────────
   const cmdkItems = [
-    { group: "Analytics", label: "Dashboard",             href: "index.html",          icon: "grid",     shortcut: "G D" },
+    { group: "Analytics", label: "Overview",              href: "index.html",          icon: "grid",     shortcut: "G D" },
     { group: "Analytics", label: "Ads performance",       href: "ads-performance.html",icon: "chart",    shortcut: "G P" },
     { group: "Analytics", label: "Targeting & audiences", href: "targeting.html",      icon: "target",   shortcut: "G T" },
     { group: "Analytics", label: "Math console",          href: "math-console.html",   icon: "calc",     shortcut: "G M" },
-    { group: "Command Center", label: "Funnel Command",   href: "funnel.html",         icon: "funnel",   shortcut: "G F" },
-    { group: "Command Center", label: "Inbox & Qualify",  href: "inbox.html",          icon: "inbox",    shortcut: "G I" },
-    { group: "Command Center", label: "Unit Economics",   href: "unit-economics.html", icon: "coins",    shortcut: "G U" },
-    { group: "Command Center", label: "AI Agent (demo)",  href: "agent.html",          icon: "ai" },
-    { group: "Navigate",  label: "Creatives & pages",     href: "ads.html",            icon: "layers",   shortcut: "G A" },
-    { group: "Navigate",  label: "Conversations",         href: "conversations.html",  icon: "chat",     shortcut: "G C" },
-    { group: "Navigate",  label: "Leads to qualify",      href: "leads.html",          icon: "check",    shortcut: "G L" },
-    { group: "Navigate",  label: "Today's calls",         href: "agenda.html",         icon: "calendar", shortcut: "G S" },
-    { group: "Actions",   label: "Connect Meta Ads",      href: "#",                   icon: "plug" },
-    { group: "Actions",   label: "Schedule a post",       href: "ads.html",            icon: "send" },
+    { group: "Conversations", label: "Ad conversations",  href: "inbox.html",          icon: "chat",     shortcut: "G I" },
   ];
 
   function renderCmdk() {
