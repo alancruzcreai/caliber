@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "active_only",
     "activeCount": 1,
-    "syncedAt": "2026-06-25 13:58"
+    "syncedAt": "2026-06-25 21:32"
   },
   "windows": {
     "last_7d": {
@@ -41,37 +41,37 @@
       "to": null
     },
     "maximum": {
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
+      "spend": 5.36,
+      "impressions": 97,
+      "clicks": 3,
+      "cpm": 55.257732,
+      "cpc": 1.786667,
+      "ctr": 3.092784,
+      "reach": 13,
+      "frequency": 7.461538,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null,
-      "hasData": false,
-      "from": null,
-      "to": null
+      "hasData": true,
+      "from": "2026-06-25",
+      "to": "2026-06-25"
     }
   },
   "campaigns": [
     {
-      "id": "120249057801340505",
-      "name": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
+      "id": "120249075015870505",
+      "name": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "objective": "OUTCOME_LEADS",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "cpm": 0,
-      "cpc": 0,
-      "ctr": 0,
-      "reach": 0,
-      "frequency": 0,
+      "objective": "OUTCOME_TRAFFIC",
+      "spend": 5.36,
+      "impressions": 97,
+      "clicks": 3,
+      "cpm": 55.257732,
+      "cpc": 1.786667,
+      "ctr": 3.092784,
+      "reach": 13,
+      "frequency": 7.461538,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
@@ -79,16 +79,16 @@
   ],
   "adsets": [
     {
-      "id": "120249057804270505",
-      "name": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
+      "id": "120249075174430505",
+      "name": "HSTP · T4A · BCN 6km · Traffic→WA",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
-      "spend": 0,
-      "impressions": 0,
-      "clicks": 0,
-      "reach": 0,
-      "frequency": 0,
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
+      "spend": 5.36,
+      "impressions": 97,
+      "clicks": 3,
+      "reach": 13,
+      "frequency": 7.461538,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
@@ -96,12 +96,31 @@
   ],
   "ads": [
     {
-      "id": "120249057815500505",
-      "name": "HSTP T2 · Á3.C2 · REAL",
+      "id": "120249075175680505",
+      "name": "HSTP T4A · Á1.C1·REAL",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "adset": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
+      "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
+      "spend": 5.36,
+      "impressions": 97,
+      "clicks": 3,
+      "cpm": 55.257732,
+      "cpc": 1.786667,
+      "ctr": 3.092784,
+      "reach": 13,
+      "frequency": 7.461538,
+      "chats": 0,
+      "ctrChat": 0,
+      "cpl": null
+    },
+    {
+      "id": "120249075180200505",
+      "name": "HSTP T4A · H2.C2·REAL",
+      "status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
       "spend": 0,
       "impressions": 0,
       "clicks": 0,
@@ -115,12 +134,12 @@
       "cpl": null
     },
     {
-      "id": "120249057827960505",
-      "name": "HSTP T2 · H2.C2 · REAL",
+      "id": "120249075179650505",
+      "name": "HSTP T4A · H1.C1·REAL",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "adset": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
+      "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
       "spend": 0,
       "impressions": 0,
       "clicks": 0,
@@ -134,50 +153,31 @@
       "cpl": null
     },
     {
-      "id": "120249057820150505",
-      "name": "HSTP T2 · Á4.C1 · REAL",
+      "id": "120249075177810505",
+      "name": "HSTP T4A · Á3.C2·REAL",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "adset": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
-      "spend": 0.21,
-      "impressions": 5,
+      "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
+      "spend": 0,
+      "impressions": 0,
       "clicks": 0,
-      "cpm": 42,
+      "cpm": 0,
       "cpc": 0,
       "ctr": 0,
-      "reach": 5,
-      "frequency": 1,
+      "reach": 0,
+      "frequency": 0,
       "chats": 0,
       "ctrChat": 0,
       "cpl": null
     },
     {
-      "id": "120249057811080505",
-      "name": "HSTP T2 · Á1.C1 · REAL",
+      "id": "120249075178600505",
+      "name": "HSTP T4A · Á4.C1·REAL",
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
-      "adset": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
-      "spend": 8.9,
-      "impressions": 115,
-      "clicks": 2,
-      "cpm": 77.391304,
-      "cpc": 4.45,
-      "ctr": 1.73913,
-      "reach": 49,
-      "frequency": 2.346939,
-      "chats": 0,
-      "ctrChat": 0,
-      "cpl": null
-    },
-    {
-      "id": "120249057823700505",
-      "name": "HSTP T2 · H1.C1 · REAL",
-      "status": "ACTIVE",
-      "effective_status": "ACTIVE",
-      "adset": "HSTP · T2 · BCN 6km · Conv→WhatsApp",
-      "campaign": "HSTP · Tanda 2 · Barcelona (Conv→WA)",
+      "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
+      "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
       "spend": 0,
       "impressions": 0,
       "clicks": 0,
@@ -192,9 +192,69 @@
     }
   ],
   "breakdowns": {
-    "age": [],
-    "gender": [],
-    "country": [],
-    "placement": []
+    "age": [
+      {
+        "key": "25-34",
+        "spend": 1.58,
+        "impressions": 37,
+        "clicks": 2,
+        "ctr": 5.405405
+      },
+      {
+        "key": "35-44",
+        "spend": 1.88,
+        "impressions": 35,
+        "clicks": 0,
+        "ctr": 0
+      },
+      {
+        "key": "45-54",
+        "spend": 1.9,
+        "impressions": 25,
+        "clicks": 1,
+        "ctr": 4
+      }
+    ],
+    "gender": [
+      {
+        "key": "female",
+        "spend": 1.82,
+        "impressions": 29,
+        "clicks": 2,
+        "ctr": 6.896552
+      },
+      {
+        "key": "male",
+        "spend": 3.47,
+        "impressions": 65,
+        "clicks": 1,
+        "ctr": 1.538462
+      },
+      {
+        "key": "unknown",
+        "spend": 0.07,
+        "impressions": 3,
+        "clicks": 0,
+        "ctr": 0
+      }
+    ],
+    "country": [
+      {
+        "key": "ES",
+        "spend": 5.36,
+        "impressions": 97,
+        "clicks": 3,
+        "ctr": 3.092784
+      }
+    ],
+    "placement": [
+      {
+        "key": "instagram",
+        "spend": 5.36,
+        "impressions": 97,
+        "clicks": 3,
+        "ctr": 3.092784
+      }
+    ]
   }
 }
