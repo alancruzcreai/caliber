@@ -119,12 +119,15 @@
 
   // ── Real ad-conversation count from Meta ──
   const M = await window.loadMetaLive();
-  const chats = M ? ((M.windows && M.windows.maximum && M.windows.maximum.chats) || 0) : 0;
+  const wMax = M && M.windows ? M.windows.maximum : null;
+  const chats = wMax ? (wMax.chats || 0) : 0;
+  const chatSrc = wMax ? wMax.chatSrc : null;
+  const chatNoun = chatSrc === 'messaging' ? 'conversation(s) started' : 'click(s) to WhatsApp';
   const campName = M && M.campaigns && M.campaigns[0] ? M.campaigns[0].name : '—';
   const sb = document.querySelector('#scopeBanner .conn-banner__text');
   if (sb) {
     sb.innerHTML = M
-      ? `<strong>${F.compact(chats)} conversation(s)</strong> started from this campaign’s ads · ${campName} · last sync ${M.account.syncedAt || '—'}.`
+      ? `<strong>${F.compact(chats)} ${chatNoun}</strong> from this campaign’s ads · ${campName} · last sync ${M.account.syncedAt || '—'}.`
       : `<strong>Not connected.</strong> Connect Meta to count ad conversations.`;
   }
 
@@ -134,7 +137,7 @@
   feedTag.textContent = `${chats} from ads`;
   document.getElementById('feed').innerHTML = chats > 0
     ? `<div class="empty-feed"><div class="empty-feed__num">${F.compact(chats)}</div>
-        <p class="text-sm text-mute mt-3">conversations have started from these ads. Paste any of them into the AI Closer →<br>
+        <p class="text-sm text-mute mt-3">${chatNoun} from these ads — people who tapped through to message Sebastian. When a lead writes, paste it into the AI Closer →<br>
         Connect Page Messaging (section 03) to list each thread here automatically.</p></div>`
     : `<div class="empty-feed"><div class="empty-feed__num">0</div>
         <p class="text-sm text-mute mt-3">No ad conversations yet — the campaign hasn’t delivered impressions, so no one has clicked “Send message” yet.<br>

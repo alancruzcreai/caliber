@@ -180,7 +180,7 @@
       { label: 'Reach',            value: F.compact(w.reach),       sub: 'people reached' },
       { label: 'Impressions',      value: F.compact(w.impressions), sub: 'total views' },
       { label: 'Frequency',        value: freq + '×',               sub: 'views per person' },
-      { label: 'Chats started',    value: F.compact(w.chats || 0),  sub: 'conversations w/ Sebas' },
+      { label: 'Chats',            value: F.compact(w.chats || 0),  sub: (w.chatSrc === 'messaging' ? 'conversations started' : 'clicks to WhatsApp') },
       { label: 'CTR · view→chat',  value: F.pct(w.ctrChat || 0),    sub: 'viewers who message' },
       { label: 'CPL',              value: w.cpl != null ? F.usd(w.cpl) : '—', sub: 'cost per chat / lead' },
       { label: 'CPM',              value: F.usd(w.cpm),             sub: 'per 1,000 views' }
