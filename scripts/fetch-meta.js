@@ -62,12 +62,35 @@ function chatsFromActions(actions) {
   return any ? num(any.value) : 0;
 }
 
-// Derived messaging metrics for any insights row
-function chatMetrics(spend, impressions, chats) {
+// Value of a single action type out of an insights `actions` array
+function actionVal(actions, type) {
+  if (!Array.isArray(actions)) return 0;
+  const a = actions.find(x => x && x.action_type === type);
+  return a ? num(a.value) : 0;
+}
+
+// "Lead = started a chat with Sebastian." For MESSAGING (Conversaciones)
+// campaigns that's a messaging conversation; for TRAFFIC→WhatsApp campaigns
+// it's the link click that opens WhatsApp (Meta doesn't log a conversation
+// for the traffic objective). Pick the best real signal available.
+function leadCount(d) {
+  const m = chatsFromActions(d && d.actions);
+  if (m > 0) return { leads: m, src: 'messaging' };
+  const lk = actionVal(d && d.actions, 'link_click');
+  if (lk > 0) return { leads: lk, src: 'link_click' };
+  const cl = num(d && d.clicks);
+  if (cl > 0) return { leads: cl, src: 'clicks' };
+  return { leads: 0, src: 'none' };
+}
+
+// Derived "view → chat" metrics for any insights row `d`
+function chatMetrics(spend, impressions, d) {
+  const lc = leadCount(d);
   return {
-    chats,
-    ctrChat: impressions ? +(chats / impressions * 100).toFixed(2) : 0,  // view → chat %
-    cpl: chats ? +(spend / chats).toFixed(2) : null,                      // cost per lead/chat
+    chats: lc.leads,
+    chatSrc: lc.src,                                                       // messaging | link_click | clicks
+    ctrChat: impressions ? +(lc.leads / impressions * 100).toFixed(2) : 0, // view → chat %
+    cpl: lc.leads ? +(spend / lc.leads).toFixed(2) : null,                 // cost per lead/chat
   };
 }
 
@@ -93,7 +116,7 @@ async function windowInsights(datePreset, ids) {
       spend, impressions, clicks: num(d.clicks),
       cpm: num(d.cpm), cpc: num(d.cpc), ctr: num(d.ctr),
       reach: num(d.reach), frequency: num(d.frequency),
-      ...chatMetrics(spend, impressions, chatsFromActions(d.actions)),
+      ...chatMetrics(spend, impressions, d),
       hasData: !!(r.data && r.data.length),
       from: d.date_start || null, to: d.date_stop || null,
     };
@@ -141,7 +164,7 @@ async function adsetsForCampaigns(ids) {
         campaign: (s.campaign && s.campaign.name) || '',
         spend, impressions, clicks: num(i.clicks),
         reach: num(i.reach), frequency: num(i.frequency),
-        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
+        ...chatMetrics(spend, impressions, i),
       };
     });
   } catch (e) { console.error('  ✗ adsets:', e.message); return []; }
@@ -166,7 +189,7 @@ async function adsForCampaigns(ids) {
         spend, impressions, clicks: num(i.clicks),
         cpm: num(i.cpm), cpc: num(i.cpc), ctr: num(i.ctr),
         reach: num(i.reach), frequency: num(i.frequency),
-        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
+        ...chatMetrics(spend, impressions, i),
       };
     });
   } catch (e) { console.error('  ✗ ads:', e.message); return []; }
@@ -201,7 +224,7 @@ async function adsForCampaigns(ids) {
         spend, impressions, clicks: num(i.clicks),
         cpm: num(i.cpm), cpc: num(i.cpc), ctr: num(i.ctr),
         reach: num(i.reach), frequency: num(i.frequency),
-        ...chatMetrics(spend, impressions, chatsFromActions(i.actions)),
+        ...chatMetrics(spend, impressions, i),
       };
     });
   } catch (e) {
