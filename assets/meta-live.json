@@ -5,19 +5,19 @@
     "connected": true,
     "scope": "active_only",
     "activeCount": 1,
-    "syncedAt": "2026-06-28 02:49"
+    "syncedAt": "2026-06-28 07:43"
   },
   "windows": {
     "last_7d": {
-      "spend": 858.88,
-      "impressions": 23914,
-      "clicks": 941,
-      "cpm": 35.915363,
-      "cpc": 0.912731,
-      "ctr": 3.934934,
-      "reach": 19028,
-      "frequency": 1.256779,
-      "chats": 768,
+      "spend": 859.92,
+      "impressions": 23967,
+      "clicks": 942,
+      "cpm": 35.879334,
+      "cpc": 0.912866,
+      "ctr": 3.930404,
+      "reach": 19058,
+      "frequency": 1.257582,
+      "chats": 769,
       "chatSrc": "link_click",
       "ctrChat": 3.21,
       "cpl": 1.12,
@@ -26,15 +26,15 @@
       "to": "2026-06-27"
     },
     "last_30d": {
-      "spend": 858.88,
-      "impressions": 23914,
-      "clicks": 941,
-      "cpm": 35.915363,
-      "cpc": 0.912731,
-      "ctr": 3.934934,
-      "reach": 19028,
-      "frequency": 1.256779,
-      "chats": 768,
+      "spend": 859.92,
+      "impressions": 23967,
+      "clicks": 942,
+      "cpm": 35.879334,
+      "cpc": 0.912866,
+      "ctr": 3.930404,
+      "reach": 19058,
+      "frequency": 1.257582,
+      "chats": 769,
       "chatSrc": "link_click",
       "ctrChat": 3.21,
       "cpl": 1.12,
@@ -43,15 +43,15 @@
       "to": "2026-06-27"
     },
     "maximum": {
-      "spend": 888.96,
-      "impressions": 24640,
-      "clicks": 971,
-      "cpm": 36.077922,
-      "cpc": 0.91551,
-      "ctr": 3.940747,
-      "reach": 19497,
-      "frequency": 1.263784,
-      "chats": 792,
+      "spend": 968.22,
+      "impressions": 26971,
+      "clicks": 1062,
+      "cpm": 35.898558,
+      "cpc": 0.911695,
+      "ctr": 3.937563,
+      "reach": 20949,
+      "frequency": 1.28746,
+      "chats": 867,
       "chatSrc": "link_click",
       "ctrChat": 3.21,
       "cpl": 1.12,
@@ -67,15 +67,15 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "objective": "OUTCOME_TRAFFIC",
-      "spend": 888.96,
-      "impressions": 24640,
-      "clicks": 971,
-      "cpm": 36.077922,
-      "cpc": 0.91551,
-      "ctr": 3.940747,
-      "reach": 19497,
-      "frequency": 1.263784,
-      "chats": 792,
+      "spend": 968.22,
+      "impressions": 26971,
+      "clicks": 1062,
+      "cpm": 35.898558,
+      "cpc": 0.911695,
+      "ctr": 3.937563,
+      "reach": 20949,
+      "frequency": 1.28746,
+      "chats": 867,
       "chatSrc": "link_click",
       "ctrChat": 3.21,
       "cpl": 1.12
@@ -88,12 +88,12 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
-      "spend": 888.96,
-      "impressions": 24640,
-      "clicks": 971,
-      "reach": 19497,
-      "frequency": 1.263784,
-      "chats": 792,
+      "spend": 968.22,
+      "impressions": 26971,
+      "clicks": 1062,
+      "reach": 20949,
+      "frequency": 1.28746,
+      "chats": 867,
       "chatSrc": "link_click",
       "ctrChat": 3.21,
       "cpl": 1.12
@@ -107,17 +107,17 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
       "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
-      "spend": 809.83,
-      "impressions": 22168,
-      "clicks": 886,
-      "cpm": 36.531487,
-      "cpc": 0.914029,
-      "ctr": 3.996752,
-      "reach": 17968,
-      "frequency": 1.233749,
-      "chats": 727,
+      "spend": 889.09,
+      "impressions": 24498,
+      "clicks": 977,
+      "cpm": 36.29235,
+      "cpc": 0.91002,
+      "ctr": 3.988081,
+      "reach": 19388,
+      "frequency": 1.263565,
+      "chats": 802,
       "chatSrc": "link_click",
-      "ctrChat": 3.28,
+      "ctrChat": 3.27,
       "cpl": 1.11
     },
     {
@@ -168,13 +168,13 @@
       "adset": "HSTP · T4A · BCN 6km · Traffic→WA",
       "campaign": "HSTP · T4 · WA MENSAJE PERSONALIZADO (Traffic→WA)",
       "spend": 49.64,
-      "impressions": 1582,
+      "impressions": 1583,
       "clicks": 55,
-      "cpm": 31.378003,
+      "cpm": 31.358181,
       "cpc": 0.902545,
-      "ctr": 3.476612,
+      "ctr": 3.474416,
       "reach": 1497,
-      "frequency": 1.05678,
+      "frequency": 1.057448,
       "chats": 43,
       "chatSrc": "link_click",
       "ctrChat": 2.72,
@@ -205,72 +205,72 @@
     "age": [
       {
         "key": "25-34",
-        "spend": 179.28,
-        "impressions": 5271,
-        "clicks": 174,
-        "ctr": 3.301081
+        "spend": 191.18,
+        "impressions": 5639,
+        "clicks": 187,
+        "ctr": 3.316191
       },
       {
         "key": "35-44",
-        "spend": 336.02,
-        "impressions": 9457,
-        "clicks": 356,
-        "ctr": 3.764407
+        "spend": 365.03,
+        "impressions": 10336,
+        "clicks": 388,
+        "ctr": 3.75387
       },
       {
         "key": "45-54",
-        "spend": 373.66,
-        "impressions": 9912,
-        "clicks": 441,
-        "ctr": 4.449153
+        "spend": 412.01,
+        "impressions": 10996,
+        "clicks": 487,
+        "ctr": 4.428883
       }
     ],
     "gender": [
       {
         "key": "female",
-        "spend": 74.57,
-        "impressions": 1953,
-        "clicks": 58,
-        "ctr": 2.96979
+        "spend": 81.78,
+        "impressions": 2160,
+        "clicks": 69,
+        "ctr": 3.194444
       },
       {
         "key": "male",
-        "spend": 799.11,
-        "impressions": 22269,
-        "clicks": 903,
-        "ctr": 4.054964
+        "spend": 870.32,
+        "impressions": 24367,
+        "clicks": 983,
+        "ctr": 4.034145
       },
       {
         "key": "unknown",
-        "spend": 15.28,
-        "impressions": 418,
+        "spend": 16.12,
+        "impressions": 444,
         "clicks": 10,
-        "ctr": 2.392345
+        "ctr": 2.252252
       }
     ],
     "country": [
       {
         "key": "ES",
-        "spend": 888.96,
-        "impressions": 24640,
-        "clicks": 971,
-        "ctr": 3.940747
+        "spend": 968.22,
+        "impressions": 26971,
+        "clicks": 1062,
+        "ctr": 3.937563
       }
     ],
     "placement": [
       {
         "key": "facebook",
-        "spend": 765.161862,
-        "impressions": 21391,
-        "clicks": 888,
-        "ctr": 4.151279
+        "spend": 838.877174,
+        "impressions": 23575,
+        "clicks": 975,
+        "ctr": 4.135737
       },
       {
         "key": "instagram",
-        "spend": 123.798138,
-        "impressions": 3249,
-        "clicks": 83,
-        "ctr": 2.554632
+        "spend": 129.342826,
+        "impressions": 3396,
+        "clicks": 87,
+        "ctr": 2.561837
       }
     ]
   }
