@@ -126,6 +126,25 @@ async function handleIncoming(env, payload) {
   for (const e of entries) {
     for (const ch of (e.changes || [])) {
       const v = ch.value || {};
+
+      // COEXISTENCE: messages Sebastian types in the WhatsApp Business app on his
+      // phone are echoed here (smb_message_echoes) → mirror them into Caliber so the
+      // dashboard stays in sync no matter which side he answers on.
+      if (ch.field === 'smb_message_echoes' || v.message_echoes) {
+        for (const m of (v.message_echoes || [])) {
+          const waId = m.to;
+          const text = (m.text && m.text.body) || '';
+          if (!waId || !text) continue;
+          const convo = await getConvo(env, waId);
+          if (!convo) continue;                 // only mirror replies to known ad-derived chats
+          convo.messages.push({ from: 'agent', text, ts: m.timestamp || null });
+          convo.suggestion = '';                // he answered himself → drop any pending draft
+          convo.updatedAt = m.timestamp || null;
+          await putConvo(env, convo);
+        }
+        continue;
+      }
+
       const contact = (v.contacts && v.contacts[0]) || {};
       for (const m of (v.messages || [])) {
         if (m.type !== 'text' && m.type !== 'button' && m.type !== 'interactive') continue;
