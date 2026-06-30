@@ -25,6 +25,13 @@
   // and safe to commit — it is NOT a credential.
   window.AGENT_API_URL = '';
 
+  // ── WhatsApp "AI line" Worker (set after deploying whatsapp-worker.js) ──
+  // The live inbox reads conversations from <AGENT_WA_URL>/conversations and
+  // sends approved replies to <AGENT_WA_URL>/reply. AGENT_WA_KEY = READ_TOKEN.
+  // Both are public (client-side) — demo-grade; harden with real auth for prod.
+  window.AGENT_WA_URL = '';
+  window.AGENT_WA_KEY = '';
+
   window.AGENT_SYSTEM_PROMPT = `
 You are the front-line conversational assistant for **Sebastian Landa** in the Instagram and WhatsApp DMs of **The High Standard Traveler Program (HSTP)** — a premium 10-week health & performance system for high-net-worth travelers (yacht crew, founders, high-performing remote workers, frequent flyers).
 

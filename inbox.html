@@ -11,12 +11,38 @@
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .empty-feed { border:1px dashed var(--line-strong); border-radius:var(--radius); padding:var(--s-8) var(--s-5); text-align:center; }
-  .empty-feed__num { font-family:var(--font-display); font-size:48px; line-height:1; color:var(--ink); }
+  .inbox2 { display:grid; grid-template-columns:320px 1fr; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; min-height:560px; background:var(--surface-1); }
+  .ilist { border-right:1px solid var(--line); overflow-y:auto; max-height:640px; }
+  .ilist__head { display:flex; align-items:center; justify-content:space-between; padding:var(--s-3) var(--s-4); border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--surface-1); z-index:1; }
+  .ilist__filter { font-size:11px; font-family:var(--font-mono); color:var(--ink-quiet); cursor:pointer; border:1px solid var(--line); border-radius:999px; padding:2px 8px; }
+  .ilist__filter--on { background:var(--gold-tint); color:var(--gold-deep); border-color:var(--gold-soft); }
+  .iitem { display:block; width:100%; text-align:left; padding:var(--s-3) var(--s-4); border:0; border-bottom:1px solid var(--line); background:transparent; cursor:pointer; }
+  .iitem:hover { background:var(--surface-2); }
+  .iitem--on { background:var(--gold-tint); }
+  .iitem__top { display:flex; justify-content:space-between; gap:var(--s-2); align-items:baseline; }
+  .iitem__name { font-weight:600; font-size:var(--text-sm); }
+  .iitem__time { font-size:10px; color:var(--ink-quiet); font-family:var(--font-mono); white-space:nowrap; }
+  .iitem__msg { font-size:var(--text-xs); color:var(--ink-mute); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .iitem__tags { display:flex; gap:6px; margin-top:6px; }
+  .idot { width:7px; height:7px; border-radius:50%; background:var(--success); display:inline-block; }
+  .thread { display:flex; flex-direction:column; max-height:640px; }
+  .thread__head { display:flex; align-items:center; justify-content:space-between; gap:var(--s-3); padding:var(--s-3) var(--s-4); border-bottom:1px solid var(--line); }
+  .thread__body { flex:1; overflow-y:auto; padding:var(--s-4); display:flex; flex-direction:column; gap:8px; background:var(--bg); }
+  .bub { max-width:78%; padding:8px 12px; border-radius:14px; font-size:var(--text-sm); line-height:1.45; white-space:pre-wrap; word-break:break-word; }
+  .bub--lead { align-self:flex-start; background:var(--surface-2); border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .bub--agent { align-self:flex-end; background:#0a7d3f; color:#fff; border-bottom-right-radius:4px; }
+  .bub__t { font-size:9px; opacity:.6; margin-top:3px; font-family:var(--font-mono); }
+  .compose { border-top:1px solid var(--line); padding:var(--s-3) var(--s-4); background:var(--surface-1); }
+  .compose__ai { font-size:10px; font-family:var(--font-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  textarea.input { width:100%; min-height:76px; resize:vertical; font-family:inherit; line-height:1.5; }
+  .empty-pane { display:flex; align-items:center; justify-content:center; text-align:center; color:var(--ink-quiet); padding:var(--s-12); height:100%; }
+  .live-dot { width:8px; height:8px; border-radius:50%; background:var(--success); display:inline-block; animation:pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .empty-feed { border:1px dashed var(--line-strong); border-radius:var(--radius); padding:var(--s-8); text-align:center; }
+  .empty-feed__num { font-family:var(--font-display); font-size:48px; line-height:1; }
   .coach-out { white-space:pre-wrap; font-size:var(--text-sm); line-height:1.6; background:var(--surface-1); border:1px solid var(--line); border-radius:var(--radius); padding:var(--s-4); min-height:90px; }
   .coach-out strong { color:var(--gold-deep); }
-  textarea.input { width:100%; min-height:96px; resize:vertical; font-family:inherit; line-height:1.5; }
-  .wa { display:inline-flex; align-items:center; gap:8px; font-weight:600; color:#1f8a4c; }
+  @media (max-width:760px){ .inbox2 { grid-template-columns:1fr; } .ilist { max-height:240px; } }
 </style>
 </head>
 <body>
@@ -26,81 +52,64 @@
   <div class="page-header reveal">
     <div>
       <div class="page-header__num">— CONVERSATIONS · FROM ADS ONLY</div>
-      <h1 class="page-header__title">The leads your ads <em>actually send.</em></h1>
+      <h1 class="page-header__title">Lead chats, <em>live</em> — with the close pre-written.</h1>
       <p class="page-header__sub">
-        Only the chats that come in through the <strong>“Send message”</strong> button on the current campaign’s Instagram &amp; Facebook ads —
-        not Sebastian’s whole inbox. Each one is where the AI reads the lead and tells Sebastian how to close.
+        Only the WhatsApp chats that come in through the current campaign’s “Send message” ads. The AI reads each one
+        (NEPQ + the full HSTP program) and drafts the next message — Sebastian decides whether to send it.
       </p>
     </div>
   </div>
 
-  <!-- Scope / real count -->
-  <div class="conn-banner reveal reveal-1" id="scopeBanner">
+  <div class="conn-banner reveal reveal-1" id="waStatus">
     <span class="conn-banner__dot"></span>
-    <span class="conn-banner__text">Loading live ad-conversation count…</span>
+    <span class="conn-banner__text">Loading…</span>
   </div>
 
-  <div class="grid-split" style="margin-top:var(--s-8)">
-    <!-- Conversation feed (real) -->
-    <section class="card reveal reveal-2">
-      <header class="card__header">
-        <div>
-          <div class="eyebrow-num">— 01 / Conversations from this campaign</div>
-          <h2 class="card__title mt-2">Ad inbox</h2>
+  <!-- LIVE INBOX (shown when the WhatsApp line is connected) -->
+  <section class="reveal reveal-2" id="liveWrap" style="display:none;margin-top:var(--s-6)">
+    <div class="inbox2">
+      <div class="ilist">
+        <div class="ilist__head">
+          <span class="mono text-xs text-quiet" id="listCount">—</span>
+          <span class="ilist__filter" id="hotFilter">🔥 Hot only</span>
         </div>
-        <span class="tag tag--ghost" id="feedTag">—</span>
-      </header>
-      <div class="card__body" id="feed"></div>
-    </section>
+        <div id="listBody"></div>
+      </div>
+      <div class="thread" id="thread">
+        <div class="empty-pane">Select a conversation to see it and the AI’s draft reply.</div>
+      </div>
+    </div>
+    <div class="mono text-xs text-quiet mt-3" id="liveNote"></div>
+  </section>
 
-    <!-- AI Closer -->
-    <section class="card reveal reveal-3">
-      <header class="card__header">
-        <div>
-          <div class="eyebrow-num">— 02 / AI Closer</div>
-          <h2 class="card__title mt-2">Paste the lead’s message →</h2>
-        </div>
-        <span class="conn-pill conn-pill--demo" id="aiPill">● demo</span>
-      </header>
-      <div class="card__body">
-        <p class="text-sm text-mute mb-4">Paste what the lead wrote (from the ad DM). The AI — trained on the NEPQ method + the HSTP program — tells Sebastian exactly what to send next to move toward the Express Call.</p>
-        <textarea class="input" id="leadMsg" placeholder="e.g. &quot;Vi tu anuncio, viajo mucho y siempre pierdo mi rutina cuando estoy a bordo…&quot;"></textarea>
-        <div class="flex gap-2 mt-3">
-          <button class="btn btn--gold btn--sm" id="coachBtn">Suggest how to close</button>
-          <a class="btn btn--ghost btn--sm" href="https://wa.me/528115772388" target="_blank" rel="noopener" style="margin-left:auto">Open Sebastian’s WhatsApp</a>
-        </div>
-        <div class="coach-out mt-4" id="coachOut">The AI’s read + the exact next message will appear here.</div>
-        <div class="mono text-xs text-quiet mt-3">Handoff → Sebastian · <span class="wa">+52 811 577 2388</span></div>
-
-        <!-- enable real AI -->
-        <div class="keybox mt-4" id="keyBox" style="padding-top:var(--s-3);border-top:1px solid var(--line)">
-          <p class="text-xs text-quiet mb-2">To get real, lead-specific suggestions, connect the AI (or deploy the shared proxy):</p>
-          <div class="flex gap-2">
-            <input class="input" id="apiKey" type="password" placeholder="sk-ant-... (optional)" autocomplete="off" style="flex:1" />
-            <button class="btn btn--primary btn--sm" id="saveKey">Use my key</button>
+  <!-- MANUAL MODE (shown before the line is connected) -->
+  <section class="reveal reveal-2" id="manualWrap" style="display:none">
+    <div class="grid-split" style="margin-top:var(--s-6)">
+      <section class="card">
+        <header class="card__header"><div><div class="eyebrow-num">— 01 / Conversations from this campaign</div><h2 class="card__title mt-2">Ad inbox</h2></div><span class="tag tag--ghost" id="feedTag">—</span></header>
+        <div class="card__body" id="feed"></div>
+      </section>
+      <section class="card">
+        <header class="card__header"><div><div class="eyebrow-num">— 02 / AI Closer</div><h2 class="card__title mt-2">Paste the lead’s message →</h2></div><span class="conn-pill conn-pill--demo" id="aiPill">● demo</span></header>
+        <div class="card__body">
+          <p class="text-sm text-mute mb-4">Until the live line is connected: paste what a lead wrote and the AI (NEPQ + HSTP) tells Sebastian exactly what to send to close.</p>
+          <textarea class="input" id="leadMsg" placeholder="e.g. &quot;Vi tu anuncio, viajo mucho y siempre pierdo mi rutina…&quot;"></textarea>
+          <div class="flex gap-2 mt-3">
+            <button class="btn btn--gold btn--sm" id="coachBtn">Suggest how to close</button>
+            <a class="btn btn--ghost btn--sm" href="https://wa.me/528115772388" target="_blank" rel="noopener" style="margin-left:auto">Open Sebastian’s WhatsApp</a>
+          </div>
+          <div class="coach-out mt-4" id="coachOut">The AI’s read + the exact next message will appear here.</div>
+          <div class="keybox mt-4" id="keyBox" style="padding-top:var(--s-3);border-top:1px solid var(--line)">
+            <p class="text-xs text-quiet mb-2">Connect the AI to get real suggestions:</p>
+            <div class="flex gap-2"><input class="input" id="apiKey" type="password" placeholder="sk-ant-... (optional)" autocomplete="off" style="flex:1" /><button class="btn btn--primary btn--sm" id="saveKey">Use my key</button></div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- How it goes fully automatic -->
-  <div class="divider-label">
-    <span class="divider-label__text">— 03 / To stream these in automatically</span>
-    <span class="divider-label__line"></span>
-  </div>
-  <section class="card reveal reveal-4">
-    <div class="card__body">
-      <p class="text-sm text-mute">
-        Right now Sebastian pastes a message and the AI coaches the close. To have these conversations
-        <strong>appear here on their own</strong>, the Dragon Consultations Instagram/Facebook page connects its Messaging —
-        and Caliber filters to <strong>only</strong> the chats whose <code>referral.ad_id</code> belongs to the current campaign’s ads
-        (that’s how Meta tags a “Send message” ad click), never the rest of the inbox.
-      </p>
-      <div class="mono text-xs text-quiet mt-3" style="padding-top:var(--s-3);border-top:1px dashed var(--line-strong)">
-        Needs (client): Facebook Page access + Instagram/Messenger messaging permission → I wire the filtered feed. No fake messages are ever shown here.
-      </div>
+      </section>
     </div>
+    <div class="divider-label"><span class="divider-label__text">— 03 / Turn on the live line</span><span class="divider-label__line"></span></div>
+    <section class="card"><div class="card__body">
+      <p class="text-sm text-mute">Connect the WhatsApp Business line (see <code>SETUP-WHATSAPP-AI.md</code>) and every ad lead appears here in real time with the AI’s draft reply ready to approve. No fabricated messages are ever shown.</p>
+    </div></section>
   </section>
 
   <div style="height:var(--s-16)"></div>
@@ -113,90 +122,161 @@
 <script>
 (async function () {
   const F = window.calFmt;
-  const KEY_LS = 'caliber_anthropic_key';
-  const PROXY = (window.AGENT_API_URL || '').trim();
-  const getKey = () => localStorage.getItem(KEY_LS) || '';
+  const WA  = (window.AGENT_WA_URL || '').trim().replace(/\/$/, '');
+  const WAK = (window.AGENT_WA_KEY || '').trim();
+  const esc = (s) => (s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+  const fmtTs = (ts) => { if(!ts) return ''; const n=Number(ts); const d=new Date(isFinite(n)? n*1000 : ts); return isNaN(d)?'':d.toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); };
 
-  // ── Real ad-conversation count from Meta ──
-  const M = await window.loadMetaLive();
-  const wMax = M && M.windows ? M.windows.maximum : null;
-  const chats = wMax ? (wMax.chats || 0) : 0;
-  const chatSrc = wMax ? wMax.chatSrc : null;
-  const chatNoun = chatSrc === 'messaging' ? 'conversation(s) started' : 'click(s) to WhatsApp';
-  const campName = M && M.campaigns && M.campaigns[0] ? M.campaigns[0].name : '—';
-  const sb = document.querySelector('#scopeBanner .conn-banner__text');
-  if (sb) {
-    sb.innerHTML = M
-      ? `<strong>${F.compact(chats)} ${chatNoun}</strong> from this campaign’s ads · ${campName} · last sync ${M.account.syncedAt || '—'}.`
-      : `<strong>Not connected.</strong> Connect Meta to count ad conversations.`;
-  }
+  if (WA) { runLive(); } else { runManual(); }
 
-  // ── Conversation feed (honest: real count, no fabricated threads) ──
-  const feedTag = document.getElementById('feedTag');
-  feedTag.className = chats > 0 ? 'tag tag--success' : 'tag tag--ghost';
-  feedTag.textContent = `${chats} from ads`;
-  document.getElementById('feed').innerHTML = chats > 0
-    ? `<div class="empty-feed"><div class="empty-feed__num">${F.compact(chats)}</div>
-        <p class="text-sm text-mute mt-3">${chatNoun} from these ads — people who tapped through to message Sebastian. When a lead writes, paste it into the AI Closer →<br>
-        Connect Page Messaging (section 03) to list each thread here automatically.</p></div>`
-    : `<div class="empty-feed"><div class="empty-feed__num">0</div>
-        <p class="text-sm text-mute mt-3">No ad conversations yet — the campaign hasn’t delivered impressions, so no one has clicked “Send message” yet.<br>
-        The moment the ads spend and a lead messages, the count here goes up. Use the AI Closer now for any DM Sebastian already has.</p></div>`;
+  // ============================ LIVE INBOX ============================
+  function runLive() {
+    document.getElementById('liveWrap').style.display = '';
+    const HOT_LS = 'caliber_hot_leads';
+    const hot = new Set(JSON.parse(localStorage.getItem(HOT_LS) || '[]'));
+    const saveHot = () => localStorage.setItem(HOT_LS, JSON.stringify([...hot]));
+    let convos = [], selected = null, hotOnly = false, composeDirty = false, lastSuggShown = {};
 
-  // ── AI status pill ──
-  const pill = document.getElementById('aiPill');
-  function refreshPill() {
-    const live = PROXY || getKey();
-    pill.className = 'conn-pill ' + (live ? 'conn-pill--live' : 'conn-pill--demo');
-    pill.textContent = live ? '● Live · Claude' : '● demo';
-    document.getElementById('keyBox').style.display = (PROXY || getKey()) ? 'none' : '';
-  }
-  refreshPill();
+    const listBody = document.getElementById('listBody');
+    const threadEl = document.getElementById('thread');
+    const hotBtn   = document.getElementById('hotFilter');
+    hotBtn.addEventListener('click', () => { hotOnly = !hotOnly; hotBtn.classList.toggle('ilist__filter--on', hotOnly); renderList(); });
 
-  document.getElementById('saveKey').addEventListener('click', async () => {
-    const v = document.getElementById('apiKey').value.trim();
-    if (!v || !v.startsWith('sk-ant')) { window.calToast && calToast('Paste a valid key (sk-ant-…)'); return; }
-    localStorage.setItem(KEY_LS, v); refreshPill();
-    window.calToast && calToast('AI connected in this browser');
-  });
-
-  // ── Coach call (proxy → personal key → guidance) ──
-  async function callCoach(text) {
-    const sys = window.AGENT_COACH_PROMPT;
-    const messages = [{ role: 'user', content: 'Lead messaged (from a Send-Message ad):\n\n' + text }];
-    if (PROXY) {
-      const r = await fetch(PROXY, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ system: sys, messages }) });
-      const d = await r.json().catch(() => null);
-      if (!r.ok) throw new Error((d && d.error) || ('HTTP ' + r.status));
-      if (d && d.error) throw new Error(d.error);
-      return (d.text || '').trim();
-    }
-    const key = getKey();
-    if (key) {
-      const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:600, system: sys, messages }) });
-      const d = await r.json().catch(() => null);
-      if (!r.ok) { const m = d && d.error && (d.error.message || d.error); throw new Error(r.status + (m ? ' · ' + m : '')); }
-      return (d.content && d.content[0] && d.content[0].text || '').trim();
-    }
-    throw new Error('no-ai');
-  }
-
-  const out = document.getElementById('coachOut');
-  document.getElementById('coachBtn').addEventListener('click', async () => {
-    const text = document.getElementById('leadMsg').value.trim();
-    if (!text) { out.textContent = 'Paste the lead’s message first.'; return; }
-    out.textContent = 'Thinking…';
-    try {
-      const reply = await callCoach(text);
-      out.innerHTML = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    } catch (e) {
-      if (e.message === 'no-ai') {
-        out.innerHTML = 'Connect the real AI to get a lead-specific suggestion — paste your Anthropic key below (or deploy the shared proxy so the whole team gets it with no setup).';
-      } else {
-        out.innerHTML = '⚠ AI error → ' + e.message + ' (check the key / credits).';
+    async function fetchConvos() {
+      try {
+        const r = await fetch(`${WA}/conversations?t=${encodeURIComponent(WAK)}&cb=${Date.now()}`);
+        const d = await r.json();
+        if (d.error) throw new Error(d.error);
+        convos = d.conversations || [];
+        setStatus(true, d.mode);
+        renderList(); if (selected) renderThread();
+      } catch (e) {
+        setStatus(false, null, e.message);
       }
     }
-  });
+    function setStatus(ok, mode, err) {
+      const t = document.querySelector('#waStatus .conn-banner__text');
+      const cb = document.getElementById('waStatus');
+      if (ok) {
+        cb.style.background='var(--success-tint)'; cb.style.borderColor='rgba(74,93,63,0.3)';
+        cb.querySelector('.conn-banner__dot').style.background='var(--success)';
+        const needsReply = convos.filter(c => c.suggestion).length;
+        t.innerHTML = `<span class="live-dot"></span> <strong>Live</strong> · ${convos.length} conversation(s) from ads · ${needsReply} awaiting your send · mode: <strong>${mode||'assist'}</strong> · auto-refresh 4s`;
+        document.getElementById('liveNote').textContent = mode === 'auto'
+          ? 'Auto mode: the AI replies on its own. You can still jump in and send a manual message.'
+          : 'Assist mode: the AI drafts every reply; nothing is sent until you press Approve & send.';
+      } else {
+        t.innerHTML = `⚠ Can’t reach the WhatsApp line — ${esc(err||'')}. Retrying…`;
+      }
+    }
+    function renderList() {
+      const items = (hotOnly ? convos.filter(c => hot.has(c.wa_id)) : convos);
+      document.getElementById('listCount').textContent = `${items.length} chat(s)`;
+      if (!items.length) { listBody.innerHTML = `<div class="empty-pane" style="padding:var(--s-8)">${hotOnly?'No hot leads flagged yet.':'No ad conversations yet. The moment a lead messages from an ad, it lands here.'}</div>`; return; }
+      listBody.innerHTML = items.map(c => {
+        const last = c.messages && c.messages.length ? c.messages[c.messages.length-1] : null;
+        const snip = last ? (last.from==='agent'?'You: ':'') + last.text : '';
+        return `<button class="iitem ${selected===c.wa_id?'iitem--on':''}" data-id="${esc(c.wa_id)}">
+          <div class="iitem__top"><span class="iitem__name">${hot.has(c.wa_id)?'🔥 ':''}${esc(c.name||c.wa_id)}</span><span class="iitem__time">${fmtTs(c.updatedAt)}</span></div>
+          <div class="iitem__msg">${esc(snip).slice(0,60)}</div>
+          <div class="iitem__tags">${c.suggestion?'<span class="idot"></span><span class="iitem__time">draft ready</span>':''}${c.adId?'<span class="iitem__time">· ad '+esc(String(c.adId)).slice(-6)+'</span>':''}</div>
+        </button>`;
+      }).join('');
+      listBody.querySelectorAll('.iitem').forEach(b => b.addEventListener('click', () => { selected=b.dataset.id; composeDirty=false; renderList(); renderThread(); }));
+    }
+    function renderThread() {
+      const c = convos.find(x => x.wa_id === selected);
+      if (!c) { threadEl.innerHTML = '<div class="empty-pane">Select a conversation.</div>'; return; }
+      const isHot = hot.has(c.wa_id);
+      const msgs = (c.messages||[]).map(m => `<div class="bub bub--${m.from==='agent'?'agent':'lead'}">${esc(m.text)}<div class="bub__t">${fmtTs(m.ts)}</div></div>`).join('');
+      const prevCompose = document.getElementById('composeBox');
+      const keepText = (prevCompose && composeDirty) ? prevCompose.value : (c.suggestion || '');
+      threadEl.innerHTML = `
+        <div class="thread__head">
+          <div><div style="font-weight:600">${esc(c.name||c.wa_id)}</div><div class="mono text-xs text-quiet">${esc(c.wa_id)}${c.adId?' · ad '+esc(String(c.adId)).slice(-6):''}</div></div>
+          <button class="btn btn--ghost btn--sm" id="hotToggle">${isHot?'🔥 Hot':'☆ Mark hot'}</button>
+        </div>
+        <div class="thread__body" id="threadBody">${msgs || '<div class="text-quiet">No messages yet.</div>'}</div>
+        <div class="compose">
+          <div class="compose__ai">✦ AI draft (NEPQ + HSTP) — edit or send as-is</div>
+          <textarea class="input" id="composeBox" placeholder="The AI’s suggested reply appears here…">${esc(keepText)}</textarea>
+          <div class="flex gap-2 mt-3">
+            <button class="btn btn--gold btn--sm" id="sendBtn">Approve &amp; send</button>
+            <button class="btn btn--ghost btn--sm" id="regenBtn">Regenerate</button>
+            <a class="btn btn--ghost btn--sm" href="https://wa.me/${esc(c.wa_id)}" target="_blank" rel="noopener" style="margin-left:auto">Open in WhatsApp</a>
+          </div>
+        </div>`;
+      const tb = document.getElementById('threadBody'); if (tb) tb.scrollTop = tb.scrollHeight;
+      const box = document.getElementById('composeBox');
+      box.addEventListener('input', () => { composeDirty = true; });
+      document.getElementById('hotToggle').addEventListener('click', () => { if(hot.has(c.wa_id)) hot.delete(c.wa_id); else hot.add(c.wa_id); saveHot(); renderList(); renderThread(); });
+      document.getElementById('sendBtn').addEventListener('click', () => send(c.wa_id, box.value));
+      document.getElementById('regenBtn').addEventListener('click', () => regen(c.wa_id));
+    }
+    async function send(wa_id, text) {
+      text = (text||'').trim(); if (!text) return;
+      const btn = document.getElementById('sendBtn'); btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const r = await fetch(`${WA}/reply`, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ wa_id, text, t: WAK }) });
+        const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || ('HTTP '+r.status));
+        composeDirty = false; window.calToast && calToast('Sent to lead ✓');
+        await fetchConvos();
+      } catch (e) { window.calToast && calToast('Send failed: ' + e.message); btn.disabled=false; btn.textContent='Approve & send'; }
+    }
+    async function regen(wa_id) {
+      const btn = document.getElementById('regenBtn'); btn.disabled = true; btn.textContent = 'Thinking…';
+      try {
+        const r = await fetch(`${WA}/suggest`, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ wa_id, t: WAK }) });
+        const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || ('HTTP '+r.status));
+        composeDirty = false; const box = document.getElementById('composeBox'); if (box) box.value = d.suggestion || '';
+      } catch (e) { window.calToast && calToast('Regenerate failed: ' + e.message); }
+      btn.disabled = false; btn.textContent = 'Regenerate';
+    }
+
+    fetchConvos();
+    setInterval(fetchConvos, 4000);
+  }
+
+  // ============================ MANUAL MODE ============================
+  async function runManual() {
+    document.getElementById('manualWrap').style.display = '';
+    const KEY_LS = 'caliber_anthropic_key';
+    const PROXY = (window.AGENT_API_URL || '').trim();
+    const getKey = () => localStorage.getItem(KEY_LS) || '';
+    const M = await window.loadMetaLive();
+    const wMax = M && M.windows ? M.windows.maximum : null;
+    const chats = wMax ? (wMax.chats || 0) : 0;
+    const chatSrc = wMax ? wMax.chatSrc : null;
+    const noun = chatSrc === 'messaging' ? 'conversation(s) started' : 'click(s) to WhatsApp';
+    const sb = document.querySelector('#waStatus .conn-banner__text');
+    sb.innerHTML = M ? `<strong>${F.compact(chats)} ${noun}</strong> from the current ads · connect the live line (SETUP-WHATSAPP-AI.md) to see each chat here in real time.` : 'Connect Meta + the WhatsApp line to see live ad conversations.';
+
+    const feedTag = document.getElementById('feedTag');
+    feedTag.className = chats>0 ? 'tag tag--success' : 'tag tag--ghost';
+    feedTag.textContent = `${chats} from ads`;
+    document.getElementById('feed').innerHTML = `<div class="empty-feed"><div class="empty-feed__num">${F.compact(chats)}</div><p class="text-sm text-mute mt-3">${noun} from these ads. Live threads appear here once the WhatsApp line is connected. Meanwhile, paste any message into the AI Closer →</p></div>`;
+
+    const pill = document.getElementById('aiPill');
+    const refreshPill = () => { const live = PROXY || getKey(); pill.className='conn-pill '+(live?'conn-pill--live':'conn-pill--demo'); pill.textContent = live?'● Live · Claude':'● demo'; document.getElementById('keyBox').style.display = live?'none':''; };
+    refreshPill();
+    document.getElementById('saveKey').addEventListener('click', () => { const v=document.getElementById('apiKey').value.trim(); if(!v||!v.startsWith('sk-ant')){window.calToast&&calToast('Paste a valid key (sk-ant-…)');return;} localStorage.setItem(KEY_LS,v); refreshPill(); window.calToast&&calToast('AI connected'); });
+
+    const out = document.getElementById('coachOut');
+    document.getElementById('coachBtn').addEventListener('click', async () => {
+      const text = document.getElementById('leadMsg').value.trim();
+      if (!text) { out.textContent='Paste the lead’s message first.'; return; }
+      out.textContent='Thinking…';
+      try {
+        const sys = window.AGENT_COACH_PROMPT, messages=[{role:'user',content:'Lead messaged (from a Send-Message ad):\n\n'+text}];
+        let reply;
+        if (PROXY) { const r=await fetch(PROXY,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system:sys,messages})}); const d=await r.json().catch(()=>null); if(!r.ok)throw new Error((d&&d.error)||('HTTP '+r.status)); if(d&&d.error)throw new Error(d.error); reply=(d.text||'').trim(); }
+        else { const key=getKey(); if(!key) throw new Error('no-ai'); const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,system:sys,messages})}); const d=await r.json().catch(()=>null); if(!r.ok){const m=d&&d.error&&(d.error.message||d.error);throw new Error(r.status+(m?' · '+m:''));} reply=(d.content&&d.content[0]&&d.content[0].text||'').trim(); }
+        out.innerHTML = esc(reply).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+      } catch (e) {
+        out.innerHTML = e.message==='no-ai' ? 'Connect the real AI (paste your Anthropic key below) to get a lead-specific suggestion.' : '⚠ AI error → '+esc(e.message);
+      }
+    });
+  }
 })();
 </script>
 </body>
