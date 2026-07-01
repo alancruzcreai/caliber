@@ -13,8 +13,10 @@
  *      AUTO mode    → the AI replies on its own via the Cloud API.
  *   5. Exposes the conversations to the Caliber dashboard to render.
  *
- * Sebastian's personal number (+52 811 577 2388) is NEVER touched —
- * this is a separate line. Hot/qualified leads are handed off to him.
+ * This line is dedicated to ad leads — a brand-new WhatsApp Business
+ * number (e.g. +1 346 247 4443), never Sebastian's personal number.
+ * He works these conversations entirely from Caliber; no phone app
+ * is required for this line at all.
  *
  * Storage: Cloudflare KV (binding: CONVOS).
  * Secrets/vars (set in Cloudflare → the client provides the values):
@@ -25,7 +27,10 @@
  *   ANTHROPIC_API_KEY   (secret) — the agent's brain
  *   READ_TOKEN          (secret) — Caliber passes this to read conversations
  *   MODE                (var)    — "assist" (default) or "auto"
- *   MODEL               (var)    — claude-sonnet-4-6 (default) or claude-opus-4-8
+ *   MODEL               (var)    — claude-sonnet-5 (default; see SETUP doc for alternatives)
+ *   MODEL_FALLBACK      (var)    — claude-haiku-4-5 (default) — used automatically
+ *                                  if MODEL's call fails (e.g. low credit balance),
+ *                                  so a conversation is never left without a reply
  *   CAMPAIGN_AD_IDS     (var)    — optional comma list to restrict to a campaign
  *   HANDOFF_NUMBER      (var)    — Sebastian's WhatsApp for handoff note
  * Setup walkthrough: SETUP-WHATSAPP-AI.md
@@ -198,11 +203,26 @@ async function handleIncoming(env, payload) {
 // ───────────────────────── Claude ─────────────────────────
 async function callClaude(env, messages) {
   const hist = messages.map(m => ({ role: m.from === 'lead' ? 'user' : 'assistant', content: m.text })).slice(-24);
+  const model = env.MODEL || 'claude-sonnet-5';
+  try {
+    return await askClaude(env, model, hist);
+  } catch (err) {
+    // A live sales conversation must never go silent mid-thread. If the
+    // primary model call fails — most commonly a low/zero credit balance —
+    // retry once on a cheaper fallback model before giving up.
+    const fallback = env.MODEL_FALLBACK || 'claude-haiku-4-5';
+    if (fallback === model) throw err;
+    console.error(`claude primary model "${model}" failed (${err.message}); retrying on fallback "${fallback}"`);
+    return await askClaude(env, fallback, hist);
+  }
+}
+
+async function askClaude(env, model, hist) {
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
     body: JSON.stringify({
-      model: env.MODEL || 'claude-sonnet-4-6',
+      model,
       max_tokens: 320,
       // Cache the (large, fixed) system prompt → ~0.1x cost on every turn after the first.
       system: [{ type: 'text', text: AGENT_PROMPT, cache_control: { type: 'ephemeral' } }],

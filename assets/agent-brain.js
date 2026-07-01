@@ -31,6 +31,8 @@
   // Both are public (client-side) — demo-grade; harden with real auth for prod.
   window.AGENT_WA_URL = '';
   window.AGENT_WA_KEY = '';
+  // Dedicated ad-lead WhatsApp number shown in the UI (display only).
+  window.AGENT_WA_LINE_NUMBER = '+1 346 247 4443';
 
   window.AGENT_SYSTEM_PROMPT = `
 You are the front-line conversational assistant for **Sebastian Landa** in the Instagram and WhatsApp DMs of **The High Standard Traveler Program (HSTP)** — a premium 10-week health & performance system for high-net-worth travelers (yacht crew, founders, high-performing remote workers, frequent flyers).

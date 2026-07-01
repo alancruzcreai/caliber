@@ -96,7 +96,6 @@
           <textarea class="input" id="leadMsg" placeholder="e.g. &quot;Vi tu anuncio, viajo mucho y siempre pierdo mi rutina…&quot;"></textarea>
           <div class="flex gap-2 mt-3">
             <button class="btn btn--gold btn--sm" id="coachBtn">Suggest how to close</button>
-            <a class="btn btn--ghost btn--sm" href="https://wa.me/528115772388" target="_blank" rel="noopener" style="margin-left:auto">Open Sebastian’s WhatsApp</a>
           </div>
           <div class="coach-out mt-4" id="coachOut">The AI’s read + the exact next message will appear here.</div>
           <div class="keybox mt-4" id="keyBox" style="padding-top:var(--s-3);border-top:1px solid var(--line)">
@@ -124,6 +123,7 @@
   const F = window.calFmt;
   const WA  = (window.AGENT_WA_URL || '').trim().replace(/\/$/, '');
   const WAK = (window.AGENT_WA_KEY || '').trim();
+  const WA_LINE = (window.AGENT_WA_LINE_NUMBER || '+1 346 247 4443').trim();
   const esc = (s) => (s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
   const fmtTs = (ts) => { if(!ts) return ''; const n=Number(ts); const d=new Date(isFinite(n)? n*1000 : ts); return isNaN(d)?'':d.toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); };
 
@@ -202,9 +202,9 @@
           <textarea class="input" id="composeBox" placeholder="The AI’s suggested reply appears here…">${esc(keepText)}</textarea>
           <div class="flex gap-2 mt-3">
             <button class="btn btn--gold btn--sm" id="sendBtn">Approve &amp; send</button>
-            <button class="btn btn--ghost btn--sm" id="regenBtn">Regenerate</button>
-            <a class="btn btn--ghost btn--sm" href="https://wa.me/${esc(c.wa_id)}" target="_blank" rel="noopener" style="margin-left:auto">Open in WhatsApp</a>
+            <button class="btn btn--ghost btn--sm" id="regenBtn" style="margin-left:auto">Regenerate</button>
           </div>
+          <div class="mono text-xs text-quiet mt-2">Sends from the ad line (${esc(WA_LINE)}) via Caliber — replying from a personal WhatsApp would break this thread's number.</div>
         </div>`;
       const tb = document.getElementById('threadBody'); if (tb) tb.scrollTop = tb.scrollHeight;
       const box = document.getElementById('composeBox');
