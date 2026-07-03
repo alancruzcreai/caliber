@@ -4,97 +4,90 @@ Objetivo: que **cada lead que llega por los anuncios actuales** aparezca en Cali
 
 Número destino de los leads: **+1 (346) 247-4443**. Todo se trabaja **desde Caliber** — no se necesita ninguna app de WhatsApp en ningún teléfono para esta línea.
 
-Yo (Claude Code) ya construí todo el código: el backend (`whatsapp-worker.js`) y la pantalla en Caliber (`inbox.html`). Lo que falta son pasos de cuenta/verificación que solo puede hacer el cliente — no puedo crear cuentas, recibir códigos de verificación en su teléfono, ni manejar sus credenciales.
+Ya construí todo el código, incluyendo una **página de un solo clic** (`connect-whatsapp.html`) para que Sebastian conecte el número sin copiar ningún token a mano. Lo que queda son unos pasos de panel de Meta que solo yo (Alan, dueño de la app "caliber sebastian") puedo hacer, y un clic que solo Sebastian puede dar (con su propia cuenta de Facebook).
 
-Todo lo de abajo está verificado contra la documentación oficial de Meta y de Anthropic (jun-2026), no es información inventada.
-
----
-
-## ¿El número necesita ser WhatsApp Business primero? — **No**
-Confirmado en la documentación oficial de Meta: un número que **nunca ha estado en WhatsApp** se registra **directo** en la API (WhatsApp Business Platform / Cloud API) — de hecho es **más simple** que migrar un número que ya tiene historial, porque no hay que borrar ninguna cuenta antes.
-
-El único requisito real: **el número debe poder recibir un código (SMS o llamada de voz)** — así es como Meta verifica que es suyo. Si +1 (346) 247-4443 es un número virtual, confirmar que puede recibir SMS/llamada real (no solo redirección) — es la única condición técnica no negociable.
-
-*(Nota aparte: como Sebastian trabajará esta línea 100% desde Caliber y no desde una app en su teléfono, no aplica "Coexistencia" — esa función es solo para cuando alguien quiere seguir usando la app de WhatsApp Business en el teléfono a la vez que la API. Aquí no hace falta.)*
-
-## ¿Yo (Alan) necesito ser administrador del Business Manager del cliente? — **No**
-Meta tiene un flujo llamado **Embedded Signup** diseñado exactamente para esto: **el propio Sebastian (o quien administre el Business Manager) inicia sesión con SU cuenta de Facebook**, dentro de una ventana de Meta, y ahí mismo le otorga acceso a mi app. Yo nunca necesito ser admin de su cuenta — el acceso se lo da él directamente en ese momento.
-
-## ¿Se necesita aprobación de Meta (App Review) para hablar con leads reales? — **No**
-Como estoy usando la API para el propio negocio del cliente (no para revender a terceros), no se requiere "App Review" — eso solo aplica si yo ofreciera esto como producto a otras empresas. El único límite real es de volumen (ver abajo).
-
-## Límite de mensajes (a tener en cuenta, no bloqueante hoy)
-Una cuenta de negocio nueva/sin verificar empieza con un tope de **250 destinatarios únicos cada 24 h**. Sube automáticamente (a 2,000, luego más) cuando el negocio complete la **Verificación de Negocio de Meta** o mantenga buena calidad de mensajes por 30 días. Con el volumen actual de la campaña no es un problema — pero si el volumen de leads crece, avísame para gestionar la verificación a tiempo.
+Todo lo de abajo está verificado contra la documentación oficial de Meta y de Anthropic (jun-2026) — nada inventado.
 
 ---
 
-## Lo que necesito de su parte (en orden)
+## Preguntas ya resueltas
 
-1. **Confirmar que +1 (346) 247-4443 puede recibir un SMS o llamada real** (no un número de solo-reenvío). Sin esto no se puede verificar.
-2. **Sebastian (o quien administre el Meta Business Manager de Dragon Consultations) hace el Embedded Signup** — 5 minutos, se detalla abajo.
-3. **Cuenta Cloudflare** (gratis) — para desplegar el backend (Worker).
-4. **Cuenta y créditos en la consola de Anthropic** (la IA) — ver sección de precios abajo.
-5. Mauricio mantiene los **anuncios apuntando a este número**.
+**¿El número necesita ser WhatsApp Business primero?** No. Un número que nunca ha estado en WhatsApp se registra directo en la API — de hecho es más simple que uno con historial. Único requisito real: **debe poder recibir un SMS o llamada de voz** (así lo verifica Meta). Ya confirmado con el cliente ✅.
 
-## Paso a paso del Embedded Signup (lo hace Sebastian, 5 min)
-1. Le mando un enlace que abre una ventana de Meta.
-2. Inicia sesión con su propio Facebook/Meta.
-3. Elige o crea su **Business Portfolio** (el de Dragon Consultations).
-4. Crea la **cuenta de WhatsApp Business** (WABA) — nombre a mostrar: p. ej. "High Standard Traveler Program" o "Dragon Consultations".
-5. Ingresa el número **+1 (346) 247-4443**.
-6. Recibe el código por **SMS o llamada** y lo captura ahí mismo.
-7. En la pantalla final, **aprueba darle acceso a mi app** ("caliber sebastian") sobre ese número — este es el paso que conecta todo con Caliber.
+**¿Necesito ser administrador del Business Manager del cliente?** No. El flujo de Meta (**Embedded Signup**) está diseñado exactamente para esto: Sebastian inicia sesión con SU propia cuenta de Facebook y ahí mismo le da acceso a mi app — nunca necesito ser admin de su cuenta.
 
-Con eso, mi lado (el Worker) completa el registro técnico y queda todo conectado — sin que el cliente tenga que tocar nada más.
+**¿Se necesita aprobación de Meta (App Review)?** No, para usar la API con el propio negocio del cliente. Pero hay un detalle real que si no se atiende, bloquea a Sebastian al querer conectar: **si mi app sigue en "modo desarrollo" en el panel de Meta, solo las personas con rol de admin/developer/tester EN MI app pueden completar el Embedded Signup — Sebastian no tiene ese rol.** Dos formas de resolverlo (elige una):
+- **(A) Recomendado** — Pasar la app "caliber sebastian" a **modo Live** en el panel de Meta (Configuración básica: agregar URL de política de privacidad, ícono, categoría → luego el switch App Mode → Live). Los permisos de WhatsApp obtienen acceso estándar sin revisión de Meta, así que cualquier persona externa (Sebastian) puede completar el flujo.
+- **(B) Más rápido si (A) tiene fricción** — Agregar a Sebastian como **Tester** de tu app (Panel de Meta → Roles de la app → Agregar personas → Tester, con su cuenta de Facebook). Desbloquea el flujo de inmediato, aunque no es lo ideal para producción a largo plazo.
+
+**Límite de mensajes:** una cuenta nueva/sin verificar empieza en **250 destinatarios únicos cada 24 h**. Sube automáticamente con Verificación de Negocio de Meta o buena calidad sostenida. No es un problema al volumen actual — avisar si crece.
 
 ---
 
-## Despliegue (yo lo dejo listo; el cliente solo pega credenciales)
+## Lo que hago yo (Alan) — una sola vez, en el panel de Meta
 
-### A. Worker en Cloudflare
-1. Cloudflare → **Workers & Pages** → Create Worker → pega `whatsapp-worker.js` → Deploy.
-2. **KV**: Storage & Databases → KV → crea un namespace `CALIBER_CONVOS`. En el Worker → Settings → Bindings → agrega **KV Namespace** con **Variable name `CONVOS`** → el namespace creado.
-3. Worker → Settings → **Variables and Secrets** (Secret = oculto; Text = variable normal):
-   - `WHATSAPP_TOKEN` (Secret) — token permanente (se genera tras el Embedded Signup)
-   - `WHATSAPP_PHONE_ID` (Text) — el `phone_number_id` de +1 346 247 4443
-   - `WHATSAPP_VERIFY` (Secret) — una palabra que tú inventes (ej. `caliber-verify-9f2`)
-   - `META_APP_SECRET` (Secret) — App Secret de la app de Meta
-   - `ANTHROPIC_API_KEY` (Secret) — key de Anthropic (ver abajo)
-   - `READ_TOKEN` (Secret) — otra palabra que inventes (Caliber la usa para leer/enviar)
-   - `MODE` (Text) — `assist` (recomendado; la IA redacta y Sebastian aprueba) o `auto`
-   - `MODEL` (Text) — `claude-sonnet-5` (recomendado, ver precios abajo)
-   - `MODEL_FALLBACK` (Text) — `claude-haiku-4-5` (ya viene por defecto en el código: si el modelo principal falla —p. ej. saldo bajo— reintenta solo con este modelo más barato, para que la conversación **nunca se quede sin respuesta**)
-   - `CAMPAIGN_AD_IDS` (Text, opcional) — ids de anuncios de la campaña para filtrar
-4. Deploy. Copia la **URL del Worker** (`https://...workers.dev`).
+1. En la app **"caliber sebastian"** (App ID `2126295867938046`) → **Facebook Login for Business** → **Configurations** → **Create Configuration**:
+   - Nombre: algo como "Caliber WhatsApp".
+   - Login variation: **WhatsApp Embedded Signup**.
+   - Permisos a habilitar: **`whatsapp_business_management`** y **`whatsapp_business_messaging`** (ambos).
+   - Guardar → copiar el **Configuration ID** (`config_id`).
+2. Resolver el bloqueo de modo desarrollo — opción (A) o (B) de arriba.
+3. Configurar el **webhook a nivel app**: WhatsApp → Configuration → Webhook:
+   - Callback URL = la URL del Worker (una vez desplegado, paso siguiente).
+   - Verify token = el mismo valor que pondré en `WHATSAPP_VERIFY`.
+   - Suscribir el campo **`messages`**.
+4. Pegar el `config_id` en `connect-whatsapp.html` (ya tiene el lugar marcado) y la URL del Worker en `assets/agent-brain.js` (`AGENT_WA_URL`) → deploy.
 
-### B. Webhook
-Configura el webhook (en Meta o en el panel del proveedor que uses):
-- **Callback URL** = la URL del Worker
-- **Verify token** = el mismo `WHATSAPP_VERIFY`
-- Suscribe el campo **`messages`**.
+## Lo que hace Sebastian — un clic
 
-### C. Conectar Caliber
-Mándame la **URL del Worker** y el **`READ_TOKEN`** (no son la key de Anthropic ni el token de WhatsApp — son seguros de compartir). Los pongo en `AGENT_WA_URL` / `AGENT_WA_KEY` y hago deploy. Con eso, la bandeja de Caliber se llena en vivo.
+Le mando el enlace a **`connect-whatsapp.html`**. Ahí:
+1. Pulsa **"Conectar WhatsApp con Facebook"**.
+2. Inicia sesión con su propia cuenta de Facebook (dentro de la ventana de Meta).
+3. Elige o crea el **Business Portfolio** de Dragon Consultations y la cuenta de WhatsApp Business (WABA).
+4. Ingresa el número **+1 (346) 247-4443** y el código que reciba por SMS o llamada.
+5. En la pantalla final, confirma dar acceso a mi app.
+
+En cuanto termina, la página misma le confirma "✓ Listo — tu WhatsApp ya está conectado a Caliber" — el backend hace automáticamente el resto (registrar el número, activar el webhook). **Sebastian no copia ni pega ningún token.**
 
 ---
 
-## Precios de la IA — verificado (jun-2026), sin inventar nada
+## Despliegue del backend (lo hago yo en Cloudflare)
 
-**No existe una versión gratuita permanente de la API de Claude.** Es importante ser claro con esto: la suscripción a Claude.ai (el chat) **no incluye** acceso a la API — son cosas separadas y facturas separadas, confirmado directo en la documentación de Anthropic. Nuevas cuentas reciben "una pequeña cantidad de créditos gratis para probar" (Anthropic no publica el monto exacto), pero después de eso el uso se cobra.
+1. Cloudflare → **Workers & Pages** → Create Worker → pegar `whatsapp-worker.js` → Deploy.
+2. **KV**: Storage & Databases → KV → crear namespace `CALIBER_CONVOS`. Worker → Settings → Bindings → **KV Namespace**, variable `CONVOS` → el namespace creado.
+3. Worker → Settings → **Variables and Secrets**:
+   - `META_APP_SECRET` (Secret) — App Secret de "caliber sebastian"
+   - `WHATSAPP_VERIFY` (Secret) — palabra que yo invente (ej. `caliber-verify-9f2`)
+   - `WHATSAPP_PIN` (Secret) — un PIN de 6 dígitos que yo invente, para el 2-step verification del número
+   - `ANTHROPIC_API_KEY` (Secret) — la key de Anthropic del cliente (ver precios abajo)
+   - `READ_TOKEN` (Secret) — palabra que yo invente (Caliber la usa para leer/enviar)
+   - `MODE` (Text) — `assist` (recomendado) o `auto`
+   - `MODEL` (Text) — `claude-sonnet-5` (recomendado)
+   - `MODEL_FALLBACK` (Text) — `claude-haiku-4-5` (ya es el valor por defecto en el código)
+   - `CAMPAIGN_AD_IDS` (Text, opcional) — ids de anuncios para filtrar
+4. Deploy → copiar la URL del Worker → ponerla en `assets/agent-brain.js` (`AGENT_WA_URL`) y en `connect-whatsapp.html` (se toma automáticamente de ahí) → deploy de Caliber.
+
+*(`WHATSAPP_TOKEN` / `WHATSAPP_PHONE_ID` ya NO se configuran a mano — los llena solo el flujo de un clic. Quedan solo como respaldo manual opcional.)*
+
+---
+
+## Precios de la IA — verificado, sin inventar nada
+
+**No existe una versión gratuita permanente de la API de Claude.** La suscripción a Claude.ai (el chat) **no incluye** acceso a la API — son cuentas y facturas separadas, confirmado en la documentación oficial de Anthropic. Nuevas cuentas reciben "una pequeña cantidad de créditos gratis para probar" (sin monto público), pero después el uso se cobra.
 
 **La buena noticia: al volumen actual, el costo real es mínimo.**
 
-| Modelo | Precio (entrada / salida por 1M tokens) | Recomendación |
+| Modelo | Precio (entrada / salida por 1M tokens) | Uso |
 |---|---|---|
-| **Sonnet 5** ⭐ | $2 / $10 (precio de lanzamiento hasta 31-ago-2026; luego $3/$15) | **El que recomiendo usar ahora** — el mejor balance calidad/precio mientras dura esta promoción |
-| Haiku 4.5 | $1 / $5 | Respaldo automático si el saldo se agota a media conversación (ya configurado en el código) |
-| Opus 4.8 | $5 / $25 | Opcional, solo si quieres el máximo poder de cierre en los leads más calientes |
+| **Sonnet 5** ⭐ | $2 / $10 (precio de lanzamiento hasta 31-ago-2026; luego $3/$15) | El que uso por defecto — mejor balance calidad/precio |
+| Haiku 4.5 | $1 / $5 | Respaldo automático si el modelo principal falla (ya en el código) |
+| Opus 4.8 | $5 / $25 | Opcional, para el máximo poder de cierre en leads calientes |
 
-Con el **cache de prompt** que ya activé en el Worker, cada turno de la conversación cuesta ~10% de lo normal. Una conversación completa de venta sale en **centavos de dólar**. Frente a un cierre de $2,200, el costo de la IA es irrelevante.
+Con el **cache de prompt** ya activo, cada turno cuesta ~10% de lo normal. Una conversación completa sale en **centavos de dólar** — frente a un cierre de $2,200, es irrelevante.
 
-**Para que nunca se quede sin saldo a media conversación** — dos capas de protección, ambas ya implementadas/documentadas:
-1. **Auto-recarga real de Anthropic** (confirmado en su documentación oficial): en Console → Billing, activas "Auto-reload" y defines: *"cuando el saldo baje de $X, recarga $Y automáticamente."* Recomendado: recargar $10 cada vez que baje de $5 — a este volumen, dura meses.
-2. **Respaldo automático en el código**: si por cualquier motivo el modelo principal falla (saldo en cero, error temporal), el Worker reintenta automáticamente con Haiku 4.5 (más barato) antes de rendirse — así ninguna conversación se queda sin respuesta.
+**Para que nunca se quede sin saldo a media conversación:**
+1. **Auto-recarga de Anthropic** (Console → Billing → Auto-reload): define *"cuando el saldo baje de $X, recarga $Y"*. Recomendado: recargar $10 cuando baje de $5.
+2. **Respaldo automático en el código**: si el modelo principal falla, el Worker reintenta con Haiku 4.5 antes de rendirse.
 
 ---
 
@@ -104,4 +97,4 @@ Con el **cache de prompt** que ya activé en el Worker, cada turno de la convers
 - Marca 🔥 a los calientes → filtro "Hot only" para sentarse solo con esos.
 - En modo `auto`, la IA responde sola y Sebastian solo entra a los que ya están calientes.
 
-> Seguridad: la `READ_TOKEN` viaja en el navegador (nivel demo). Para producción con mucho volumen, se agrega un login real. El token de WhatsApp y la key de Anthropic **nunca** salen del Worker — Caliber nunca los ve.
+> Seguridad: la `READ_TOKEN` viaja en el navegador (nivel demo — suficiente para este volumen). El token de WhatsApp (obtenido automáticamente) y la key de Anthropic **nunca** salen del Worker — Caliber nunca los ve directamente.

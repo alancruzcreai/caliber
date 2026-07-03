@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conectar WhatsApp — Caliber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--s-6); }
+  .connect-card { max-width: 460px; width: 100%; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-1); padding: var(--s-8); text-align: center; }
+  .connect-card__num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-quiet); }
+  .connect-card__title { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 400; letter-spacing: -0.02em; margin: var(--s-2) 0 var(--s-3); }
+  .connect-card__title em { font-style: normal; color: var(--gold); }
+  .connect-card__body { color: var(--ink-mute); font-size: var(--text-sm); line-height: 1.6; margin-bottom: var(--s-6); }
+  .connect-state { display: none; margin-top: var(--s-5); font-size: var(--text-sm); }
+  .connect-state--show { display: block; }
+  .connect-state--ok { color: var(--success); font-weight: 600; }
+  .connect-state--err { color: #B4432E; }
+  .connect-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line-strong); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: -2px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .connect-already { display: none; }
+</style>
+</head>
+<body>
+<div class="connect-card">
+  <div class="connect-card__num">— CALIBER · CONEXIÓN</div>
+  <h1 class="connect-card__title">Conectar tu <em>WhatsApp</em></h1>
+  <p class="connect-card__body" id="introText">
+    Un clic para conectar el número <strong>+1 (346) 247-4443</strong> a Caliber.
+    Vas a iniciar sesión con tu cuenta de Facebook y confirmar el número — toma menos de un minuto.
+  </p>
+
+  <button class="btn btn--gold" id="connectBtn" style="width:100%">Conectar WhatsApp con Facebook</button>
+
+  <div class="connect-already connect-state connect-state--show" id="alreadyBox">
+    <span class="connect-state--ok">✓ Este número ya está conectado a Caliber.</span>
+  </div>
+
+  <div class="connect-state" id="stateBox"></div>
+</div>
+
+<script src="assets/agent-brain.js"></script>
+
+<!-- Facebook JS SDK -->
+<script>
+  // ⚠️ Config a rellenar por Alan tras crear la configuración de
+  // "Facebook Login for Business" en el panel de la app de Meta
+  // (Configurations → Create Configuration → WhatsApp Embedded Signup).
+  // Ver SETUP-WHATSAPP-AI.md.
+  const META_APP_ID = '2126295867938046';
+  const META_CONFIG_ID = 'REEMPLAZAR_CON_TU_CONFIG_ID';
+  // Misma URL del Worker que usa inbox.html (window.AGENT_WA_URL en assets/agent-brain.js)
+  // — un solo lugar que actualizar cuando el Worker esté desplegado.
+  const WORKER_URL = (window.AGENT_WA_URL || '').trim().replace(/\/$/, '');
+
+  window.fbAsyncInit = function () {
+    FB.init({ appId: META_APP_ID, autoLogAppEvents: true, xfbml: true, version: 'v21.0' });
+    checkStatus();
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+
+<script>
+(function () {
+  const btn = document.getElementById('connectBtn');
+  const state = document.getElementById('stateBox');
+  const already = document.getElementById('alreadyBox');
+  const intro = document.getElementById('introText');
+
+  function show(msg, cls) {
+    state.className = 'connect-state connect-state--show' + (cls ? ' ' + cls : '');
+    state.innerHTML = msg;
+  }
+
+  async function checkStatus() {
+    if (!WORKER_URL) return;
+    try {
+      const r = await fetch(`${WORKER_URL}/status?cb=${Date.now()}`);
+      const d = await r.json();
+      if (d.connected) {
+        btn.style.display = 'none';
+        intro.style.display = 'none';
+        already.style.display = 'block';
+      }
+    } catch (e) { /* worker not reachable yet — leave the button visible */ }
+  }
+
+  let pendingCode = null;
+  let pendingIds = null;
+
+  async function trySubmit() {
+    if (!pendingCode || !pendingIds) return;
+    show('<span class="connect-spinner"></span> Conectando…');
+    if (!WORKER_URL) { show('Falta configurar la URL del backend en esta página (WORKER_URL).', 'connect-state--err'); return; }
+    try {
+      const r = await fetch(`${WORKER_URL}/onboard`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ code: pendingCode, ...pendingIds }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || d.error) throw new Error(d.error || ('HTTP ' + r.status));
+      btn.style.display = 'none';
+      show('✓ Listo — tu WhatsApp ya está conectado a Caliber.', 'connect-state--ok');
+    } catch (e) {
+      show('No se pudo completar la conexión: ' + e.message + '. Contacta a Alan con este mensaje.', 'connect-state--err');
+    }
+  }
+
+  window.addEventListener('message', (event) => {
+    if (!event.origin.endsWith('facebook.com')) return;
+    try {
+      const data = JSON.parse(event.data);
+      if (data.type === 'WA_EMBEDDED_SIGNUP' && data.event === 'FINISH') {
+        pendingIds = { waba_id: data.data.waba_id, phone_number_id: data.data.phone_number_id };
+        trySubmit();
+      }
+    } catch (e) { /* not our message */ }
+  });
+
+  btn.addEventListener('click', () => {
+    if (META_CONFIG_ID === 'REEMPLAZAR_CON_TU_CONFIG_ID') {
+      show('Esta página todavía no está configurada del todo (falta el config_id de Meta). Avisa a Alan.', 'connect-state--err');
+      return;
+    }
+    show('<span class="connect-spinner"></span> Abriendo la ventana de Facebook…');
+    FB.login((response) => {
+      if (response.authResponse && response.authResponse.code) {
+        pendingCode = response.authResponse.code;
+        trySubmit();
+      } else {
+        show('Se cerró la ventana antes de terminar. Pulsa el botón para intentar de nuevo.', 'connect-state--err');
+      }
+    }, {
+      config_id: META_CONFIG_ID,
+      response_type: 'code',
+      override_default_response_type: true,
+      extras: { setup: {} },
+    });
+  });
+})();
+</script>
+</body>
+</html>

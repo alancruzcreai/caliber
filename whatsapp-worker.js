@@ -18,24 +18,36 @@
  * He works these conversations entirely from Caliber; no phone app
  * is required for this line at all.
  *
+ * ONE-CLICK CONNECT: connect-whatsapp.html (public page) walks the client
+ * through Meta's Embedded Signup. When they finish, it posts here to
+ * POST /onboard, which exchanges the code for a business token, registers
+ * the number for Cloud API, subscribes the WABA to this app's webhook, and
+ * stores everything in KV — no manual token copy-pasting required.
+ *
  * Storage: Cloudflare KV (binding: CONVOS).
  * Secrets/vars (set in Cloudflare → the client provides the values):
- *   WHATSAPP_TOKEN      (secret) — Cloud API permanent token (System User)
- *   WHATSAPP_PHONE_ID   (var)    — the AI line's phone_number_id
+ *   META_APP_SECRET     (secret) — the Meta app's App Secret (also verifies webhook signatures)
  *   WHATSAPP_VERIFY     (secret) — webhook verify token (you choose it)
- *   META_APP_SECRET     (secret) — to verify webhook signatures
+ *   WHATSAPP_PIN        (secret) — a 6-digit PIN for the number's 2-step verification (you choose it)
  *   ANTHROPIC_API_KEY   (secret) — the agent's brain
- *   READ_TOKEN          (secret) — Caliber passes this to read conversations
+ *   READ_TOKEN          (secret) — Caliber passes this to read/send conversations
  *   MODE                (var)    — "assist" (default) or "auto"
  *   MODEL               (var)    — claude-sonnet-5 (default; see SETUP doc for alternatives)
  *   MODEL_FALLBACK      (var)    — claude-haiku-4-5 (default) — used automatically
  *                                  if MODEL's call fails (e.g. low credit balance),
  *                                  so a conversation is never left without a reply
  *   CAMPAIGN_AD_IDS     (var)    — optional comma list to restrict to a campaign
- *   HANDOFF_NUMBER      (var)    — Sebastian's WhatsApp for handoff note
+ *   META_APP_ID         (var)    — optional override of the default app id below
+ *   WHATSAPP_TOKEN      (secret, optional) — manual override/fallback for the token
+ *   WHATSAPP_PHONE_ID   (var, optional)    — manual override/fallback for the phone_number_id
+ *     (WHATSAPP_TOKEN/WHATSAPP_PHONE_ID are normally set automatically by /onboard —
+ *      only set them by hand if you're bypassing connect-whatsapp.html)
  * Setup walkthrough: SETUP-WHATSAPP-AI.md
  * ==============================================================
  */
+
+const GRAPH = 'https://graph.facebook.com/v21.0';
+const DEFAULT_APP_ID = '2126295867938046'; // "caliber sebastian" Meta app (public, not a secret)
 
 const ALLOWED_ORIGINS = [
   'https://alancruzcreai.github.io',
@@ -107,6 +119,33 @@ export default {
       let s = ''; try { s = await callClaude(env, c.messages); } catch (e) { return json({ error: e.message }, 502, cors); }
       c.suggestion = s; await putConvo(env, c);
       return json({ suggestion: s }, 200, cors);
+    }
+
+    // ── One-click connect: exchange Embedded Signup result for a live line (POST /onboard) ──
+    if (request.method === 'POST' && url.pathname === '/onboard') {
+      if (!originOk(origin)) return json({ error: 'origin not allowed' }, 403, cors);
+      let b; try { b = await request.json(); } catch { return json({ error: 'bad json' }, 400, cors); }
+      const { code, waba_id, phone_number_id } = b || {};
+      if (!code || !waba_id || !phone_number_id)
+        return json({ error: 'code, waba_id and phone_number_id are required' }, 400, cors);
+      try {
+        const token = await exchangeCodeForToken(env, code);
+        await registerPhoneNumber(env, phone_number_id, token);
+        await subscribeWabaWebhooks(env, waba_id, token);
+        await env.CONVOS.put('config:whatsapp', JSON.stringify({
+          access_token: token, waba_id, phone_number_id, connectedAt: Date.now(),
+        }));
+        return json({ ok: true }, 200, cors);
+      } catch (err) {
+        console.error('onboard failed', err);
+        return json({ error: err.message }, 502, cors);
+      }
+    }
+
+    // ── Connection status (GET /status) — for connect-whatsapp.html and Caliber ──
+    if (request.method === 'GET' && url.pathname === '/status') {
+      const cfg = await getWaConfig(env);
+      return json({ connected: !!(cfg.token && cfg.phoneId), phoneNumberId: cfg.phoneId || null }, 200, cors);
     }
 
     // ── Incoming WhatsApp messages (POST /) ──
@@ -236,12 +275,61 @@ async function askClaude(env, model, hist) {
 
 // ───────────────────────── WhatsApp send ─────────────────────────
 async function sendWhatsApp(env, to, text) {
-  const res = await fetch(`https://graph.facebook.com/v21.0/${env.WHATSAPP_PHONE_ID}/messages`, {
+  const { token, phoneId } = await getWaConfig(env);
+  const res = await fetch(`${GRAPH}/${phoneId}/messages`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${env.WHATSAPP_TOKEN}` },
+    headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
     body: JSON.stringify({ messaging_product: 'whatsapp', to, type: 'text', text: { body: text } }),
   });
   if (!res.ok) console.error('wa send failed', res.status, await res.text().catch(() => ''));
+}
+
+// Dynamic config from the one-click /onboard flow, falling back to manually
+// set secrets (for bypassing connect-whatsapp.html or re-pointing the line).
+async function getWaConfig(env) {
+  const raw = await env.CONVOS.get('config:whatsapp');
+  const dyn = raw ? JSON.parse(raw) : null;
+  return {
+    token: (dyn && dyn.access_token) || env.WHATSAPP_TOKEN,
+    phoneId: (dyn && dyn.phone_number_id) || env.WHATSAPP_PHONE_ID,
+  };
+}
+
+// ───────────────────────── Embedded Signup exchange ─────────────────────────
+// Verified against Meta's own developer docs (jun-2026): the code from
+// FB.login(response_type:'code') is exchanged server-side with the App
+// Secret — no redirect_uri for this popup-based flow.
+async function exchangeCodeForToken(env, code) {
+  const u = new URL(`${GRAPH}/oauth/access_token`);
+  u.searchParams.set('client_id', env.META_APP_ID || DEFAULT_APP_ID);
+  u.searchParams.set('client_secret', env.META_APP_SECRET);
+  u.searchParams.set('code', code);
+  const res = await fetch(u);
+  const d = await res.json().catch(() => ({}));
+  if (!res.ok || !d.access_token) throw new Error((d.error && d.error.message) || 'token exchange failed');
+  return d.access_token;
+}
+
+// Registers the number for Cloud API messaging (required once per number).
+async function registerPhoneNumber(env, phoneNumberId, token) {
+  const res = await fetch(`${GRAPH}/${phoneNumberId}/register`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+    body: JSON.stringify({ messaging_product: 'whatsapp', pin: env.WHATSAPP_PIN || '246813' }),
+  });
+  const d = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((d.error && d.error.message) || 'phone number registration failed');
+}
+
+// Subscribes the client's WABA to this app's already-configured webhook
+// (Callback URL + Verify token set once in the Meta App Dashboard).
+async function subscribeWabaWebhooks(env, wabaId, token) {
+  const res = await fetch(`${GRAPH}/${wabaId}/subscribed_apps`, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${token}` },
+  });
+  const d = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((d.error && d.error.message) || 'webhook subscription failed');
 }
 
 // ───────────────────────── KV storage ─────────────────────────
