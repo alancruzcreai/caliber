@@ -75,9 +75,13 @@ function actionVal(actions, type) {
 // for the traffic objective). Pick the best real signal available.
 function leadCount(d) {
   const m = chatsFromActions(d && d.actions);
-  if (m > 0) return { leads: m, src: 'messaging' };
   const lk = actionVal(d && d.actions, 'link_click');
-  if (lk > 0) return { leads: lk, src: 'link_click' };
+  // Mixed campaign types can report BOTH signals (e.g. a few tracked messaging
+  // conversations + thousands of clicks-to-WhatsApp). Use the larger one so the
+  // account-level totals stay consistent with the per-campaign rows.
+  if (m > 0 || lk > 0) {
+    return lk > m ? { leads: lk, src: 'link_click' } : { leads: m, src: 'messaging' };
+  }
   const cl = num(d && d.clicks);
   if (cl > 0) return { leads: cl, src: 'clicks' };
   return { leads: 0, src: 'none' };
