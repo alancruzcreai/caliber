@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 3,
-    "syncedAt": "2026-07-06 12:50"
+    "syncedAt": "2026-07-06 12:57"
   },
   "windows": {
     "last_7d": {
@@ -34,10 +34,10 @@
       "ctr": 3.118442,
       "reach": 74832,
       "frequency": 1.273573,
-      "chats": 12,
-      "chatSrc": "messaging",
-      "ctrChat": 0.01,
-      "cpl": 217.98,
+      "chats": 2465,
+      "chatSrc": "link_click",
+      "ctrChat": 2.59,
+      "cpl": 1.06,
       "hasData": true,
       "from": "2026-06-06",
       "to": "2026-07-05"
@@ -51,10 +51,10 @@
       "ctr": 3.118442,
       "reach": 74832,
       "frequency": 1.273573,
-      "chats": 12,
-      "chatSrc": "messaging",
-      "ctrChat": 0.01,
-      "cpl": 217.98,
+      "chats": 2465,
+      "chatSrc": "link_click",
+      "ctrChat": 2.59,
+      "cpl": 1.06,
       "hasData": true,
       "from": "2026-06-24",
       "to": "2026-07-06"
@@ -113,10 +113,10 @@
       "ctr": 1.886361,
       "reach": 30145,
       "frequency": 1.016454,
-      "chats": 12,
-      "chatSrc": "messaging",
-      "ctrChat": 0.04,
-      "cpl": 33.78
+      "chats": 482,
+      "chatSrc": "link_click",
+      "ctrChat": 1.57,
+      "cpl": 0.84
     }
   ],
   "adsets": [
@@ -163,10 +163,10 @@
       "clicks": 578,
       "reach": 30145,
       "frequency": 1.016454,
-      "chats": 12,
-      "chatSrc": "messaging",
-      "ctrChat": 0.04,
-      "cpl": 33.78
+      "chats": 482,
+      "chatSrc": "link_click",
+      "ctrChat": 1.57,
+      "cpl": 0.84
     }
   ],
   "ads": [
@@ -405,10 +405,10 @@
       "ctr": 1.240951,
       "reach": 26731,
       "frequency": 1.012906,
-      "chats": 8,
-      "chatSrc": "messaging",
-      "ctrChat": 0.03,
-      "cpl": 41.56
+      "chats": 252,
+      "chatSrc": "link_click",
+      "ctrChat": 0.93,
+      "cpl": 1.32
     },
     {
       "id": "120248914266610505",
@@ -425,10 +425,10 @@
       "ctr": 7.99117,
       "reach": 2110,
       "frequency": 1.07346,
-      "chats": 3,
-      "chatSrc": "messaging",
-      "ctrChat": 0.13,
-      "cpl": 15.83
+      "chats": 169,
+      "chatSrc": "link_click",
+      "ctrChat": 7.46,
+      "cpl": 0.28
     },
     {
       "id": "120248914267050505",
@@ -465,10 +465,10 @@
       "ctr": 8.959538,
       "reach": 337,
       "frequency": 1.026706,
-      "chats": 1,
-      "chatSrc": "messaging",
-      "ctrChat": 0.29,
-      "cpl": 7.21
+      "chats": 26,
+      "chatSrc": "link_click",
+      "ctrChat": 7.51,
+      "cpl": 0.28
     },
     {
       "id": "120248914266640505",
