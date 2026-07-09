@@ -5,18 +5,18 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 3,
-    "syncedAt": "2026-07-09 08:54"
+    "syncedAt": "2026-07-09 13:43"
   },
   "windows": {
     "last_7d": {
-      "spend": 394.01,
-      "impressions": 2315,
+      "spend": 394.1,
+      "impressions": 2316,
       "clicks": 75,
-      "cpm": 170.198704,
-      "cpc": 5.253467,
-      "ctr": 3.239741,
+      "cpm": 170.164076,
+      "cpc": 5.254667,
+      "ctr": 3.238342,
       "reach": 2073,
-      "frequency": 1.116739,
+      "frequency": 1.117221,
       "chats": 69,
       "chatSrc": "link_click",
       "ctrChat": 2.98,
@@ -26,14 +26,14 @@
       "to": "2026-07-08"
     },
     "last_30d": {
-      "spend": 3009.82,
-      "impressions": 97619,
+      "spend": 3009.91,
+      "impressions": 97620,
       "clicks": 3047,
-      "cpm": 30.832317,
-      "cpc": 0.987798,
-      "ctr": 3.121319,
+      "cpm": 30.832924,
+      "cpc": 0.987827,
+      "ctr": 3.121287,
       "reach": 76766,
-      "frequency": 1.271644,
+      "frequency": 1.271657,
       "chats": 2534,
       "chatSrc": "link_click",
       "ctrChat": 2.6,
@@ -43,18 +43,18 @@
       "to": "2026-07-08"
     },
     "maximum": {
-      "spend": 3107.12,
-      "impressions": 97949,
-      "clicks": 3069,
-      "cpm": 31.721814,
-      "cpc": 1.012421,
-      "ctr": 3.133263,
-      "reach": 76964,
-      "frequency": 1.27266,
-      "chats": 2551,
+      "spend": 3168.08,
+      "impressions": 98310,
+      "clicks": 3085,
+      "cpm": 32.225409,
+      "cpc": 1.02693,
+      "ctr": 3.138033,
+      "reach": 77049,
+      "frequency": 1.275941,
+      "chats": 2564,
       "chatSrc": "link_click",
-      "ctrChat": 2.6,
-      "cpl": 1.22,
+      "ctrChat": 2.61,
+      "cpl": 1.24,
       "hasData": true,
       "from": "2026-06-24",
       "to": "2026-07-09"
@@ -67,18 +67,18 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "objective": "OUTCOME_TRAFFIC",
-      "spend": 491.31,
-      "impressions": 2645,
-      "clicks": 97,
-      "cpm": 185.750473,
-      "cpc": 5.065052,
-      "ctr": 3.667297,
-      "reach": 2322,
-      "frequency": 1.139104,
-      "chats": 86,
+      "spend": 552.27,
+      "impressions": 3006,
+      "clicks": 113,
+      "cpm": 183.722555,
+      "cpc": 4.887345,
+      "ctr": 3.759148,
+      "reach": 2603,
+      "frequency": 1.154821,
+      "chats": 99,
       "chatSrc": "link_click",
-      "ctrChat": 3.25,
-      "cpl": 5.71
+      "ctrChat": 3.29,
+      "cpl": 5.58
     },
     {
       "id": "120249075015870505",
@@ -126,15 +126,15 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 491.31,
-      "impressions": 2645,
-      "clicks": 97,
-      "reach": 2322,
-      "frequency": 1.139104,
-      "chats": 86,
+      "spend": 552.27,
+      "impressions": 3006,
+      "clicks": 113,
+      "reach": 2603,
+      "frequency": 1.154821,
+      "chats": 99,
       "chatSrc": "link_click",
-      "ctrChat": 3.25,
-      "cpl": 5.71
+      "ctrChat": 3.29,
+      "cpl": 5.58
     },
     {
       "id": "120249075174430505",
@@ -277,18 +277,18 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · Ronda 0 · Miami · 28-50 · WA Conversaciones",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 35.19,
-      "impressions": 477,
+      "spend": 35.96,
+      "impressions": 494,
       "clicks": 12,
-      "cpm": 73.773585,
-      "cpc": 2.9325,
-      "ctr": 2.515723,
-      "reach": 466,
-      "frequency": 1.023605,
+      "cpm": 72.793522,
+      "cpc": 2.996667,
+      "ctr": 2.42915,
+      "reach": 484,
+      "frequency": 1.020661,
       "chats": 12,
       "chatSrc": "link_click",
-      "ctrChat": 2.52,
-      "cpl": 2.93
+      "ctrChat": 2.43,
+      "cpl": 3
     },
     {
       "id": "120249790919920505",
@@ -297,18 +297,18 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · Ronda 0 · Miami · 28-50 · WA Conversaciones",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 78.98,
-      "impressions": 319,
-      "clicks": 16,
-      "cpm": 247.586207,
-      "cpc": 4.93625,
-      "ctr": 5.015674,
-      "reach": 286,
-      "frequency": 1.115385,
-      "chats": 11,
+      "spend": 96.93,
+      "impressions": 403,
+      "clicks": 20,
+      "cpm": 240.521092,
+      "cpc": 4.8465,
+      "ctr": 4.962779,
+      "reach": 363,
+      "frequency": 1.110193,
+      "chats": 14,
       "chatSrc": "link_click",
-      "ctrChat": 3.45,
-      "cpl": 7.18
+      "ctrChat": 3.47,
+      "cpl": 6.92
     },
     {
       "id": "120249790919910505",
@@ -317,18 +317,18 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · Ronda 0 · Miami · 28-50 · WA Conversaciones",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 218.03,
-      "impressions": 1076,
-      "clicks": 44,
-      "cpm": 202.630112,
-      "cpc": 4.955227,
-      "ctr": 4.089219,
-      "reach": 907,
-      "frequency": 1.186329,
-      "chats": 42,
+      "spend": 245.93,
+      "impressions": 1228,
+      "clicks": 52,
+      "cpm": 200.26873,
+      "cpc": 4.729423,
+      "ctr": 4.234528,
+      "reach": 1023,
+      "frequency": 1.200391,
+      "chats": 49,
       "chatSrc": "link_click",
-      "ctrChat": 3.9,
-      "cpl": 5.19
+      "ctrChat": 3.99,
+      "cpl": 5.02
     },
     {
       "id": "120249790919870505",
@@ -337,18 +337,18 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · Ronda 0 · Miami · 28-50 · WA Conversaciones",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 159.11,
-      "impressions": 773,
-      "clicks": 25,
-      "cpm": 205.834411,
-      "cpc": 6.3644,
-      "ctr": 3.234153,
-      "reach": 704,
-      "frequency": 1.098011,
-      "chats": 21,
+      "spend": 173.45,
+      "impressions": 881,
+      "clicks": 29,
+      "cpm": 196.878547,
+      "cpc": 5.981034,
+      "ctr": 3.291714,
+      "reach": 794,
+      "frequency": 1.109572,
+      "chats": 24,
       "chatSrc": "link_click",
       "ctrChat": 2.72,
-      "cpl": 7.58
+      "cpl": 7.23
     },
     {
       "id": "120248914266630505",
@@ -482,38 +482,38 @@
       },
       {
         "key": "25-34",
-        "spend": 490.8,
-        "impressions": 19251,
-        "clicks": 469,
-        "ctr": 2.436237
+        "spend": 496.1,
+        "impressions": 19293,
+        "clicks": 470,
+        "ctr": 2.436117
       },
       {
         "key": "35-44",
-        "spend": 907.13,
-        "impressions": 29257,
-        "clicks": 915,
-        "ctr": 3.127457
+        "spend": 913.71,
+        "impressions": 29298,
+        "clicks": 916,
+        "ctr": 3.126493
       },
       {
         "key": "45-54",
-        "spend": 1197.68,
-        "impressions": 35656,
-        "clicks": 1305,
-        "ctr": 3.659973
+        "spend": 1205.32,
+        "impressions": 35713,
+        "clicks": 1308,
+        "ctr": 3.662532
       },
       {
         "key": "55-64",
-        "spend": 155.35,
-        "impressions": 4811,
-        "clicks": 155,
-        "ctr": 3.221783
+        "spend": 164.87,
+        "impressions": 4872,
+        "clicks": 159,
+        "ctr": 3.263547
       },
       {
         "key": "65+",
-        "spend": 305.73,
-        "impressions": 4416,
-        "clicks": 177,
-        "ctr": 4.008152
+        "spend": 337.65,
+        "impressions": 4576,
+        "clicks": 184,
+        "ctr": 4.020979
       },
       {
         "key": "Unknown",
@@ -526,63 +526,63 @@
     "gender": [
       {
         "key": "female",
-        "spend": 620.4,
-        "impressions": 22398,
-        "clicks": 407,
-        "ctr": 1.817127
+        "spend": 648.58,
+        "impressions": 22548,
+        "clicks": 418,
+        "ctr": 1.853823
       },
       {
         "key": "male",
-        "spend": 2446.18,
-        "impressions": 74389,
-        "clicks": 2626,
-        "ctr": 3.530092
+        "spend": 2478.46,
+        "impressions": 74599,
+        "clicks": 2631,
+        "ctr": 3.526857
       },
       {
         "key": "unknown",
-        "spend": 40.54,
-        "impressions": 1162,
+        "spend": 41.04,
+        "impressions": 1163,
         "clicks": 36,
-        "ctr": 3.098107
+        "ctr": 3.095443
       }
     ],
     "country": [
       {
         "key": "MX",
-        "spend": 405.79984,
-        "impressions": 30645,
+        "spend": 405.294776,
+        "impressions": 30642,
         "clicks": 578,
-        "ctr": 1.886115
+        "ctr": 1.8863
       },
       {
         "key": "ES",
-        "spend": 2213.429091,
-        "impressions": 64671,
+        "spend": 2210.674229,
+        "impressions": 64665,
         "clicks": 2394,
-        "ctr": 3.701814
+        "ctr": 3.702157
       },
       {
         "key": "US",
-        "spend": 488.732209,
-        "impressions": 2633,
-        "clicks": 97,
-        "ctr": 3.684011
+        "spend": 552.110996,
+        "impressions": 3003,
+        "clicks": 113,
+        "ctr": 3.762904
       }
     ],
     "placement": [
       {
         "key": "facebook",
-        "spend": 2630.724507,
-        "impressions": 90477,
-        "clicks": 2876,
-        "ctr": 3.178708
+        "spend": 2664.464362,
+        "impressions": 90744,
+        "clicks": 2884,
+        "ctr": 3.178172
       },
       {
         "key": "instagram",
-        "spend": 477.236633,
-        "impressions": 7472,
-        "clicks": 193,
-        "ctr": 2.582976
+        "spend": 503.615638,
+        "impressions": 7566,
+        "clicks": 201,
+        "ctr": 2.656622
       }
     ]
   }
