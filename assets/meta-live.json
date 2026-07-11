@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 3,
-    "syncedAt": "2026-07-10 13:24"
+    "syncedAt": "2026-07-10 20:29"
   },
   "windows": {
     "last_7d": {
@@ -43,14 +43,14 @@
       "to": "2026-07-09"
     },
     "maximum": {
-      "spend": 3515.79,
-      "impressions": 99945,
+      "spend": 3516.8,
+      "impressions": 99946,
       "clicks": 3133,
-      "cpm": 35.177247,
-      "cpc": 1.12218,
-      "ctr": 3.134724,
+      "cpm": 35.187001,
+      "cpc": 1.122502,
+      "ctr": 3.134693,
       "reach": 78193,
-      "frequency": 1.278183,
+      "frequency": 1.278196,
       "chats": 2610,
       "chatSrc": "link_click",
       "ctrChat": 2.61,
@@ -67,14 +67,14 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "objective": "OUTCOME_TRAFFIC",
-      "spend": 899.98,
-      "impressions": 4641,
+      "spend": 900.99,
+      "impressions": 4642,
       "clicks": 161,
-      "cpm": 193.919414,
-      "cpc": 5.589938,
-      "ctr": 3.46908,
+      "cpm": 194.095218,
+      "cpc": 5.596211,
+      "ctr": 3.468333,
       "reach": 3799,
-      "frequency": 1.221637,
+      "frequency": 1.221901,
       "chats": 145,
       "chatSrc": "link_click",
       "ctrChat": 3.12,
@@ -126,11 +126,11 @@
       "status": "ACTIVE",
       "effective_status": "ACTIVE",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 899.98,
-      "impressions": 4641,
+      "spend": 900.99,
+      "impressions": 4642,
       "clicks": 161,
       "reach": 3799,
-      "frequency": 1.221637,
+      "frequency": 1.221901,
       "chats": 145,
       "chatSrc": "link_click",
       "ctrChat": 3.12,
@@ -317,18 +317,18 @@
       "effective_status": "ACTIVE",
       "adset": "HSTP · Ronda 0 · Miami · 28-50 · WA Conversaciones",
       "campaign": "HSTP · Nueva Tanda · Ronda 0 · Miami (TRAFICO WEB)",
-      "spend": 435.1,
-      "impressions": 2031,
+      "spend": 436.11,
+      "impressions": 2032,
       "clicks": 77,
-      "cpm": 214.229444,
-      "cpc": 5.650649,
-      "ctr": 3.791236,
+      "cpm": 214.621063,
+      "cpc": 5.663766,
+      "ctr": 3.78937,
       "reach": 1586,
-      "frequency": 1.28058,
+      "frequency": 1.281211,
       "chats": 70,
       "chatSrc": "link_click",
-      "ctrChat": 3.45,
-      "cpl": 6.22
+      "ctrChat": 3.44,
+      "cpl": 6.23
     },
     {
       "id": "120249790919870505",
@@ -510,10 +510,10 @@
       },
       {
         "key": "65+",
-        "spend": 525.03,
-        "impressions": 5285,
+        "spend": 526.04,
+        "impressions": 5286,
         "clicks": 204,
-        "ctr": 3.859981
+        "ctr": 3.859251
       },
       {
         "key": "Unknown",
@@ -526,10 +526,10 @@
     "gender": [
       {
         "key": "female",
-        "spend": 831.35,
-        "impressions": 23315,
+        "spend": 832.36,
+        "impressions": 23316,
         "clicks": 443,
-        "ctr": 1.900064
+        "ctr": 1.899983
       },
       {
         "key": "male",
@@ -549,37 +549,37 @@
     "country": [
       {
         "key": "MX",
-        "spend": 405.264985,
+        "spend": 405.264981,
         "impressions": 30641,
         "clicks": 578,
         "ctr": 1.886361
       },
       {
         "key": "ES",
-        "spend": 2210.511736,
+        "spend": 2210.511713,
         "impressions": 64663,
         "clicks": 2394,
         "ctr": 3.702272
       },
       {
         "key": "US",
-        "spend": 900.013279,
-        "impressions": 4641,
+        "spend": 901.023307,
+        "impressions": 4642,
         "clicks": 161,
-        "ctr": 3.46908
+        "ctr": 3.468333
       }
     ],
     "placement": [
       {
         "key": "facebook",
-        "spend": 2839.815005,
-        "impressions": 91717,
+        "spend": 2840.825012,
+        "impressions": 91718,
         "clicks": 2907,
-        "ctr": 3.169532
+        "ctr": 3.169498
       },
       {
         "key": "instagram",
-        "spend": 675.974995,
+        "spend": 675.974988,
         "impressions": 8228,
         "clicks": 226,
         "ctr": 2.746719
