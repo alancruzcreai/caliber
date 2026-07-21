@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 3,
-    "syncedAt": "2026-07-20 20:30"
+    "syncedAt": "2026-07-21 02:24"
   },
   "windows": {
     "last_7d": {
@@ -22,8 +22,8 @@
       "ctrChat": 2.87,
       "cpl": 7.46,
       "hasData": true,
-      "from": "2026-07-13",
-      "to": "2026-07-19"
+      "from": "2026-07-14",
+      "to": "2026-07-20"
     },
     "last_30d": {
       "spend": 6977.65,
@@ -39,8 +39,8 @@
       "ctrChat": 2.65,
       "cpl": 2.27,
       "hasData": true,
-      "from": "2026-06-20",
-      "to": "2026-07-19"
+      "from": "2026-06-21",
+      "to": "2026-07-20"
     },
     "maximum": {
       "spend": 6977.65,
@@ -57,7 +57,7 @@
       "cpl": 2.27,
       "hasData": true,
       "from": "2026-06-24",
-      "to": "2026-07-20"
+      "to": "2026-07-21"
     }
   },
   "campaigns": [
