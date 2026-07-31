@@ -5,7 +5,7 @@
     "connected": true,
     "scope": "allowlist",
     "activeCount": 3,
-    "syncedAt": "2026-07-30 20:38"
+    "syncedAt": "2026-07-31 02:46"
   },
   "windows": {
     "last_7d": {
@@ -22,25 +22,25 @@
       "ctrChat": 2.67,
       "cpl": 7.62,
       "hasData": true,
-      "from": "2026-07-23",
-      "to": "2026-07-29"
+      "from": "2026-07-24",
+      "to": "2026-07-30"
     },
     "last_30d": {
-      "spend": 6527.97,
-      "impressions": 46204,
-      "clicks": 1462,
-      "cpm": 141.285819,
-      "cpc": 4.465096,
-      "ctr": 3.164228,
-      "reach": 32474,
-      "frequency": 1.4228,
-      "chats": 1271,
+      "spend": 6204.22,
+      "impressions": 35783,
+      "clicks": 1163,
+      "cpm": 173.384568,
+      "cpc": 5.334669,
+      "ctr": 3.250147,
+      "reach": 24142,
+      "frequency": 1.482189,
+      "chats": 1012,
       "chatSrc": "link_click",
-      "ctrChat": 2.75,
-      "cpl": 5.14,
+      "ctrChat": 2.83,
+      "cpl": 6.13,
       "hasData": true,
-      "from": "2026-06-30",
-      "to": "2026-07-29"
+      "from": "2026-07-01",
+      "to": "2026-07-30"
     },
     "maximum": {
       "spend": 8615.44,
@@ -57,7 +57,7 @@
       "cpl": 2.62,
       "hasData": true,
       "from": "2026-06-24",
-      "to": "2026-07-30"
+      "to": "2026-07-31"
     }
   },
   "campaigns": [
