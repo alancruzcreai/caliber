@@ -1,0 +1,4 @@
+# Tablero de un cliente, no una pagina de marketing. Se puede abrir con el
+# enlace, pero no tiene por que aparecer en buscadores.
+User-agent: *
+Disallow: /

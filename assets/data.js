@@ -1,3 +1,7 @@
+// DATOS DE MUESTRA. Los nombres y arrobas son marcadores de posicion a
+// proposito: este archivo se sirve en un sitio publico y un expediente de
+// prospecto con su arroba de Instagram no tiene por que estar ahi, sea real
+// o inventado. Las paginas que lo consumen estan fuera del menu.
 // ============================================
 // CALIBER — Mock data (shared across screens)
 // ============================================
@@ -37,8 +41,8 @@ window.CALIBER_DATA = {
 
   leadsHot: [
     {
-      handle: "@marco_jet",
-      name: "Marco Petrov",
+      handle: "@lead_01",
+      name: "Lead 01",
       score: 87,
       lang: "EN",
       country: "Greece · yacht-based",
@@ -46,7 +50,7 @@ window.CALIBER_DATA = {
       pain: "lose all routine when guests are on board",
       priorInvestment: "Wim Hof Method — abandoned week 4",
       budgetSignal: "Confirmed $5-10K range (turn 5)",
-      sourceTheme: "@luxuryyachtworld",
+      sourceTheme: "@tema_01",
       angleHit: "C",
       why: [
         "Specific pain, not generic",
@@ -58,8 +62,8 @@ window.CALIBER_DATA = {
       flag: "🇬🇷"
     },
     {
-      handle: "@julio_vc",
-      name: "Julio Álvarez",
+      handle: "@lead_02",
+      name: "Lead 02",
       score: 79,
       lang: "ES",
       country: "Mexico · CDMX/PV",
@@ -67,7 +71,7 @@ window.CALIBER_DATA = {
       pain: "I travel 9 months a year and my deep sleep collapses",
       priorInvestment: "Strategic Coach, dropped it for lack of time",
       budgetSignal: "Confirmed $8-15K range (turn 6)",
-      sourceTheme: "@founders.daily",
+      sourceTheme: "@tema_02",
       angleHit: "B",
       why: [
         "Specific metrics (deep sleep)",
@@ -79,8 +83,8 @@ window.CALIBER_DATA = {
       flag: "🇲🇽"
     },
     {
-      handle: "@kira.ldn",
-      name: "Kira Ashford",
+      handle: "@lead_03",
+      name: "Lead 03",
       score: 74,
       lang: "EN",
       country: "London · UK",
@@ -88,7 +92,7 @@ window.CALIBER_DATA = {
       pain: "fly weekly LDN-SFO, cortisol is wrecked",
       priorInvestment: "Joe Dispenza retreats × 3",
       budgetSignal: "Implied — mentioned $20K spend on retreats",
-      sourceTheme: "@executivewellness",
+      sourceTheme: "@tema_03",
       angleHit: "D",
       why: [
         "Named biological pain (cortisol)",
@@ -100,8 +104,8 @@ window.CALIBER_DATA = {
       flag: "🇬🇧"
     },
     {
-      handle: "@dani.miami",
-      name: "Daniela Restrepo",
+      handle: "@lead_04",
+      name: "Lead 04",
       score: 68,
       lang: "ES",
       country: "Miami · FL",
@@ -109,7 +113,7 @@ window.CALIBER_DATA = {
       pain: "routines don't last me more than 3 weeks when traveling",
       priorInvestment: "Local coaches only",
       budgetSignal: "Not confirmed yet",
-      sourceTheme: "@luxurywellbeing",
+      sourceTheme: "@tema_04",
       angleHit: "A",
       why: [
         "Recognizes the problem precisely",
@@ -123,14 +127,14 @@ window.CALIBER_DATA = {
   ],
 
   conversations: [
-    { handle: "@marco_jet",    score: 87, status: "hot",     lastMsg: "yeah, 7 months on yacht mostly",      timeAgo: "2m", unread: 1, lang: "EN" },
-    { handle: "@julio_vc",     score: 79, status: "hot",     lastMsg: "yeah, I'm a GP at a fund here in MX",  timeAgo: "8m", unread: 0, lang: "ES" },
-    { handle: "@kira.ldn",     score: 74, status: "hot",     lastMsg: "cortisol panels are on file, yes",    timeAgo: "12m", unread: 2, lang: "EN" },
-    { handle: "@dani.miami",   score: 68, status: "warm",    lastMsg: "let me check and I'll confirm",        timeAgo: "1h", unread: 0, lang: "ES" },
-    { handle: "@trev.singapore", score: 62, status: "warm",    lastMsg: "what's the time commitment weekly?",  timeAgo: "1h", unread: 0, lang: "EN" },
-    { handle: "@sara.mtz",     score: 41, status: "cool",    lastMsg: "okay, thanks for the info",            timeAgo: "3h", unread: 0, lang: "ES" },
-    { handle: "@lifeofdana",   score: 52, status: "cool",    lastMsg: "interesting, will think about it",    timeAgo: "5h", unread: 0, lang: "EN" },
-    { handle: "@nico.zrh",     score: 38, status: "cool",    lastMsg: "I'm not actively looking right now",  timeAgo: "Yest", unread: 0, lang: "EN" }
+    { handle: "@lead_01",    score: 87, status: "hot",     lastMsg: "yeah, 7 months on yacht mostly",      timeAgo: "2m", unread: 1, lang: "EN" },
+    { handle: "@lead_02",     score: 79, status: "hot",     lastMsg: "yeah, I'm a GP at a fund here in MX",  timeAgo: "8m", unread: 0, lang: "ES" },
+    { handle: "@lead_03",     score: 74, status: "hot",     lastMsg: "cortisol panels are on file, yes",    timeAgo: "12m", unread: 2, lang: "EN" },
+    { handle: "@lead_04",   score: 68, status: "warm",    lastMsg: "let me check and I'll confirm",        timeAgo: "1h", unread: 0, lang: "ES" },
+    { handle: "@lead_21", score: 62, status: "warm",    lastMsg: "what's the time commitment weekly?",  timeAgo: "1h", unread: 0, lang: "EN" },
+    { handle: "@lead_19",     score: 41, status: "cool",    lastMsg: "okay, thanks for the info",            timeAgo: "3h", unread: 0, lang: "ES" },
+    { handle: "@lead_22",   score: 52, status: "cool",    lastMsg: "interesting, will think about it",    timeAgo: "5h", unread: 0, lang: "EN" },
+    { handle: "@lead_15",     score: 38, status: "cool",    lastMsg: "I'm not actively looking right now",  timeAgo: "Yest", unread: 0, lang: "EN" }
   ],
 
   transcriptMarco: [
@@ -147,14 +151,14 @@ window.CALIBER_DATA = {
   ],
 
   themePages: [
-    { handle: "@luxuryyachtworld",  followers: "312K",  reel: "$850",   feed: "$520",  story: "$280",   audit: 84, vertical: "luxury_travel",   fav: true,  audience: "67% male · 30-55 · US/EU/MX" },
-    { handle: "@founders.daily",     followers: "480K",  reel: "$1,200", feed: "$720",  story: "$380",   audit: 91, vertical: "exec_fitness",    fav: true,  audience: "72% male · 28-50 · global" },
-    { handle: "@biohackerelite",     followers: "156K",  reel: "$420",   feed: "$260",  story: "$140",   audit: 78, vertical: "biohacking",      fav: false, audience: "61% male · 32-55 · US/UK" },
-    { handle: "@executivewellness",  followers: "201K",  reel: "$600",   feed: "$360",  story: "$190",   audit: 81, vertical: "exec_fitness",    fav: true,  audience: "58% female · 30-48 · US/EU" },
-    { handle: "@luxurywellbeing",    followers: "270K",  reel: "$720",   feed: "$440",  story: "$240",   audit: 79, vertical: "luxury_wellness", fav: false, audience: "64% female · 30-50 · global" },
-    { handle: "@jetlife.luxe",        followers: "890K",  reel: "$2,400", feed: "$1,400",story: "$720",   audit: 67, vertical: "luxury_travel",   fav: false, audience: "55% male · 25-45 · global", risk: true },
-    { handle: "@yachtcaptains.club", followers: "98K",   reel: "$320",   feed: "$200",  story: "$110",   audit: 88, vertical: "yacht",            fav: false, audience: "84% male · 28-50 · MED/CARIB" },
-    { handle: "@grounded.execs",      followers: "112K",  reel: "$360",   feed: "$220",  story: "$120",   audit: 86, vertical: "exec_fitness",    fav: false, audience: "53% male · 32-52 · US/EU" }
+    { handle: "@tema_01",  followers: "312K",  reel: "$850",   feed: "$520",  story: "$280",   audit: 84, vertical: "luxury_travel",   fav: true,  audience: "67% male · 30-55 · US/EU/MX" },
+    { handle: "@tema_02",     followers: "480K",  reel: "$1,200", feed: "$720",  story: "$380",   audit: 91, vertical: "exec_fitness",    fav: true,  audience: "72% male · 28-50 · global" },
+    { handle: "@tema_05",     followers: "156K",  reel: "$420",   feed: "$260",  story: "$140",   audit: 78, vertical: "biohacking",      fav: false, audience: "61% male · 32-55 · US/UK" },
+    { handle: "@tema_03",  followers: "201K",  reel: "$600",   feed: "$360",  story: "$190",   audit: 81, vertical: "exec_fitness",    fav: true,  audience: "58% female · 30-48 · US/EU" },
+    { handle: "@tema_04",    followers: "270K",  reel: "$720",   feed: "$440",  story: "$240",   audit: 79, vertical: "luxury_wellness", fav: false, audience: "64% female · 30-50 · global" },
+    { handle: "@tema_07",        followers: "890K",  reel: "$2,400", feed: "$1,400",story: "$720",   audit: 67, vertical: "luxury_travel",   fav: false, audience: "55% male · 25-45 · global", risk: true },
+    { handle: "@tema_08", followers: "98K",   reel: "$320",   feed: "$200",  story: "$110",   audit: 88, vertical: "yacht",            fav: false, audience: "84% male · 28-50 · MED/CARIB" },
+    { handle: "@tema_06",      followers: "112K",  reel: "$360",   feed: "$220",  story: "$120",   audit: 86, vertical: "exec_fitness",    fav: false, audience: "53% male · 32-52 · US/EU" }
   ],
 
   creatives: [
@@ -172,8 +176,8 @@ window.CALIBER_DATA = {
     {
       time: "10:00 — 10:40",
       tz: "your time · Mexico City",
-      name: "Marco Petrov",
-      handle: "@marco_jet",
+      name: "Lead 01",
+      handle: "@lead_01",
       flag: "🇬🇷",
       vertical: "Yacht captain",
       country: "Greece · yacht-based",
@@ -185,14 +189,14 @@ window.CALIBER_DATA = {
       whyClicked: "Mykonos reel — peer endorsement angle",
       angleToOpen: "Lead with nervous system (Demartini twist). He abandoned Wim Hof not because of cold, but because no system survived guest weeks. Position the 6-pillar dynamic system as the answer to his exact failure.",
       hotButtons: ["consistency without rigidity", "reset between charters", "I keep restarting"],
-      sourceTheme: "@luxuryyachtworld",
+      sourceTheme: "@tema_01",
       zoomLink: "#"
     },
     {
       time: "16:00 — 16:40",
       tz: "your time · Mexico City",
-      name: "Julio Álvarez",
-      handle: "@julio_vc",
+      name: "Lead 02",
+      handle: "@lead_02",
       flag: "🇲🇽",
       vertical: "VC · General Partner",
       country: "Mexico · CDMX",
@@ -204,7 +208,7 @@ window.CALIBER_DATA = {
       whyClicked: "Founders.daily reel — transformation angle",
       angleToOpen: "Anchor in metrics: he talked about deep sleep. Open with how the 6 pillars improve sleep score in 14 days. He dropped Strategic Coach over time — position the program as less time friction but deeper.",
       hotButtons: ["my deep sleep collapses", "I can't take more programs that demand 5 hrs/week", "my partners are in something like this"],
-      sourceTheme: "@founders.daily",
+      sourceTheme: "@tema_02",
       zoomLink: "#"
     }
   ],
@@ -430,7 +434,7 @@ window.CALIBER_DATA = {
   // ~Lead inbox (WhatsApp/IG DM via GoHighLevel) — mock threads
   // status: hot | warm | cold · score 0-100 · axes 0-100 each
   inbox: [
-    { id:"l01", name:"Marco Petrov", handle:"@marco_jet", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"hot", score:87,
+    { id:"l01", name:"Lead 01", handle:"@lead_01", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"hot", score:87,
       axes:{ fit:92, payment:80, intent:90, tone:85 }, reason:"Yacht captain (60m), asked about results twice, confirmed $5-10K range",
       vertical:"Yacht captain · Greece", lastMsg:"yeah, that's reasonable. what's next?", timeAgo:"2m", unread:1,
       thread:[
@@ -444,7 +448,7 @@ window.CALIBER_DATA = {
         {who:"ai",t:"10:53",text:"That's exactly what this was built for. Most people we work with invest $5-10K a year in their health — is that in range for you?"},
         {who:"lead",t:"11:04",text:"yeah, that's reasonable. what's next?"}
       ]},
-    { id:"l02", name:"Julio Álvarez", handle:"@julio_vc", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:81,
+    { id:"l02", name:"Lead 02", handle:"@lead_02", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:81,
       axes:{ fit:88, payment:85, intent:80, tone:72 }, reason:"GP de fondo top-10 LATAM, métricas específicas (sueño profundo), peers en programas similares",
       vertical:"VC / Founder · CDMX", lastMsg:"sí, soy GP en un fondo aquí en MX", timeAgo:"9m", unread:0,
       thread:[
@@ -454,7 +458,7 @@ window.CALIBER_DATA = {
         {who:"ai",t:"09:39",text:"Ese es justo el cuello que atacamos. ¿A qué te dedicas, si se puede saber?"},
         {who:"lead",t:"09:45",text:"sí, soy GP en un fondo aquí en MX"}
       ]},
-    { id:"l03", name:"Kira Ashford", handle:"@kira.ldn", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"hot", score:78,
+    { id:"l03", name:"Lead 03", handle:"@lead_03", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"hot", score:78,
       axes:{ fit:80, payment:88, intent:72, tone:74 }, reason:"Flies LDN-SFO weekly, named cortisol, 3× Joe Dispenza retreats (~$20K spend)",
       vertical:"Tech exec · London", lastMsg:"cortisol panels are on file, yes", timeAgo:"14m", unread:2,
       thread:[
@@ -464,7 +468,7 @@ window.CALIBER_DATA = {
         {who:"ai",t:"08:21",text:"Do you track it, or is that a feeling?"},
         {who:"lead",t:"08:25",text:"cortisol panels are on file, yes"}
       ]},
-    { id:"l04", name:"Daniela Restrepo", handle:"@dani.mia", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"warm", score:64,
+    { id:"l04", name:"Lead 04", handle:"@lead_05", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"warm", score:64,
       axes:{ fit:70, payment:55, intent:68, tone:60 }, reason:"Reconoce el problema con precisión, family office, budget aún sin confirmar",
       vertical:"Family office · Miami", lastMsg:"déjame ver y te confirmo", timeAgo:"1h", unread:0,
       thread:[
@@ -474,14 +478,14 @@ window.CALIBER_DATA = {
         {who:"ai",t:"Yest",text:"Suena a buen fit. ¿Has invertido antes en algo de salud/coaching?"},
         {who:"lead",t:"1h",text:"déjame ver y te confirmo"}
       ]},
-    { id:"l05", name:"Trevor Ng", handle:"@trev.sg", channel:"IG DM", lang:"EN", keyword:"ALIGNED", status:"warm", score:58,
+    { id:"l05", name:"Trevor Ng", handle:"@lead_20", channel:"IG DM", lang:"EN", keyword:"ALIGNED", status:"warm", score:58,
       axes:{ fit:64, payment:50, intent:62, tone:55 }, reason:"Asked about weekly time commitment, no budget signal yet",
       vertical:"Remote founder · Singapore", lastMsg:"what's the time commitment weekly?", timeAgo:"1h", unread:0,
       thread:[
         {who:"lead",t:"11:00",text:"ALIGNED — what's the time commitment weekly?"},
         {who:"ai",t:"11:02",text:"Lighter than you'd think — built for people with no spare time. Are you traveling a lot right now?"}
       ]},
-    { id:"l06", name:"Sara Mtz", handle:"@sara.mtz", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:38,
+    { id:"l06", name:"Sara Mtz", handle:"@lead_19", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:38,
       axes:{ fit:42, payment:30, intent:40, tone:48 }, reason:"Preguntó precio de entrada, perfil no calza con viajero frecuente",
       vertical:"Wellness curiosa · MTY", lastMsg:"ok, gracias por la info", timeAgo:"3h", unread:0,
       thread:[
@@ -491,10 +495,10 @@ window.CALIBER_DATA = {
         {who:"ai",t:"07:21",text:"Gracias por la honestidad — este programa está pensado para gente que viaja mucho. Te dejo recursos gratis por si te sirven 🙏"},
         {who:"lead",t:"3h",text:"ok, gracias por la info"}
       ]},
-    { id:"l07", name:"Lucas Brandt", handle:"@lucas.zrh", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:61,
+    { id:"l07", name:"Lucas Brandt", handle:"@lead_13", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:61,
       axes:{ fit:66, payment:58, intent:60, tone:56 }, reason:"Private banker, luxe segment, polite but slow replies", vertical:"Private banker · Zürich",
       lastMsg:"interesting, send me more", timeAgo:"2h", unread:0, thread:[ {who:"lead",t:"2h",text:"ELEVATE, interesting, send me more"} ] },
-    { id:"l08", name:"Renata Lima", handle:"@re.lima", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:75,
+    { id:"l08", name:"Renata Lima", handle:"@lead_18", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:75,
       axes:{ fit:82, payment:70, intent:74, tone:72 }, reason:"Atleta máster + ejecutiva, viaja por torneos, mencionó presupuesto", vertical:"Exec + athlete · São Paulo",
       lastMsg:"sí, ese rango está bien", timeAgo:"25m", unread:1, thread:[
         {who:"lead",t:"10:10",text:"ALIGNED — entreno pero viajando se me cae todo"},
@@ -502,16 +506,16 @@ window.CALIBER_DATA = {
         {who:"lead",t:"10:18",text:"6-7, compito en torneos máster"},
         {who:"ai",t:"10:19",text:"Buen fit. La mayoría invierte $5-10K/año en su salud — ¿te hace sentido?"},
         {who:"lead",t:"10:25",text:"sí, ese rango está bien"} ] },
-    { id:"l09", name:"Omar Haddad", handle:"@omar.dxb", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:57,
+    { id:"l09", name:"Omar Haddad", handle:"@lead_16", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:57,
       axes:{ fit:60, payment:62, intent:50, tone:55 }, reason:"Dubai-based, high payment signal, low intent (browsing)", vertical:"Real estate · Dubai",
       lastMsg:"maybe later this year", timeAgo:"4h", unread:0, thread:[ {who:"lead",t:"4h",text:"ELEVATE — maybe later this year"} ] },
-    { id:"l10", name:"Paula Sender", handle:"@paula.bcn", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:33,
+    { id:"l10", name:"Paula Sender", handle:"@lead_17", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:33,
       axes:{ fit:35, payment:28, intent:38, tone:40 }, reason:"Estudiante, fuera del ICP", vertical:"Estudiante · Barcelona",
       lastMsg:"y hay opción gratis?", timeAgo:"5h", unread:0, thread:[ {who:"lead",t:"5h",text:"ALIGNED, y hay opción gratis?"} ] },
-    { id:"l11", name:"Derek Cole", handle:"@derek.mia", channel:"IG DM", lang:"EN", keyword:"ALIGNED", status:"warm", score:60,
+    { id:"l11", name:"Derek Cole", handle:"@lead_09", channel:"IG DM", lang:"EN", keyword:"ALIGNED", status:"warm", score:60,
       axes:{ fit:64, payment:56, intent:60, tone:58 }, reason:"Charter pilot, irregular schedule, fits lifestyle", vertical:"Charter pilot · Miami",
       lastMsg:"my schedule is chaos honestly", timeAgo:"6h", unread:0, thread:[ {who:"lead",t:"6h",text:"ALIGNED — my schedule is chaos honestly"} ] },
-    { id:"l12", name:"Ana Sofía R.", handle:"@anasofia", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:73,
+    { id:"l12", name:"Ana Sofía R.", handle:"@lead_06", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"hot", score:73,
       axes:{ fit:78, payment:68, intent:76, tone:70 }, reason:"Consultora que viaja semanal, pidió agendar", vertical:"Consultora · Bogotá",
       lastMsg:"cómo agendo la llamada?", timeAgo:"40m", unread:1, thread:[
         {who:"lead",t:"09:50",text:"ALIGNED, viajo cada semana por proyectos"},
@@ -519,25 +523,25 @@ window.CALIBER_DATA = {
         {who:"lead",t:"09:58",text:"lo intento y fracaso jajaja"},
         {who:"ai",t:"09:59",text:"Normal sin un sistema. ¿Te late una llamada de 15 min con Sebastian para ver si encaja?"},
         {who:"lead",t:"10:05",text:"cómo agendo la llamada?"} ] },
-    { id:"l13", name:"Felix Wenger", handle:"@felix.gva", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"cold", score:41,
+    { id:"l13", name:"Felix Wenger", handle:"@lead_10", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"cold", score:41,
       axes:{ fit:44, payment:50, intent:32, tone:46 }, reason:"Competitor scouting — generic questions, no personal pain", vertical:"Unknown · Geneva",
       lastMsg:"who runs this program?", timeAgo:"7h", unread:0, thread:[ {who:"lead",t:"7h",text:"ELEVATE — who runs this program?"} ] },
-    { id:"l14", name:"Bianca Toscano", handle:"@bianca.t", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"warm", score:62,
+    { id:"l14", name:"Bianca Toscano", handle:"@lead_07", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"warm", score:62,
       axes:{ fit:68, payment:60, intent:58, tone:62 }, reason:"Yacht stew, lifestyle fit strong, payment unclear", vertical:"Yacht stewardess · Monaco",
       lastMsg:"we're between charters now", timeAgo:"8h", unread:0, thread:[ {who:"lead",t:"8h",text:"ALIGNED — we're between charters now"} ] },
-    { id:"l15", name:"Hiro Tanaka", handle:"@hiro.tk", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:59,
+    { id:"l15", name:"Hiro Tanaka", handle:"@lead_12", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"warm", score:59,
       axes:{ fit:62, payment:64, intent:52, tone:56 }, reason:"Frequent flyer Tokyo-LA, polite, exploring", vertical:"Exec · Tokyo",
       lastMsg:"how long is the program?", timeAgo:"9h", unread:0, thread:[ {who:"lead",t:"9h",text:"ELEVATE — how long is the program?"} ] },
-    { id:"l16", name:"Camila Ríos", handle:"@cami.rios", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:36,
+    { id:"l16", name:"Camila Ríos", handle:"@lead_08", channel:"WhatsApp", lang:"ES", keyword:"ALIGNED", status:"cold", score:36,
       axes:{ fit:38, payment:32, intent:36, tone:42 }, reason:"Sin viaje frecuente, busca tips gratis", vertical:"Local · Lima",
       lastMsg:"tienes contenido gratis?", timeAgo:"10h", unread:0, thread:[ {who:"lead",t:"10h",text:"ALIGNED, tienes contenido gratis?"} ] },
-    { id:"l17", name:"Nadia Volkov", handle:"@nadia.v", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"hot", score:76,
+    { id:"l17", name:"Nadia Volkov", handle:"@lead_14", channel:"IG DM", lang:"EN", keyword:"ELEVATE", status:"hot", score:76,
       axes:{ fit:80, payment:78, intent:74, tone:70 }, reason:"Superyacht chief stew, high income, named specific pain", vertical:"Chief stewardess · Med",
       lastMsg:"yes, recovery between charters", timeAgo:"30m", unread:1, thread:[
         {who:"lead",t:"10:30",text:"ELEVATE — recovery is my problem"},
         {who:"ai",t:"10:31",text:"Say more — recovery from what specifically?"},
         {who:"lead",t:"10:40",text:"yes, recovery between charters"} ] },
-    { id:"l18", name:"Greg Mason", handle:"@greg.nyc", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"warm", score:55,
+    { id:"l18", name:"Greg Mason", handle:"@lead_11", channel:"WhatsApp", lang:"EN", keyword:"ALIGNED", status:"warm", score:55,
       axes:{ fit:58, payment:54, intent:52, tone:56 }, reason:"Hedge fund, traveling less lately, lukewarm", vertical:"Finance · NYC",
       lastMsg:"traveling less these days tbh", timeAgo:"11h", unread:0, thread:[ {who:"lead",t:"11h",text:"ALIGNED — traveling less these days tbh"} ] }
   ]

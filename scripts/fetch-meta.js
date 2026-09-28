@@ -26,7 +26,10 @@ const path = require('path');
 
 const API = 'v21.0';
 const TOKEN = process.env.META_ACCESS_TOKEN;
-const ACCOUNT = process.env.META_AD_ACCOUNT || 'act_120218744349790215';
+// Sin respaldo escrito aqui: un id de cuenta de anuncios en el codigo acaba
+// publicado en GitHub Pages. Si falta la variable, el robot se detiene.
+const ACCOUNT = process.env.META_AD_ACCOUNT;
+if (!ACCOUNT) { console.error('Falta META_AD_ACCOUNT'); process.exit(1); }
 const ALLOWLIST = (process.env.META_CAMPAIGN_IDS || '').split(',').map(s => s.trim()).filter(Boolean);
 const OUT = path.join(__dirname, '..', 'assets', 'meta-live.json');
 
@@ -203,10 +206,15 @@ async function adsForCampaigns(ids) {
   console.log(`→ Sync Meta · cuenta ${ACCOUNT}`);
 
   // Account meta
-  let accountName = ACCOUNT;
+  /* El nombre que se PUBLICA nunca es el id. La Graph a veces devuelve el propio
+     id como name —o no devuelve nada— y ese valor terminaba impreso en cuatro
+     pantallas del portal, que es publico. Si lo que llega parece un id, se
+     rotula generico. */
+  const esId = v => !v || /^act_\d+$/.test(String(v));
+  let accountName = 'Meta Ads';
   try {
     const meta = await graph(ACCOUNT, { fields: 'name,currency,account_status' });
-    accountName = meta.name || ACCOUNT;
+    accountName = esId(meta.name) ? 'Meta Ads' : meta.name;
     console.log(`  cuenta: ${accountName}`);
   } catch (e) {
     console.error(`  ✗ No pude leer la cuenta ${ACCOUNT}: ${e.message}`);
@@ -266,7 +274,7 @@ async function adsForCampaigns(ids) {
 
   const out = {
     account: {
-      id: ACCOUNT,
+      // id fuera a proposito: nadie lo lee y el archivo se sirve publico
       name: accountName,
       connected: true,
       scope: ALLOWLIST.length ? 'allowlist' : 'active_only',
